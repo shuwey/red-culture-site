@@ -1,0 +1,9 @@
+{
+  "name": "ai-chat",
+  "version": "1.0.0",
+  "description": "红色文化传播网 AI 问答云函数（参数校验/敏感词拦截/大模型调用/来源提取）",
+  "main": "index.js",
+  "dependencies": {
+    "@cloudbase/node-sdk": "^3.7.0"
+  }
+}

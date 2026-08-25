@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="历史事件 —— 建党、长征、抗战、开国大典，那些改变命运的历史时刻。">
+  <title>历史事件 · 红色文化传播网</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="ai-assistant.css">
+</head>
+<body>
+
+  <!-- 导航栏 -->
+  <header class="nav" id="nav">
+    <a class="nav-logo" href="index.html" aria-label="红色文化传播网">
+      <svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.26 6.87.6-5.2 4.51 1.53 6.72L12 16.9l-6.1 3.19 1.53-6.72-5.2-4.51 6.87-.6L12 2z" fill="#C8102E"/></svg>
+      <span>红色文化传播网</span>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="heroes.html">英雄人物</a>
+      <a href="places.html">红色地点</a>
+      <a href="events.html">历史事件</a>
+      <a href="index.html#quiz">知识考核</a>
+      <a href="index.html#footer">关于本站</a>
+    </nav>
+    <div class="nav-right">
+      <div id="user-area" class="nav-user-area"></div>
+      <button class="nav-search" aria-label="搜索">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M16.2 16.2L20.5 20.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+      <button class="nav-burger" id="burger" aria-label="菜单" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+  <div class="nav-drawer" id="drawer">
+    <a href="heroes.html">英雄人物</a>
+    <a href="places.html">红色地点</a>
+    <a href="events.html">历史事件</a>
+    <a href="index.html#quiz">知识考核</a>
+    <a href="index.html#footer">关于本站</a>
+  </div>
+
+  <main>
+
+    <!-- 页头 -->
+    <section class="page-hero">
+      <p class="kicker reveal">三条线索 · 之三</p>
+      <h1 class="page-title reveal">历史事件。</h1>
+      <p class="page-sub reveal">从建党到建国，二十八年奋斗历程。<br>重新走进那些改变命运的时刻。</p>
+    </section>
+
+    <!-- 纵向时间轴 -->
+    <section class="events-section">
+      <div class="vtimeline">
+
+        <article class="vt-item reveal" id="wusi">
+          <span class="vt-dot"></span>
+          <p class="vt-year">1919 · 5</p>
+          <h3 class="vt-title"><a href="event-wusi.html">五四运动</a></h3>
+          <p class="vt-desc">北京青年学生发起反帝反封建的爱国运动，工人阶级登上政治舞台，是中国新民主主义革命的开端。</p>
+        </article>
+
+        <article class="vt-item reveal">
+          <span class="vt-dot"></span>
+          <p class="vt-year">1921 · 7</p>
+          <h3 class="vt-title"><a href="event-yida.html">中共一大召开</a></h3>
+          <p class="vt-desc">上海石库门启幕，嘉兴南湖闭幕。一个以马克思主义为行动指南的政党正式诞生，中国革命的面貌从此焕然一新。</p>
+        </article>
+
+        <article class="vt-item reveal">
+          <span class="vt-dot"></span>
+          <p class="vt-year">1927 · 8 · 1</p>
+          <h3 class="vt-title"><a href="event-nanchang.html">南昌起义</a></h3>
+          <p class="vt-desc">打响武装反抗国民党反动派的第一枪，人民军队自此诞生。八月一日，后来成为中国人民解放军建军节。</p>
+        </article>
+
+        <article class="vt-item reveal" id="qiushou">
+          <span class="vt-dot"></span>
+          <p class="vt-year">1927 · 9</p>
+          <h3 class="vt-title"><a href="event-qiushou.html">秋收起义</a></h3>
+          <p class="vt-desc">毛泽东领导湘赣边界秋收起义，后进军井冈山，点燃「工农武装割据」的星星之火。</p>
+        </article>
+
+        <article class="vt-item reveal">
+          <span class="vt-dot"></span>
+          <p class="vt-year">1928 · 4</p>
+          <h3 class="vt-title"><a href="event-jinggangshan-huish.html">井冈山会师</a></h3>
+          <p class="vt-desc">朱德、陈毅率南昌起义余部与毛泽东领导的秋收起义部队在井冈山胜利会师，革命力量空前壮大。</p>
+        </article>
+
+        <article class="vt-item reveal">
+          <span class="vt-dot"></span>
+          <p class="vt-year">1935 · 1</p>
+          <h3 class="vt-title"><a href="event-zunyi.html">遵义会议</a></h3>
+          <p class="vt-desc">集中纠正左倾军事路线错误，确立毛泽东在党中央和红军的领导地位，在最危急关头挽救了党、挽救了红军、挽救了中国革命。</p>
+        </article>
+
+        <article class="vt-item reveal">
+          <span class="vt-dot"></span>
+          <p class="vt-year">1934 — 1936</p>
+          <h3 class="vt-title"><a href="event-changzheng.html">万里长征</a></h3>
+          <p class="vt-desc">战略转移二万五千里，纵横十一省。遵义会议实现伟大转折，三大主力会宁会师，长征胜利结束。</p>
+        </article>
+
+        <article class="vt-item reveal" id="wayaobao">
+          <span class="vt-dot"></span>
+          <p class="vt-year">1935 · 12</p>
+          <h3 class="vt-title"><a href="event-wayaobao.html">瓦窑堡会议</a></h3>
+          <p class="vt-desc">中共中央政治局制定建立抗日民族统一战线的策略方针，推动政治路线向抗日民族战争转变。</p>
+        </article>
+
+        <article class="vt-item reveal" id="quanmian-kangzhan">
+          <span class="vt-dot"></span>
+          <p class="vt-year">1937 · 7</p>
+          <h3 class="vt-title"><a href="event-quanmian-kangzhan.html">全面抗战爆发</a></h3>
+          <p class="vt-desc">七七事变后，以国共合作为基础的抗日民族统一战线形成，中国进入全民族抗战阶段。</p>
+        </article>
+
+        <article class="vt-item reveal">
+          <span class="vt-dot"></span>
+          <p class="vt-year">1945 · 9</p>
+          <h3 class="vt-title"><a href="event-kangzhan.html">抗日战争胜利</a></h3>
+          <p class="vt-desc">历经十四年浴血奋战，中国人民取得近代以来反抗外敌入侵的第一次完全胜利，中华民族洗刷百年屈辱。</p>
+        </article>
+
+        <article class="vt-item reveal">
+          <span class="vt-dot"></span>
+          <p class="vt-year">1949 · 10 · 1</p>
+          <h3 class="vt-title"><a href="event-kaiquo.html">开国大典</a></h3>
+          <p class="vt-desc">毛泽东在天安门城楼上向全世界庄严宣告：中华人民共和国中央人民政府成立了。历史，从此翻开新的一页。</p>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- 页尾导流 -->
+    <section class="next-module">
+      <p class="kicker sm reveal">学有所得？</p>
+      <h2 class="h2 reveal">来一场红色知识考核。</h2>
+      <a class="text-link reveal" href="index.html#quiz">前往知识考核 ›</a>
+    </section>
+
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="footer" id="footer">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.26 6.87.6-5.2 4.51 1.53 6.72L12 16.9l-6.1 3.19 1.53-6.72-5.2-4.51 6.87-.6L12 2z" fill="#C8102E"/></svg>
+          <span>红色文化传播网</span>
+        </div>
+        <p>铭记历史，缅怀先烈。</p>
+      </div>
+      <div class="footer-col">
+        <h4>走进历史</h4>
+        <a href="heroes.html">英雄人物</a>
+        <a href="places.html">红色地点</a>
+        <a href="events.html">历史事件</a>
+      </div>
+      <div class="footer-col">
+        <h4>学习更多</h4>
+        <a href="index.html#quiz">知识考核</a>
+        <a href="index.html#timeline">历史时间轴</a>
+        <a href="index.html#themes">主题导览</a>
+      </div>
+      <div class="footer-col">
+        <h4>关于本站</h4>
+        <a href="about.html">关于与史料来源</a>
+        <a href="contact.html">联系我们</a>
+        <a href="faq.html">常见问题</a>
+      </div>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-bottom">
+      <span>红色文化传播网 · 本站点为红色文化宣传演示作品</span>
+      <span>铭记历史 · 缅怀先烈</span>
+    </div>
+  </footer>
+
+  <!-- 云能力 + 公共组件 -->
+  <script src="script.js"></script>
+  <script src="https://imgcache.qq.com/qcloud/tcbjs/1.6.2/tcb.js"></script>
+  <script src="cloudbase-config.js"></script>
+  <script src="auth-service.js"></script>
+  <script src="account-ui.js"></script>
+  <script src="ai-assistant.js"></script>
+</body>
+</html>

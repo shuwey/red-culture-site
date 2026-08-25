@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="红色文化传播网 —— 铭记历史，缅怀先烈。重走中国革命的来时路。">
+  <title>红色文化传播网</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="ai-assistant.css">
+</head>
+<body>
+
+  <!-- 导航栏 -->
+  <header class="nav" id="nav">
+    <a class="nav-logo" href="#top" aria-label="红色文化传播网">
+      <svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.26 6.87.6-5.2 4.51 1.53 6.72L12 16.9l-6.1 3.19 1.53-6.72-5.2-4.51 6.87-.6L12 2z" fill="#C8102E"/></svg>
+      <span>红色文化传播网</span>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="heroes.html">英雄人物</a>
+      <a href="places.html">红色地点</a>
+      <a href="events.html">历史事件</a>
+      <a href="#quiz">知识考核</a>
+      <a href="#footer">关于本站</a>
+    </nav>
+    <div class="nav-right">
+      <div id="user-area" class="nav-user-area"></div>
+      <button class="nav-search" aria-label="搜索">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M16.2 16.2L20.5 20.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+      <button class="nav-burger" id="burger" aria-label="菜单" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+  <div class="nav-drawer" id="drawer">
+    <a href="heroes.html">英雄人物</a>
+    <a href="places.html">红色地点</a>
+    <a href="events.html">历史事件</a>
+    <a href="#quiz">知识考核</a>
+    <a href="#footer">关于本站</a>
+  </div>
+
+  <main id="top">
+
+    <!-- Hero -->
+    <section class="hero">
+      <p class="kicker reveal">铭记历史 · 缅怀先烈</p>
+      <h1 class="hero-title reveal">星星之火，可以燎原。</h1>
+      <p class="hero-sub reveal">重走中国革命的来时路。</p>
+      <div class="hero-links reveal">
+        <a class="text-link lg" href="places.html">探索红色地点 ›</a>
+        <a class="text-link lg" href="#quiz">开始知识考核 ›</a>
+      </div>
+      <figure class="hero-figure reveal">
+        <img src="assets/images/hero-jinggangshan.jpg" alt="井冈山云海日出，山巅红旗招展">
+      </figure>
+    </section>
+
+    <!-- 南湖红船 -->
+    <section class="module module-gray landmark" id="landmark">
+      <p class="kicker sm reveal">1921 · 嘉兴南湖</p>
+      <h2 class="h2 reveal">南湖红船。</h2>
+      <p class="sub reveal">一叶红船，开天辟地。<br>中国革命的面貌，从此焕然一新。</p>
+      <a class="text-link reveal" href="places.html">进一步了解 ›</a>
+      <figure class="rounded-figure reveal">
+        <img src="assets/images/red-boat.jpg" alt="晨雾中的嘉兴南湖红船">
+      </figure>
+    </section>
+
+    <!-- 长征 -->
+    <section class="module module-black march">
+      <div class="march-inner">
+        <p class="kicker sm kicker-dark reveal">1934 — 1936 · 战略转移</p>
+        <h2 class="h2 h2-dark reveal">长征。</h2>
+        <p class="sub sub-dark reveal">红军不怕远征难，万水千山只等闲。</p>
+        <div class="stats reveal">
+          <button type="button" class="stat" data-stat="mileage"><span class="stat-num">25000+</span><span class="stat-label">二万五千里征途</span></button>
+          <button type="button" class="stat" data-stat="battles"><span class="stat-num">380+</span><span class="stat-label">重要战役战斗</span></button>
+          <button type="button" class="stat" data-stat="provinces"><span class="stat-num">11</span><span class="stat-label">纵横省份</span></button>
+        </div>
+      </div>
+      <figure class="march-figure reveal">
+        <video src="assets/videos/long-march-night.mp4" poster="assets/images/long-march.jpg" autoplay muted loop playsinline preload="metadata" aria-label="动态影像：红军队伍在风雪夜沿雪山脊线行进"></video>
+      </figure>
+    </section>
+
+    <!-- 三大主题 -->
+    <section class="module module-white themes" id="themes">
+      <h2 class="h2 reveal">三条线索，读懂一段历史。</h2>
+      <div class="cards">
+        <article class="card reveal">
+          <div class="card-img"><img src="assets/images/card-heroes.jpg" alt="英雄群雕剪影"></div>
+          <div class="card-body">
+              <h3>英雄人物</h3>
+              <p>以生命赴使命。14 位英雄，他们的名字是民族记忆最深的坐标。</p>
+            <a class="text-link sm" href="heroes.html">进一步了解 ›</a>
+          </div>
+        </article>
+        <article class="card reveal">
+          <div class="card-img"><img src="assets/images/card-places.jpg" alt="延安宝塔山"></div>
+          <div class="card-body">
+              <h3>红色地点</h3>
+              <p>从南湖到延安，13 处圣地，都镌刻着信仰的足迹。</p>
+            <a class="text-link sm" href="places.html">进一步了解 ›</a>
+          </div>
+        </article>
+        <article class="card reveal">
+          <div class="card-img"><img src="assets/images/card-events.jpg" alt="黎明中的红旗海洋"></div>
+          <div class="card-body">
+            <h3>历史事件</h3>
+            <p>建党、长征、抗战、开国大典——改变命运的时刻。</p>
+            <a class="text-link sm" href="events.html">进一步了解 ›</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- 历史时间轴 -->
+    <section class="module module-gray timeline" id="timeline">
+      <h2 class="h2 reveal">二十八年，从建党到建国。</h2>
+      <div class="tl reveal">
+        <div class="tl-item">
+          <span class="tl-dot"></span>
+          <span class="tl-year">1921</span>
+          <span class="tl-event">中共一大</span>
+          <span class="tl-desc">南湖红船启航</span>
+        </div>
+        <div class="tl-item">
+          <span class="tl-dot"></span>
+          <span class="tl-year">1927</span>
+          <span class="tl-event">井冈山</span>
+          <span class="tl-desc">第一个农村革命根据地</span>
+        </div>
+        <div class="tl-item">
+          <span class="tl-dot"></span>
+          <span class="tl-year">1934</span>
+          <span class="tl-event">万里长征</span>
+          <span class="tl-desc">踏上二万五千里征途</span>
+        </div>
+        <div class="tl-item">
+          <span class="tl-dot"></span>
+          <span class="tl-year">1945</span>
+          <span class="tl-event">延安岁月</span>
+          <span class="tl-desc">中共七大召开</span>
+        </div>
+        <div class="tl-item">
+          <span class="tl-dot"></span>
+          <span class="tl-year">1949</span>
+          <span class="tl-event">开国大典</span>
+          <span class="tl-desc">新中国成立</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 知识考核 -->
+    <section class="module module-white quiz" id="quiz">
+      <h2 class="h2 h2-quiz reveal">红色知识考核。</h2>
+      <p class="sub reveal">以答问铭记，以铭记传承。</p>
+      <button class="pill-btn reveal" id="quiz-open">开始考核</button>
+    </section>
+
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="footer" id="footer">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.26 6.87.6-5.2 4.51 1.53 6.72L12 16.9l-6.1 3.19 1.53-6.72-5.2-4.51 6.87-.6L12 2z" fill="#C8102E"/></svg>
+          <span>红色文化传播网</span>
+        </div>
+        <p>铭记历史，缅怀先烈。</p>
+      </div>
+      <div class="footer-col">
+        <h4>走进历史</h4>
+        <a href="heroes.html">英雄人物</a>
+        <a href="places.html">红色地点</a>
+        <a href="events.html">历史事件</a>
+      </div>
+      <div class="footer-col">
+        <h4>学习更多</h4>
+        <a href="#quiz">知识考核</a>
+        <a href="events.html">历史时间轴</a>
+        <a href="#themes">主题导览</a>
+      </div>
+      <div class="footer-col">
+        <h4>关于本站</h4>
+        <a href="about.html">关于与史料来源</a>
+        <a href="contact.html">联系我们</a>
+        <a href="faq.html">常见问题</a>
+      </div>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-bottom">
+      <span>红色文化传播网 · 本站点为红色文化宣传演示作品</span>
+      <span>铭记历史 · 缅怀先烈</span>
+    </div>
+  </footer>
+
+  <!-- 知识考核弹窗 -->
+  <div class="quiz-modal" id="quiz-modal" role="dialog" aria-modal="true" aria-label="红色知识考核" hidden>
+    <div class="quiz-card">
+      <button class="quiz-close" id="quiz-close" aria-label="关闭">×</button>
+      <div id="quiz-body"><!-- JS 渲染 --></div>
+    </div>
+  </div>
+
+  <!-- 长征数字详情弹窗 -->
+  <div class="quiz-modal stat-modal" id="stat-modal" role="dialog" aria-modal="true" aria-label="长征数字详情" hidden>
+    <div class="quiz-card">
+      <button class="quiz-close" id="stat-close" aria-label="关闭">×</button>
+      <div id="stat-body"><!-- JS 渲染 --></div>
+    </div>
+  </div>
+
+  <!-- 云能力 + 公共组件 -->
+  <script src="script.js"></script>
+  <script src="https://imgcache.qq.com/qcloud/tcbjs/1.6.2/tcb.js"></script>
+  <script src="cloudbase-config.js"></script>
+  <script src="auth-service.js"></script>
+  <script src="account-ui.js"></script>
+  <script src="quiz-service.js"></script>
+  <script src="ai-assistant.js"></script>
+</body>
+</html>

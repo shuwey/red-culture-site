@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="常见问题 —— 内容是否免费、AI 回答可信吗、成绩保存在哪里等解答。">
+  <title>常见问题 · 红色文化传播网</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="ai-assistant.css">
+</head>
+<body>
+
+  <!-- 导航栏 -->
+  <header class="nav" id="nav">
+    <a class="nav-logo" href="index.html" aria-label="红色文化传播网">
+      <svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.26 6.87.6-5.2 4.51 1.53 6.72L12 16.9l-6.1 3.19 1.53-6.72-5.2-4.51 6.87-.6L12 2z" fill="#C8102E"/></svg>
+      <span>红色文化传播网</span>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="heroes.html">英雄人物</a>
+      <a href="places.html">红色地点</a>
+      <a href="events.html">历史事件</a>
+      <a href="index.html#quiz">知识考核</a>
+      <a href="index.html#footer">关于本站</a>
+    </nav>
+    <div class="nav-right">
+      <div id="user-area" class="nav-user-area"></div>
+      <button class="nav-search" aria-label="搜索">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M16.2 16.2L20.5 20.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+      <button class="nav-burger" id="burger" aria-label="菜单" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+  <div class="nav-drawer" id="drawer">
+    <a href="heroes.html">英雄人物</a>
+    <a href="places.html">红色地点</a>
+    <a href="events.html">历史事件</a>
+    <a href="index.html#quiz">知识考核</a>
+    <a href="index.html#footer">关于本站</a>
+  </div>
+
+  <main>
+
+    <!-- 页头 -->
+    <section class="page-hero">
+      <p class="kicker reveal">常见问题</p>
+      <h1 class="page-title reveal">常见问题。</h1>
+      <p class="page-sub reveal">关于内容、账号与 AI 助手，您可能想了解。</p>
+    </section>
+
+    <section class="doc-section">
+      <div class="faq-list">
+        <div class="faq-item reveal">
+          <p class="faq-q">本站内容是否免费？</p>
+          <p class="faq-a">完全免费。本站是一个非营利性的红色文化宣传演示站点，全部史料、英雄/地点/事件栏目与 AI 问答功能均可免费浏览使用，无需付费。</p>
+        </div>
+        <div class="faq-item reveal">
+          <p class="faq-q">AI 助手的回答可信吗？</p>
+          <p class="faq-a">助手仅依据本站已收录的史料片段作答，并明确标注来源，不编造、不杜撰。对于站内未收录的问题，它会坦诚提示「该内容暂未收录」。回答供学习参考，权威表述请以官方党史文献为准。</p>
+        </div>
+        <div class="faq-item reveal">
+          <p class="faq-q">我的成绩保存在哪里？</p>
+          <p class="faq-a">登录后参加「知识考核」，成绩会保存到云端（CloudBase 数据库），仅创建者本人可读写，可在导航栏用户菜单的「我的成绩」中随时查看最近记录与最佳成绩。</p>
+        </div>
+        <div class="faq-item reveal">
+          <p class="faq-q">不登录可以使用吗？</p>
+          <p class="faq-a">可以。浏览全部内容、使用 AI 问答助手均无需登录。但保存成绩、查看个人记录等需要账号的功能，需先注册或登录。</p>
+        </div>
+        <div class="faq-item reveal">
+          <p class="faq-q">忘记密码怎么办？</p>
+          <p class="faq-a">当前为演示版本，暂未提供找回密码功能。如需重置账号，可通过「联系我们」页面反馈，或在注册时使用便于记忆的密码。</p>
+        </div>
+        <div class="faq-item reveal">
+          <p class="faq-q">内容来源是什么？</p>
+          <p class="faq-a">依据公开的党史文献、各地革命纪念馆展陈资料与主流权威媒体的党史专栏整理，详见「关于本站」页面的「内容来源」一节。</p>
+        </div>
+        <div class="faq-item reveal">
+          <p class="faq-q">AI 助手会记录我的提问吗？</p>
+          <p class="faq-a">提问在您的浏览器本地用于检索站内史料；仅在调用云函数时上传问题文本与站内史料片段用于生成回答。我们不会将其用于他途，也不会收集您的个人信息。</p>
+        </div>
+        <div class="faq-item reveal">
+          <p class="faq-q">如何补充或纠错内容？</p>
+          <p class="faq-a">欢迎通过「联系我们」页面提交补充或纠错建议，我们会在核实权威资料后更新相关内容。</p>
+        </div>
+        <div class="faq-item reveal">
+          <p class="faq-q">支持手机端吗？</p>
+          <p class="faq-a">支持。全站采用响应式设计，AI 浮窗在移动端以底部抽屉形式呈现，登录、考核与浏览在手机上同样可用。</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="footer" id="footer">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.26 6.87.6-5.2 4.51 1.53 6.72L12 16.9l-6.1 3.19 1.53-6.72-5.2-4.51 6.87-.6L12 2z" fill="#C8102E"/></svg>
+          <span>红色文化传播网</span>
+        </div>
+        <p>铭记历史，缅怀先烈。</p>
+      </div>
+      <div class="footer-col">
+        <h4>走进历史</h4>
+        <a href="heroes.html">英雄人物</a>
+        <a href="places.html">红色地点</a>
+        <a href="events.html">历史事件</a>
+      </div>
+      <div class="footer-col">
+        <h4>学习更多</h4>
+        <a href="index.html#quiz">知识考核</a>
+        <a href="index.html#timeline">历史时间轴</a>
+        <a href="index.html#themes">主题导览</a>
+      </div>
+      <div class="footer-col">
+        <h4>关于本站</h4>
+        <a href="about.html">关于与史料来源</a>
+        <a href="contact.html">联系我们</a>
+        <a href="faq.html">常见问题</a>
+      </div>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-bottom">
+      <span>红色文化传播网 · 本站点为红色文化宣传演示作品</span>
+      <span>铭记历史 · 缅怀先烈</span>
+    </div>
+  </footer>
+
+  <!-- 云能力 + 公共组件 -->
+  <script src="script.js"></script>
+  <script src="https://imgcache.qq.com/qcloud/tcbjs/1.6.2/tcb.js"></script>
+  <script src="cloudbase-config.js"></script>
+  <script src="auth-service.js"></script>
+  <script src="account-ui.js"></script>
+  <script src="ai-assistant.js"></script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="联系我们 —— 欢迎对红色文化传播网的内容提出补充与纠错。">
+  <title>联系我们 · 红色文化传播网</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="ai-assistant.css">
+</head>
+<body>
+
+  <!-- 导航栏 -->
+  <header class="nav" id="nav">
+    <a class="nav-logo" href="index.html" aria-label="红色文化传播网">
+      <svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.26 6.87.6-5.2 4.51 1.53 6.72L12 16.9l-6.1 3.19 1.53-6.72-5.2-4.51 6.87-.6L12 2z" fill="#C8102E"/></svg>
+      <span>红色文化传播网</span>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="heroes.html">英雄人物</a>
+      <a href="places.html">红色地点</a>
+      <a href="events.html">历史事件</a>
+      <a href="index.html#quiz">知识考核</a>
+      <a href="index.html#footer">关于本站</a>
+    </nav>
+    <div class="nav-right">
+      <div id="user-area" class="nav-user-area"></div>
+      <button class="nav-search" aria-label="搜索">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M16.2 16.2L20.5 20.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+      <button class="nav-burger" id="burger" aria-label="菜单" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+  <div class="nav-drawer" id="drawer">
+    <a href="heroes.html">英雄人物</a>
+    <a href="places.html">红色地点</a>
+    <a href="events.html">历史事件</a>
+    <a href="index.html#quiz">知识考核</a>
+    <a href="index.html#footer">关于本站</a>
+  </div>
+
+  <main>
+
+    <!-- 页头 -->
+    <section class="page-hero">
+      <p class="kicker reveal">联系我们</p>
+      <h1 class="page-title reveal">联系我们。</h1>
+      <p class="page-sub reveal">欢迎补充、纠错或提出宝贵建议。</p>
+    </section>
+
+    <section class="doc-section">
+      <p class="doc-lead reveal">如果本站内容有疏漏，或者您希望补充某位英雄、某处地点、某个事件，欢迎通过下面的表单告诉我们。提交后将自动唤起您的邮件客户端，我们会在核实后更新。</p>
+
+      <form class="contact-form" id="rcs-contact-form" novalidate>
+        <div class="form-field">
+          <label for="rcs-c-name">称呼</label>
+          <input type="text" id="rcs-c-name" name="name" placeholder="您的称呼" maxlength="20" autocomplete="name">
+        </div>
+        <div class="form-field">
+          <label for="rcs-c-email">邮箱</label>
+          <input type="email" id="rcs-c-email" name="email" placeholder="you@example.com" autocomplete="email">
+        </div>
+        <div class="form-field">
+          <label for="rcs-c-msg">留言</label>
+          <textarea id="rcs-c-msg" name="message" placeholder="请描述您要补充或纠错的内容……"></textarea>
+        </div>
+        <p class="form-error" id="rcs-c-error" aria-live="polite"></p>
+        <button type="submit" class="pill-btn rcs-submit" id="rcs-c-submit">发送留言</button>
+        <p class="contact-note">提交即唤起邮件客户端发送至 <a href="mailto:red-culture-feedback@example.com">red-culture-feedback@example.com</a>（演示收件箱，可替换为真实地址）。</p>
+      </form>
+    </section>
+
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="footer" id="footer">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.26 6.87.6-5.2 4.51 1.53 6.72L12 16.9l-6.1 3.19 1.53-6.72-5.2-4.51 6.87-.6L12 2z" fill="#C8102E"/></svg>
+          <span>红色文化传播网</span>
+        </div>
+        <p>铭记历史，缅怀先烈。</p>
+      </div>
+      <div class="footer-col">
+        <h4>走进历史</h4>
+        <a href="heroes.html">英雄人物</a>
+        <a href="places.html">红色地点</a>
+        <a href="events.html">历史事件</a>
+      </div>
+      <div class="footer-col">
+        <h4>学习更多</h4>
+        <a href="index.html#quiz">知识考核</a>
+        <a href="index.html#timeline">历史时间轴</a>
+        <a href="index.html#themes">主题导览</a>
+      </div>
+      <div class="footer-col">
+        <h4>关于本站</h4>
+        <a href="about.html">关于与史料来源</a>
+        <a href="contact.html">联系我们</a>
+        <a href="faq.html">常见问题</a>
+      </div>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-bottom">
+      <span>红色文化传播网 · 本站点为红色文化宣传演示作品</span>
+      <span>铭记历史 · 缅怀先烈</span>
+    </div>
+  </footer>
+
+  <!-- 云能力 + 公共组件 -->
+  <script src="script.js"></script>
+  <script src="https://imgcache.qq.com/qcloud/tcbjs/1.6.2/tcb.js"></script>
+  <script src="cloudbase-config.js"></script>
+  <script src="auth-service.js"></script>
+  <script src="account-ui.js"></script>
+  <script src="ai-assistant.js"></script>
+  <script>
+    (function () {
+      var form = document.getElementById("rcs-contact-form");
+      var err = document.getElementById("rcs-c-error");
+      if (!form) return;
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        err.textContent = "";
+        var name = document.getElementById("rcs-c-name").value.trim();
+        var email = document.getElementById("rcs-c-email").value.trim();
+        var msg = document.getElementById("rcs-c-msg").value.trim();
+        if (!name) { err.textContent = "请填写您的称呼。"; return; }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { err.textContent = "请填写有效的邮箱地址。"; return; }
+        if (!msg) { err.textContent = "请填写留言内容。"; return; }
+        var subject = encodeURIComponent("红色文化传播网 · 访客留言（" + name + "）");
+        var body = encodeURIComponent("称呼：" + name + "\n邮箱：" + email + "\n\n留言：\n" + msg);
+        window.location.href = "mailto:red-culture-feedback@example.com?subject=" + subject + "&body=" + body;
+        err.style.color = "#1B7A3D";
+        err.textContent = "已为您唤起邮件客户端，请发送邮件完成提交。感谢您的反馈！";
+      });
+    })();
+  </script>
+</body>
+</html>
