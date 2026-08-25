@@ -12,7 +12,7 @@
   // 站点全局配置
   RCS.ENV = "cloud1-d0g0aq0bl2cfbcbdf"; // 上线前可替换
   RCS.config = RCS.config || {};
-  RCS.config.authMode = "email"; // email | anonymous
+  RCS.config.authMode = "local"; // local(昵称匿名) | email | anonymous
 
   // CloudBase app 单例（懒初始化，避免多页面重复 init 与竞态）
   RCS._app = null;
@@ -20,13 +20,13 @@
   /** 幂等获取 CloudBase app 实例 */
   RCS.getApp = function () {
     if (!this._app) {
-      this._app = cloudbase.init({ env: this.ENV });
+      this._app = window.cloudbase.init({ env: this.ENV });
     }
     return this._app;
   };
 
   /** 云能力是否就绪（SDK 已加载即就绪） */
   RCS.isCloudReady = function () {
-    return typeof cloudbase !== "undefined";
+    return typeof window.cloudbase !== "undefined";
   };
 })();
