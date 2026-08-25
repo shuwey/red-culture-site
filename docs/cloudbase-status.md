@@ -7,30 +7,26 @@
   - 旧 `tcbjs/1.6.2/tcb.js`（旧版 tcb-js-sdk，无邮箱/密码登录 API）→ 改为 ESM 加载器 `cloudbase-loader.js`（`@cloudbase/js-sdk@3.8.2`）。
   - 全站 45 个 HTML 完成脚本替换；`auth-service.js` 重写为新 SDK API。
   - `quiz-service.js` / `ai-assistant.js` 无需改动（仍用 `database()` / `callFunction()`）。
-- **认证策略已开启**：`usernamePassword: true`、`anonymous: true`（email 未开启，因注册改用服务端建号，无需邮箱验证链路）。
+- **认证策略已开启**：`usernamePassword: true`、`anonymous: true`。
+- **注册链路重构（关键）**：v3 `@cloudbase/node-sdk` 的 `app.auth()` **已不支持 `createUser`**（实测 `createUser is not a function`）。因此：
+  - 删除原 `user-register` 云函数（云端 + 本地 `cloudfunctions/user-register/`）。
+  - `auth-service.js` 的邮箱/密码模式改为前端直连 `auth().signUp({ username, password })` 建号，随后 `signInWithPassword` 自动登录（与官方管理文档一致）。
 - **`ai-chat` 云函数**：已部署，`Status: Active`，调用返回信封结构（`success/data/error`），未配密钥时返回 `NO_CONTEXT` 兜底。
-- **`quiz_scores` 集合**：已创建，索引 `userId_createdAt` 已建。
-- **`user-register` 云函数代码**：已写好（`cloudfunctions/user-register/`，Node SDK `createUser`），待部署。
-
-## 阻塞 ⛔（本会话 CloudBase MCP 桥接拒绝所有对象参数调用）
-无法执行以下写操作（只读查询正常）：
-1. 部署 `user-register` 云函数。
-2. 设置 `quiz_scores` 安全规则为「仅创建者可读写」。
-3. 添加 Web 安全域名白名单（生产域名访问 CloudBase 必需）。
-4. 写入 `ai-chat` 的 `OPENAI_*` 环境变量。
-5. 直接 `invokeFunction` 实测。
+- **`quiz_scores` 安全规则**：已设为「仅创建者可读写」（`doc._openid == auth.uid`，CUSTOM）。
+- **匿名/昵称模式可用**：默认 `authMode="local"`，填昵称即匿名建号，成绩可保存（依赖上面的创建者规则）。
 
 ## 当前可用能力
-- 站点加载正确 SDK，认证走新 API。
-- **登录可用（昵称匿名模式）**：默认 `authMode="local"`，用户填昵称即匿名建号，成绩可保存（依赖 quiz_scores 默认规则允许创建者写入；如被拒需补第 2 条）。
+- **登录可用（昵称匿名模式）**：默认 `authMode="local"`，用户填昵称即匿名建号，成绩可保存。
 - **AI 问答可用（兜底）**：有史料上下文时返回 `NO_CONTEXT` 提示；配密钥后返回真实回答。
-- 邮箱/密码模式代码就绪：注册成功依赖 `user-register` 部署，届时将 `authMode` 切回 `email` 即可。
+- **邮箱/密码模式代码就绪**：将 `cloudbase-config.js` 的 `authMode` 改回 `"email"` 即可启用（前端 `signUp` + `signInWithPassword`）。
 
-## 下一步（MCP 恢复或用户提供后）
-| 动作 | 方式 |
-|------|------|
-| 部署 user-register | `tcb fn deploy user-register -e cloud1-d0g0aq0bl2cfbcbdf`（需 tcb CLI + 登录）或 MCP 恢复后重试 |
-| 设 quiz_scores 规则 | 控制台「数据库→quiz_scores→权限」设为仅创建者可读写 |
-| 加安全域名 | 控制台「环境→安全域名/Web 安全域名」加入站点正式域名（localhost 默认可用） |
-| 配 AI 密钥 | 函数环境变量 OPENAI_API_KEY / OPENAI_BASE_URL / OPENAI_MODEL |
-| 切回邮箱密码 | `cloudbase-config.js` 改 `authMode="email"` |
+## 仍待用户确认/提供（阻塞项已全部转为「等输入」，非工具阻塞）
+| 动作 | 方式 | 状态 |
+|------|------|------|
+| 配 AI 真实回答 | 提供 `OPENAI_API_KEY` / `OPENAI_BASE_URL` / `OPENAI_MODEL` → 写入 `ai-chat` 函数环境变量 | 等用户提供 |
+| 加 Web 安全域名 | 提供站点正式域名 → `envDomainManagement(action=create, domains=[host:port])` 加入白名单（localhost 默认可用） | 等用户提供 |
+| 切邮箱/密码模式 | `cloudbase-config.js` 改 `RCS.config.authMode = "email"` | 等你拍板 |
+
+## 验证说明
+- `ai-chat`、`quiz_scores` 规则、注册链路均已用 MCP 实测或 SDK 内省确认。
+- **运行时验证缺口**：`signUp` / `signInWithPassword` / 匿名登录 / 成绩写入的最终表现需在真实浏览器中跑通（本环境无法启动浏览器）。建议上线前在浏览器实测一次注册→答题→保存→刷新查看成绩。

@@ -2,7 +2,7 @@
    红色文化传播网 · 认证门面（CloudBase Auth 新 SDK）
    全局命名：window.RCSAuth
    登录：auth().signInWithPassword({ username: email, password })  // usernamePassword 策略（已开启）
-   注册：调用云函数 user-register（Node SDK createUser）后自动登录
+   注册：auth().signUp({ username, password }) 后自动登录（v3 前端直连，Node SDK 已不支持服务端 createUser）
    匿名：auth().signInAnonymously()
    对外接口保持不变：register / login / logout / getState / onAuthChange
    ============================================================ */
@@ -10,7 +10,6 @@
   "use strict";
 
   var NICK_KEY = "rcs_nick"; // 匿名/展示昵称兜底
-  var REG_FUNC = "user-register"; // 服务端建号云函数
   var subscribers = [];
   var cloudListenerAttached = false;
 
@@ -90,16 +89,10 @@
           };
         });
     }
-    return RCS.getApp()
-      .callFunction({ name: REG_FUNC, data: { username: email, password: password } })
-      .then(function (r) {
-        var result = r && r.result;
-        if (!result || !result.success) {
-          return {
-            success: false,
-            error: { code: "AUTH_ERROR", message: errMsg((result && result.error) || { message: "注册失败" }) },
-          };
-        }
+    // 邮箱/密码模式：前端直接用 Web SDK signUp 建号（v3 Node SDK 已不支持服务端 createUser），成功后自动登录
+    return auth()
+      .signUp({ username: email, password: password })
+      .then(function () {
         return auth()
           .signInWithPassword({ username: email, password: password })
           .then(function (loginRes) {

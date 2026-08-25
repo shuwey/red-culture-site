@@ -1,9 +1,0 @@
-{
-  "name": "user-register",
-  "version": "1.0.0",
-  "description": "红色文化传播网 用户注册云函数（服务端建号，避免邮箱验证链路）",
-  "main": "index.js",
-  "dependencies": {
-    "@cloudbase/node-sdk": "^3.7.0"
-  }
-}
