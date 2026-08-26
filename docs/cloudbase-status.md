@@ -18,6 +18,10 @@
   - **系统提示词合规化**：`lib/prompt.js` 明确"坚持正确政治方向、弘扬爱国主义与革命精神、符合社会主义核心价值观；仅据史料作答、不得补充推断；不评论时政、不讨论未确认争议"。
   - 数据真实性命门 = 前端 `data/corpus.json`（受控史料），模型只读检索片段，无外部网络数据。
 - **`quiz_scores` 安全规则**：已设为「仅创建者可读写」（`doc._openid == auth.uid`，CUSTOM）。
+- **AI 合规护栏 P1（接地校验 + 审计日志，已上线实测）**：
+  - **接地校验 grounding**：模型以 `{"answer","grounded"}` JSON 返回并自报 `grounded`；词面兜底——回答含史料中不存在的公元年份即判未接地；任一未接地则走 `NO_GROUNDED` 合规引导语、**不下发**模型回答。`parseModel` 已加固（兼容纯文本 / ```` ```json ```` 围栏 / 带前后缀的 JSON），修复了"模型返回 JSON 却把原始 JSON 当答案泄露给用户"的 bug。
+  - **审计日志 `ai_logs`**：新建集合（仅云端函数管理员写入，客户端安全规则 `read/create/update/delete` 全 false）。每次问答留痕：`question / contexts(史料标题) / answer / status / sensitive / grounded / code / createdAt`。实测 status 准确标注 `ok`/`refusal`/`error` 等。
+  - 验证：赵一曼正常问答返回正确史料+来源提示；问史料之外的"配偶/结婚年份"时模型**未编造**而是返回「暂未收录」引导语（记为 `refusal`）；上游瞬时抖动正确记为 `error`。
 - **匿名/昵称模式可用**：默认 `authMode="local"`，填昵称即匿名建号，成绩可保存（依赖上面的创建者规则）。
 
 ## 当前可用能力
