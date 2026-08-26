@@ -22,7 +22,7 @@
   - **接地校验 grounding**：模型以 `{"answer","grounded"}` JSON 返回并自报 `grounded`；词面兜底——回答含史料中不存在的公元年份即判未接地；任一未接地则走 `NO_GROUNDED` 合规引导语、**不下发**模型回答。`parseModel` 已加固（兼容纯文本 / ```` ```json ```` 围栏 / 带前后缀的 JSON），修复了"模型返回 JSON 却把原始 JSON 当答案泄露给用户"的 bug。
   - **审计日志 `ai_logs`**：新建集合（仅云端函数管理员写入，客户端安全规则 `read/create/update/delete` 全 false）。每次问答留痕：`question / contexts(史料标题) / answer / status / sensitive / grounded / code / createdAt`。实测 status 准确标注 `ok`/`refusal`/`error` 等。
   - 验证：赵一曼正常问答返回正确史料+来源提示；问史料之外的"配偶/结婚年份"时模型**未编造**而是返回「暂未收录」引导语（记为 `refusal`）；上游瞬时抖动正确记为 `error`。
-- **匿名/昵称模式可用**：默认 `authMode="local"`，填昵称即匿名建号，成绩可保存（依赖上面的创建者规则）。
+- **邮箱/密码模式已启用（默认）**：`authMode="email"`，用户用邮箱+密码注册/登录（前端 `signUp({username:email,password})` 建号 + `signInWithPassword` 登录，usernamePassword 策略已确认开启 `true`）。注册时额外填展示昵称（存本地）。成绩可保存（依赖 `quiz_scores` 创建者规则）。
 - **AI 合规护栏 P2（敏感词后台 + 用户纠错 + 双人审核，已上线实测）**：
   - 新增 `admin` 云函数（`ADMIN_TOKEN` 恒定时间校验）：敏感词 `word.list/add(默认pending)/approve(生效)/reject/delete`、纠错 `correction.list/handle(resolved|rejected)`、用户提交 `correction.submit`（免 token）。
   - `sensitive_words` 集合（active|pending|rejected）+ `corrections` 集合（pending|resolved|rejected）已建；安全规则：`sensitive_words` 全 false，`corrections` 仅 `create=true`（登录用户可提交）。
@@ -32,16 +32,16 @@
   - **ADMIN_TOKEN**：存于 `admin` 函数环境变量 `ADMIN_TOKEN`，运营由技术负责人分发；更换只改该变量。
 
 ## 当前可用能力
-- **登录可用（昵称匿名模式）**：默认 `authMode="local"`，用户填昵称即匿名建号，成绩可保存。
+- **登录可用（邮箱/密码模式）**：默认 `authMode="email"`，用户用邮箱+密码注册/登录，成绩可保存。
 - **AI 问答已可用（真实回答）**：`ai-chat` 已接 DeepSeek，有史料上下文时返回模型真实回答（实测：刘胡兰问答 1.86s 返回正确史料）。
-- **邮箱/密码模式代码就绪**：将 `cloudbase-config.js` 的 `authMode` 改回 `"email"` 即可启用（前端 `signUp` + `signInWithPassword`）。
+- **邮箱/密码模式已启用**：`cloudbase-config.js` 的 `authMode="email"`（2026-08-26 老大确认切换）；前端 `signUp` + `signInWithPassword`，usernamePassword 策略已确认开启。
 
 ## 仍待用户确认/提供（阻塞项已全部转为「等输入」，非工具阻塞）
 | 动作 | 方式 | 状态 |
 |------|------|------|
 | 配 AI 真实回答 | 提供 `OPENAI_API_KEY` / `OPENAI_BASE_URL` / `OPENAI_MODEL` → 写入 `ai-chat` 函数环境变量 | ✅ 已接 DeepSeek 并实测通过 |
 | 加 Web 安全域名 | 提供站点正式域名 → `envDomainManagement(action=create, domains=[host:port])` 加入白名单（localhost 默认可用） | 等用户提供 |
-| 切邮箱/密码模式 | `cloudbase-config.js` 改 `RCS.config.authMode = "email"` | 等你拍板 |
+| 切邮箱/密码模式 | `cloudbase-config.js` 改 `RCS.config.authMode = "email"` | ✅ 已切到 email（2026-08-26） |
 
 ## 验证说明
 - `ai-chat`、`quiz_scores` 规则、注册链路均已用 MCP 实测或 SDK 内省确认。

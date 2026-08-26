@@ -12,7 +12,7 @@
   // 站点全局配置
   RCS.ENV = "cloud1-d0g0aq0bl2cfbcbdf"; // 上线前可替换
   RCS.config = RCS.config || {};
-  RCS.config.authMode = "local"; // local(昵称匿名) | email | anonymous
+  RCS.config.authMode = "email"; // local(昵称匿名) | email(邮箱+密码) | anonymous
 
   // CloudBase app 单例（懒初始化，避免多页面重复 init 与竞态）
   RCS._app = null;
