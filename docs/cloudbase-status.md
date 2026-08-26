@@ -11,19 +11,19 @@
 - **注册链路重构（关键）**：v3 `@cloudbase/node-sdk` 的 `app.auth()` **已不支持 `createUser`**（实测 `createUser is not a function`）。因此：
   - 删除原 `user-register` 云函数（云端 + 本地 `cloudfunctions/user-register/`）。
   - `auth-service.js` 的邮箱/密码模式改为前端直连 `auth().signUp({ username, password })` 建号，随后 `signInWithPassword` 自动登录（与官方管理文档一致）。
-- **`ai-chat` 云函数**：已部署，`Status: Active`，调用返回信封结构（`success/data/error`），未配密钥时返回 `NO_CONTEXT` 兜底。
+- **`ai-chat` 云函数**：已部署，`Status: Active`，调用返回信封结构（`success/data/error`）。**已接入 DeepSeek 并实测通过**：环境变量 `OPENAI_BASE_URL=https://api.deepseek.com`、`OPENAI_MODEL=deepseek-v4-flash`、`OPENAI_API_KEY=***`（云端环境变量，非本地文件）。代码零改动即兼容任意 OpenAI 兼容供应商。
 - **`quiz_scores` 安全规则**：已设为「仅创建者可读写」（`doc._openid == auth.uid`，CUSTOM）。
 - **匿名/昵称模式可用**：默认 `authMode="local"`，填昵称即匿名建号，成绩可保存（依赖上面的创建者规则）。
 
 ## 当前可用能力
 - **登录可用（昵称匿名模式）**：默认 `authMode="local"`，用户填昵称即匿名建号，成绩可保存。
-- **AI 问答可用（兜底）**：有史料上下文时返回 `NO_CONTEXT` 提示；配密钥后返回真实回答。
+- **AI 问答已可用（真实回答）**：`ai-chat` 已接 DeepSeek，有史料上下文时返回模型真实回答（实测：刘胡兰问答 1.86s 返回正确史料）。
 - **邮箱/密码模式代码就绪**：将 `cloudbase-config.js` 的 `authMode` 改回 `"email"` 即可启用（前端 `signUp` + `signInWithPassword`）。
 
 ## 仍待用户确认/提供（阻塞项已全部转为「等输入」，非工具阻塞）
 | 动作 | 方式 | 状态 |
 |------|------|------|
-| 配 AI 真实回答 | 提供 `OPENAI_API_KEY` / `OPENAI_BASE_URL` / `OPENAI_MODEL` → 写入 `ai-chat` 函数环境变量 | 等用户提供 |
+| 配 AI 真实回答 | 提供 `OPENAI_API_KEY` / `OPENAI_BASE_URL` / `OPENAI_MODEL` → 写入 `ai-chat` 函数环境变量 | ✅ 已接 DeepSeek 并实测通过 |
 | 加 Web 安全域名 | 提供站点正式域名 → `envDomainManagement(action=create, domains=[host:port])` 加入白名单（localhost 默认可用） | 等用户提供 |
 | 切邮箱/密码模式 | `cloudbase-config.js` 改 `RCS.config.authMode = "email"` | 等你拍板 |
 
