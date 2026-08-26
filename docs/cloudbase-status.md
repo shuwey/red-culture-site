@@ -31,6 +31,9 @@
   - 实测全链路：token 鉴权、敏感词 add→approve→约 2 分钟 ai-chat 生效拦截、纠错提交→审核闭环；测试数据已清理。
   - **ADMIN_TOKEN**：存于 `admin` 函数环境变量 `ADMIN_TOKEN`，运营由技术负责人分发；更换只改该变量。
 
+- **静态托管已填充（修复 404）**：整站 80 个静态文件（46 HTML + 7 JS + 2 CSS + 2 JSON/mjs + 21 图片 + 2 视频）已上传至 CloudBase 静态托管根目录（`manageHosting action=upload`，逐文件上传，避开整目录上传不递归的坑）。已 `setWebsiteDocument(indexDocument=index.html)`。默认域名 **https://cloud1-d0g0aq0bl2cfbcbdf-1471653339.tcloudbaseapp.com/** 现已可访问（此前 404 `NoSuchKey index.html` 是因为托管桶为空、仅传了 `cloudbase-config.js`）。
+  - ⚠️ 注意：`queryHosting(action=findFiles, prefix="xxx")` 会把前缀当作目录（返回 `Prefix: "xxx/"`，查不到根文件），属该查询的怪癖；验证文件是否在线请用 `downloadFile` 或直接在浏览器访问。**后续每次改前端文件都要重新上传到托管才生效**（git 推送不等于线上更新）。
+
 ## 当前可用能力
 - **登录可用（邮箱/密码模式）**：默认 `authMode="email"`，用户用邮箱+密码注册/登录，成绩可保存。
 - **AI 问答已可用（真实回答）**：`ai-chat` 已接 DeepSeek，有史料上下文时返回模型真实回答（实测：刘胡兰问答 1.86s 返回正确史料）。
