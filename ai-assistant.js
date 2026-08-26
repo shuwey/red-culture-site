@@ -144,8 +144,138 @@
       });
       msg.appendChild(srcWrap);
     }
+    // 纠错入口：每条回答可反馈史料错误（提交至 corrections 集合，待运营审核）
+    var fixBtn = document.createElement("button");
+    fixBtn.type = "button";
+    fixBtn.className = "rcs-fix-btn";
+    fixBtn.textContent = "纠错";
+    fixBtn.onclick = function () {
+      openCorrectionModal(sources && sources.length ? sources[0].title : "");
+    };
+    msg.appendChild(fixBtn);
     body.appendChild(msg);
     body.scrollTop = body.scrollHeight;
+  }
+
+  /* ---------- 用户纠错入口（P2） ---------- */
+  var _fixStyleInjected = false;
+  function injectFixStyle() {
+    if (_fixStyleInjected) return;
+    _fixStyleInjected = true;
+    var css =
+      ".rcs-fix-btn{display:inline-block;margin-top:6px;font-size:12px;color:#b3261e;" +
+      "background:transparent;border:1px solid #e7b7b3;border-radius:10px;padding:1px 10px;cursor:pointer;}" +
+      ".rcs-fix-btn:hover{background:#fdf0ef;}" +
+      ".rcs-fix-mask{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;" +
+      "align-items:center;justify-content:center;z-index:99999;}" +
+      ".rcs-fix-box{background:#fff;width:min(420px,92vw);border-radius:14px;padding:20px 22px;" +
+      "box-shadow:0 12px 40px rgba(0,0,0,.25);font-family:inherit;}" +
+      ".rcs-fix-box h3{margin:0 0 14px;font-size:16px;color:#9c1c14;}" +
+      ".rcs-fix-box label{display:block;font-size:13px;color:#555;margin:10px 0 4px;}" +
+      ".rcs-fix-box select,.rcs-fix-box input,.rcs-fix-box textarea{width:100%;box-sizing:border-box;" +
+      "border:1px solid #d9d9d9;border-radius:8px;padding:8px 10px;font-size:14px;font-family:inherit;}" +
+      ".rcs-fix-box textarea{resize:vertical;min-height:72px;}" +
+      ".rcs-fix-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:16px;}" +
+      ".rcs-fix-actions button{border:none;border-radius:8px;padding:8px 16px;font-size:14px;cursor:pointer;}" +
+      ".rcs-fix-cancel{background:#eee;color:#555;}" +
+      ".rcs-fix-submit{background:#9c1c14;color:#fff;}" +
+      ".rcs-fix-tip{margin-top:12px;font-size:13px;min-height:18px;}" +
+      ".rcs-fix-tip.ok{color:#2e7d32;}.rcs-fix-tip.err{color:#c62828;}";
+    var st = document.createElement("style");
+    st.textContent = css;
+    document.head.appendChild(st);
+  }
+
+  function openCorrectionModal(quote) {
+    injectFixStyle();
+    if (el("rcs-fix-mask")) return; // 防重复
+    var mask = document.createElement("div");
+    mask.id = "rcs-fix-mask";
+    mask.className = "rcs-fix-mask";
+    mask.innerHTML =
+      '<div class="rcs-fix-box" role="dialog" aria-label="纠错反馈">' +
+      "<h3>反馈史料纠错</h3>" +
+      '<label>纠错类型</label>' +
+      '<select id="rcs-fix-type"><option value="英雄">英雄人物</option>' +
+      '<option value="地点">红色地点</option><option value="事件">历史事件</option>' +
+      '<option value="通用">通用</option></select>' +
+      '<label>相关史料 / 标题</label>' +
+      '<input id="rcs-fix-quote" value="' +
+      (quote || "").replace(/"/g, "&quot;") +
+      '" placeholder="如：刘胡兰" />' +
+      '<label>问题描述（必填）</label>' +
+      '<textarea id="rcs-fix-desc" placeholder="请描述发现的错误或需要补充的内容"></textarea>' +
+      '<label>联系方式（选填）</label>' +
+      '<input id="rcs-fix-contact" placeholder="邮箱或电话，方便我们回复" />' +
+      '<div class="rcs-fix-actions">' +
+      '<button class="rcs-fix-cancel" id="rcs-fix-cancel">取消</button>' +
+      '<button class="rcs-fix-submit" id="rcs-fix-submit">提交</button>' +
+      "</div>" +
+      '<div class="rcs-fix-tip" id="rcs-fix-tip"></div>' +
+      "</div>";
+    document.body.appendChild(mask);
+    mask.onclick = function (e) {
+      if (e.target === mask) closeCorrectionModal();
+    };
+    el("rcs-fix-cancel").onclick = closeCorrectionModal;
+    el("rcs-fix-submit").onclick = submitCorrection;
+  }
+
+  function closeCorrectionModal() {
+    var m = el("rcs-fix-mask");
+    if (m && m.parentNode) m.parentNode.removeChild(m);
+  }
+
+  /* 确保有登录态（匿名），返回 uid 用于留痕；失败则返回空串（不阻断提交） */
+  async function ensureUid() {
+    try {
+      var app = RCS.getApp();
+      var auth = app.auth();
+      var st = await auth.getLoginState();
+      if (st && st.uid) return st.uid;
+      await auth.signInAnonymously();
+      st = await auth.getLoginState();
+      return st && st.uid ? st.uid : "";
+    } catch (e) {
+      return "";
+    }
+  }
+
+  async function submitCorrection() {
+    var desc = (el("rcs-fix-desc").value || "").trim();
+    var tip = el("rcs-fix-tip");
+    if (!desc) {
+      tip.className = "rcs-fix-tip err";
+      tip.textContent = "请填写问题描述";
+      return;
+    }
+    var uid = await ensureUid();
+    try {
+      var app = RCS.getApp();
+      var res = await app.callFunction({
+        name: "admin",
+        data: {
+          action: "correction.submit",
+          contentType: el("rcs-fix-type").value,
+          quote: (el("rcs-fix-quote").value || "").trim(),
+          description: desc,
+          contact: (el("rcs-fix-contact").value || "").trim(),
+          uid: uid || "",
+        },
+      });
+      var result = res.result;
+      if (result && result.success) {
+        tip.className = "rcs-fix-tip ok";
+        tip.textContent = "已提交，感谢您的反馈！我们会尽快核实。";
+        setTimeout(closeCorrectionModal, 1400);
+      } else {
+        tip.className = "rcs-fix-tip err";
+        tip.textContent = "提交失败：" + ((result && result.error && result.error.message) || "未知错误");
+      }
+    } catch (e) {
+      tip.className = "rcs-fix-tip err";
+      tip.textContent = "提交失败，请稍后再试。";
+    }
   }
 
   function addTyping() {

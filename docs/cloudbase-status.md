@@ -23,6 +23,13 @@
   - **审计日志 `ai_logs`**：新建集合（仅云端函数管理员写入，客户端安全规则 `read/create/update/delete` 全 false）。每次问答留痕：`question / contexts(史料标题) / answer / status / sensitive / grounded / code / createdAt`。实测 status 准确标注 `ok`/`refusal`/`error` 等。
   - 验证：赵一曼正常问答返回正确史料+来源提示；问史料之外的"配偶/结婚年份"时模型**未编造**而是返回「暂未收录」引导语（记为 `refusal`）；上游瞬时抖动正确记为 `error`。
 - **匿名/昵称模式可用**：默认 `authMode="local"`，填昵称即匿名建号，成绩可保存（依赖上面的创建者规则）。
+- **AI 合规护栏 P2（敏感词后台 + 用户纠错 + 双人审核，已上线实测）**：
+  - 新增 `admin` 云函数（`ADMIN_TOKEN` 恒定时间校验）：敏感词 `word.list/add(默认pending)/approve(生效)/reject/delete`、纠错 `correction.list/handle(resolved|rejected)`、用户提交 `correction.submit`（免 token）。
+  - `sensitive_words` 集合（active|pending|rejected）+ `corrections` 集合（pending|resolved|rejected）已建；安全规则：`sensitive_words` 全 false，`corrections` 仅 `create=true`（登录用户可提交）。
+  - `lib/sensitive-words.js` 运行时读集合 `active` 词（模块顶层预热 + 每 2 分钟刷新 + 同步缓存），与 BASE 基线 + `SENSITIVE_EXTRA` 合并；新增词需审核通过才进生效词库。
+  - 前端：`ai-assistant.js` 每条回答加「纠错」按钮（提交至 `corrections`）；`admin.html` 运营后台（token 登录，敏感词管理 + 纠错审核）。
+  - 实测全链路：token 鉴权、敏感词 add→approve→约 2 分钟 ai-chat 生效拦截、纠错提交→审核闭环；测试数据已清理。
+  - **ADMIN_TOKEN**：存于 `admin` 函数环境变量 `ADMIN_TOKEN`，运营由技术负责人分发；更换只改该变量。
 
 ## 当前可用能力
 - **登录可用（昵称匿名模式）**：默认 `authMode="local"`，用户填昵称即匿名建号，成绩可保存。

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>运营后台 · 红色文化传播网</title>
+    <style>
+      * { box-sizing: border-box; }
+      body { margin: 0; font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f5f6f8; color: #222; }
+      header { background: #9c1c14; color: #fff; padding: 14px 22px; font-size: 17px; font-weight: 600; }
+      .wrap { max-width: 960px; margin: 22px auto; padding: 0 16px; }
+      .card { background: #fff; border-radius: 12px; padding: 18px 20px; box-shadow: 0 2px 10px rgba(0,0,0,.06); margin-bottom: 18px; }
+      .card h2 { margin: 0 0 14px; font-size: 16px; color: #9c1c14; }
+      input, select, textarea, button { font-family: inherit; font-size: 14px; }
+      input, select, textarea { width: 100%; border: 1px solid #d9d9d9; border-radius: 8px; padding: 8px 10px; margin: 4px 0 10px; }
+      button { cursor: pointer; border: none; border-radius: 8px; padding: 8px 16px; }
+      .btn-primary { background: #9c1c14; color: #fff; }
+      .btn-ghost { background: #eee; color: #555; }
+      .btn-sm { padding: 4px 10px; font-size: 13px; }
+      .btn-ok { background: #2e7d32; color: #fff; }
+      .btn-warn { background: #ef6c00; color: #fff; }
+      .btn-danger { background: #c62828; color: #fff; }
+      table { width: 100%; border-collapse: collapse; font-size: 13px; }
+      th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid #eee; vertical-align: top; }
+      th { color: #666; font-weight: 600; background: #fafafa; }
+      .tag { display: inline-block; padding: 1px 8px; border-radius: 10px; font-size: 12px; }
+      .tag-active { background: #e6f4ea; color: #2e7d32; }
+      .tag-pending { background: #fef3e0; color: #ef6c00; }
+      .tag-resolved { background: #e6f4ea; color: #2e7d32; }
+      .tag-rejected { background: #fdecea; color: #c62828; }
+      .muted { color: #999; font-size: 12px; }
+      .tabs { display: flex; gap: 8px; margin-bottom: 14px; }
+      .tab { padding: 8px 16px; border-radius: 8px; background: #eee; color: #555; cursor: pointer; }
+      .tab.active { background: #9c1c14; color: #fff; }
+      .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end; }
+      .row > div { flex: 1; min-width: 160px; }
+      #loginBox { max-width: 380px; margin: 80px auto; }
+      .hidden { display: none !important; }
+      .login-err { color: #c62828; font-size: 13px; margin-top: 6px; }
+    </style>
+  </head>
+  <body>
+    <header>红色文化传播网 · 运营后台</header>
+
+    <!-- 登录 -->
+    <div id="loginBox" class="card">
+      <h2>管理员登录</h2>
+      <p class="muted">请输入管理员令牌（由技术负责人提供，仅本次会话保存在浏览器内存）。</p>
+      <input id="tokenInput" type="password" placeholder="ADMIN_TOKEN" />
+      <div class="login-err hidden" id="loginErr"></div>
+      <div style="margin-top:10px; text-align:right;">
+        <button class="btn-primary" id="loginBtn">登录</button>
+      </div>
+    </div>
+
+    <!-- 主区 -->
+    <div id="mainBox" class="wrap hidden">
+      <div class="tabs">
+        <div class="tab active" data-tab="words">敏感词管理</div>
+        <div class="tab" data-tab="corrections">纠错审核</div>
+      </div>
+
+      <!-- 敏感词 -->
+      <div id="tab-words" class="card">
+        <h2>敏感词管理</h2>
+        <div class="row">
+          <div><label class="muted">新增敏感词</label><input id="newWord" placeholder="如：某违规词" /></div>
+          <div><label class="muted">分类</label><input id="newWordCat" placeholder="如：历史虚无主义" value="运营新增" /></div>
+          <div style="flex:0 0 auto;">
+            <button class="btn-primary" id="addWordBtn">添加（待审核）</button>
+          </div>
+        </div>
+        <p class="muted">新增词默认 <span class="tag tag-pending">pending</span>，需审核通过后才会进入生效词库（AI 拦截）。</p>
+        <table id="wordTable">
+          <thead><tr><th>敏感词</th><th>分类</th><th>状态</th><th>操作</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <!-- 纠错 -->
+      <div id="tab-corrections" class="card hidden">
+        <h2>用户纠错审核</h2>
+        <div class="row" style="margin-bottom:10px;">
+          <div style="flex:0 0 auto;">
+            <select id="corrFilter">
+              <option value="">全部</option>
+              <option value="pending">待处理</option>
+              <option value="resolved">已处理</option>
+              <option value="rejected">已驳回</option>
+            </select>
+          </div>
+          <div style="flex:0 0 auto;"><button class="btn-ghost" id="corrRefresh">刷新</button></div>
+        </div>
+        <table id="corrTable">
+          <thead><tr><th>类型</th><th>相关史料</th><th>问题描述</th><th>联系方式</th><th>状态</th><th>处理</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <script type="module" src="cloudbase-loader.js"></script>
+    <script>
+      var ENV = "cloud1-d0g0aq0bl2cfbcbdf";
+      var TOKEN = sessionStorage.getItem("rcs_admin_token") || "";
+
+      function app() {
+        return window.cloudbase.init({ env: ENV });
+      }
+      async function callAdmin(action, extra) {
+        var data = Object.assign({ action: action, adminToken: TOKEN }, extra || {});
+        var res = await app().callFunction({ name: "admin", data: data });
+        return res.result;
+      }
+
+      function show(elId, show) {
+        var e = document.getElementById(elId);
+        if (e) e.classList.toggle("hidden", !show);
+      }
+
+      /* 登录 */
+      async function doLogin() {
+        var v = document.getElementById("tokenInput").value.trim();
+        if (!v) return;
+        TOKEN = v;
+        sessionStorage.setItem("rcs_admin_token", TOKEN);
+        var r = await callAdmin("ping");
+        if (r && r.success) {
+          show("loginBox", false);
+          show("mainBox", true);
+          loadWords();
+          loadCorrections();
+        } else {
+          var err = document.getElementById("loginErr");
+          err.textContent = "令牌无效或未配置，请检查。";
+          err.classList.remove("hidden");
+          TOKEN = "";
+          sessionStorage.removeItem("rcs_admin_token");
+        }
+      }
+      document.getElementById("loginBtn").onclick = doLogin;
+
+      /* 敏感词 */
+      async function loadWords() {
+        var r = await callAdmin("word.list");
+        var tbody = document.querySelector("#wordTable tbody");
+        tbody.innerHTML = "";
+        if (!r || !r.success) return;
+        (r.data.items || []).forEach(function (it) {
+          var tr = document.createElement("tr");
+          var statusTag =
+            it.status === "active"
+              ? '<span class="tag tag-active">active</span>'
+              : '<span class="tag tag-pending">pending</span>';
+          var ops = "";
+          if (it.status === "pending") {
+            ops +=
+              '<button class="btn-sm btn-ok" onclick="approveWord(\'' +
+              it._id +
+              "')\">通过</button> ";
+          }
+          ops +=
+            '<button class="btn-sm btn-warn" onclick="rejectWord(\'' +
+            it._id +
+            "')\">拒绝</button> ";
+          ops +=
+            '<button class="btn-sm btn-danger" onclick="deleteWord(\'' +
+            it._id +
+            "')\">删除</button>";
+          tr.innerHTML =
+            "<td>" + esc(it.word) + "</td><td>" + esc(it.category || "") + "</td><td>" +
+            statusTag + "</td><td>" + ops + "</td>";
+          tbody.appendChild(tr);
+        });
+      }
+      async function addWord() {
+        var w = document.getElementById("newWord").value.trim();
+        var c = document.getElementById("newWordCat").value.trim();
+        if (!w) return;
+        await callAdmin("word.add", { word: w, category: c });
+        document.getElementById("newWord").value = "";
+        loadWords();
+      }
+      document.getElementById("addWordBtn").onclick = addWord;
+      window.approveWord = async function (id) {
+        await callAdmin("word.approve", { id: id });
+        loadWords();
+      };
+      window.rejectWord = async function (id) {
+        await callAdmin("word.reject", { id: id });
+        loadWords();
+      };
+      window.deleteWord = async function (id) {
+        if (!confirm("确认删除该敏感词？")) return;
+        await callAdmin("word.delete", { id: id });
+        loadWords();
+      };
+
+      /* 纠错 */
+      async function loadCorrections() {
+        var f = document.getElementById("corrFilter").value;
+        var r = await callAdmin("correction.list", f ? { status: f } : {});
+        var tbody = document.querySelector("#corrTable tbody");
+        tbody.innerHTML = "";
+        if (!r || !r.success) return;
+        (r.data.items || []).forEach(function (it) {
+          var tr = document.createElement("tr");
+          var st =
+            it.status === "resolved"
+              ? '<span class="tag tag-resolved">已处理</span>'
+              : it.status === "rejected"
+              ? '<span class="tag tag-rejected">已驳回</span>'
+              : '<span class="tag tag-pending">待处理</span>';
+          var ops =
+            '<button class="btn-sm btn-ok" onclick="handleCorr(\'' +
+            it._id +
+            "','resolved')\">已处理</button> " +
+            '<button class="btn-sm btn-danger" onclick="handleCorr(\'' +
+            it._id +
+            "','rejected')\">驳回</button>";
+          tr.innerHTML =
+            "<td>" + esc(it.contentType || "") + "</td><td>" + esc(it.quote || "") +
+            "</td><td>" + esc(it.description || "") + (it.handleNote ? "<br><span class='muted'>处理意见：" + esc(it.handleNote) + "</span>" : "") +
+            "</td><td>" + esc(it.contact || "") + "</td><td>" + st + "</td><td>" + ops + "</td>";
+          tbody.appendChild(tr);
+        });
+      }
+      window.handleCorr = async function (id, status) {
+        var note = prompt("处理意见（选填）：", "");
+        await callAdmin("correction.handle", { id: id, status: status, handleNote: note || "" });
+        loadCorrections();
+      };
+      document.getElementById("corrRefresh").onclick = loadCorrections;
+      document.getElementById("corrFilter").onchange = loadCorrections;
+
+      /* tabs */
+      document.querySelectorAll(".tab").forEach(function (t) {
+        t.onclick = function () {
+          document.querySelectorAll(".tab").forEach(function (x) { x.classList.remove("active"); });
+          t.classList.add("active");
+          var tab = t.getAttribute("data-tab");
+          show("tab-words", tab === "words");
+          show("tab-corrections", tab === "corrections");
+        };
+      });
+
+      function esc(s) {
+        return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+          return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+        });
+      }
+
+      /* 已登录则直接进入 */
+      if (TOKEN) {
+        callAdmin("ping").then(function (r) {
+          if (r && r.success) {
+            show("loginBox", false);
+            show("mainBox", true);
+            loadWords();
+            loadCorrections();
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "name": "admin",
+  "version": "1.0.0",
+  "description": "红色文化传播网 · 运营后台管理云函数（敏感词 + 纠错审核）",
+  "main": "index.js",
+  "dependencies": {
+    "@cloudbase/node-sdk": "^3.7.0"
+  }
+}
