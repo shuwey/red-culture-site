@@ -12,6 +12,11 @@
   - 删除原 `user-register` 云函数（云端 + 本地 `cloudfunctions/user-register/`）。
   - `auth-service.js` 的邮箱/密码模式改为前端直连 `auth().signUp({ username, password })` 建号，随后 `signInWithPassword` 自动登录（与官方管理文档一致）。
 - **`ai-chat` 云函数**：已部署，`Status: Active`，调用返回信封结构（`success/data/error`）。**已接入 DeepSeek 并实测通过**：环境变量 `OPENAI_BASE_URL=https://api.deepseek.com`、`OPENAI_MODEL=deepseek-v4-flash`、`OPENAI_API_KEY=***`（云端环境变量，非本地文件）。代码零改动即兼容任意 OpenAI 兼容供应商。
+- **AI 合规护栏（P0 三件套，已上线实测）**：
+  - **输出侧拦截**：模型回答同样过 `scanSensitive`，命中则不返回（确定性验证：临时把"赵一曼"加入敏感词即被拦下，复原后正常）。
+  - **敏感词库扩充 + 可配置化**：`lib/sensitive-words.js` 基线词库扩至 53 条（含历史虚无主义、繁体变体），并支持环境变量 `SENSITIVE_EXTRA`（JSON 数组/逗号分隔）热更新，运营免改代码扩充。
+  - **系统提示词合规化**：`lib/prompt.js` 明确"坚持正确政治方向、弘扬爱国主义与革命精神、符合社会主义核心价值观；仅据史料作答、不得补充推断；不评论时政、不讨论未确认争议"。
+  - 数据真实性命门 = 前端 `data/corpus.json`（受控史料），模型只读检索片段，无外部网络数据。
 - **`quiz_scores` 安全规则**：已设为「仅创建者可读写」（`doc._openid == auth.uid`，CUSTOM）。
 - **匿名/昵称模式可用**：默认 `authMode="local"`，填昵称即匿名建号，成绩可保存（依赖上面的创建者规则）。
 

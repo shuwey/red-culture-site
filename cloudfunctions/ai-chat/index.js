@@ -147,6 +147,15 @@ exports.main = async (event, context) => {
   // 5) 调用模型
   try {
     const answer = await callLLM(messages);
+    // 5.1) 输出侧安全扫描：模型回答同样过审，命中敏感词则不放回，转合规引导语
+    if (scanSensitive(answer)) {
+      return envelope(
+        false,
+        null,
+        "SENSITIVE",
+        "该内容暂未收录，建议浏览本站的英雄人物、红色地点与历史事件栏目。"
+      );
+    }
     const sources = extractSources(answer, contexts);
     return envelope(true, { answer: answer.trim(), sources: sources }, null, null);
   } catch (e) {
