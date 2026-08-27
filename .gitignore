@@ -11,3 +11,10 @@ node_modules/
 
 # 日志
 *.log
+
+# 本地残留/调试（不入库）
+cloud-lazy.js
+cloudbase.bundle.js
+appeal-attachments/
+refund-appeal-*.md
+fix-report-*.md
