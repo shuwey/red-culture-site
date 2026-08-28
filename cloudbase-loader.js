@@ -9,7 +9,7 @@
 
   var CDN = "https://static.cloudbase.net/cloudbase-js-sdk/3.8.2/cloudbase.full.js";
   // 本地 esbuild 打包版本（自包含、零外部依赖），作为 CDN 不可用时的兜底
-  var LOCAL = "cloudbase.bundle.js?v=20260829a";
+  var LOCAL = "cloudbase.bundle.js?v=20260829d";
 
   function announce() {
     window.dispatchEvent(new Event("cloudbase-ready"));

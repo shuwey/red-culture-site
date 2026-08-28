@@ -7,26 +7,31 @@
   /* ---------- 导航：滚动加投影 ---------- */
   var nav = document.getElementById("nav");
   function onScroll() {
+    if (!nav) return;
     nav.classList.toggle("scrolled", window.scrollY > 8);
   }
-  window.addEventListener("scroll", onScroll, { passive: true });
-  onScroll();
+  if (nav) {
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+  }
 
   /* ---------- 移动端菜单 ---------- */
   var burger = document.getElementById("burger");
   var drawer = document.getElementById("drawer");
-  burger.addEventListener("click", function () {
-    var open = drawer.classList.toggle("open");
-    burger.classList.toggle("open", open);
-    burger.setAttribute("aria-expanded", String(open));
-  });
-  drawer.addEventListener("click", function (e) {
-    if (e.target.tagName === "A") {
-      drawer.classList.remove("open");
-      burger.classList.remove("open");
-      burger.setAttribute("aria-expanded", "false");
-    }
-  });
+  if (burger && drawer) {
+    burger.addEventListener("click", function () {
+      var open = drawer.classList.toggle("open");
+      burger.classList.toggle("open", open);
+      burger.setAttribute("aria-expanded", String(open));
+    });
+    drawer.addEventListener("click", function (e) {
+      if (e.target.tagName === "A") {
+        drawer.classList.remove("open");
+        burger.classList.remove("open");
+        burger.setAttribute("aria-expanded", "false");
+      }
+    });
+  }
 
   /* ---------- 入场动效 ---------- */
   var revealEls = document.querySelectorAll(".reveal");

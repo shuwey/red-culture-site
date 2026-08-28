@@ -55,6 +55,16 @@
 
   var tab = "login";
   var resending = false;
+  // 下拉菜单点击外部收起：只绑定一次 document 监听，避免 renderUserArea 每次渲染都累积新监听（泄漏）
+  var currentUserEl = null;
+  var currentDropdownEl = null;
+  var docClickBound = false;
+
+  function onDocClickForDropdown(ev) {
+    if (currentUserEl && currentDropdownEl && !currentUserEl.contains(ev.target)) {
+      currentDropdownEl.hidden = true;
+    }
+  }
 
   function el(id) {
     return document.getElementById(id);
@@ -290,6 +300,9 @@
     if (!state || !state.uid) {
       mount.innerHTML = '<button class="nav-login-btn" id="rcs-login-btn">登录</button>';
       el("rcs-login-btn").onclick = openLogin;
+      // 退出登录后回到未登录态，残留的下拉菜单引用要清空，避免点击误隐藏已不存在的节点
+      currentUserEl = null;
+      currentDropdownEl = null;
       return;
     }
     var initial = (state.nick || "友").trim().charAt(0).toUpperCase();
@@ -330,9 +343,13 @@
       await RCSAuth.logout();
       toast("已退出登录");
     };
-    document.addEventListener("click", function (ev) {
-      if (user && !user.contains(ev.target)) dropdown.hidden = true;
-    });
+    // 仅绑定一次 document 点击监听；后续渲染只更新目标节点引用，不再累积新监听
+    currentUserEl = user;
+    currentDropdownEl = dropdown;
+    if (!docClickBound) {
+      document.addEventListener("click", onDocClickForDropdown);
+      docClickBound = true;
+    }
   }
 
   function openScores() {

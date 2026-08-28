@@ -61,7 +61,7 @@ select,.btn{font:inherit;font-size:13px;padding:7px 10px;border:1px solid var(--
 footer{text-align:center;color:var(--mut);font-size:12px;padding:18px}
 @media(max-width:560px){.page-head h1{font-size:19px}.stat{min-width:45%}}
 </style>
-<link rel="stylesheet" href="ai-assistant.css?v=20260829a">
+<link rel="stylesheet" href="ai-assistant.css?v=20260829d">
 </head>
 <body>
 <header class="nav" id="nav">
@@ -279,17 +279,17 @@ document.getElementById("list").addEventListener("click",e=>{
 
 topStats();render();
 </script>
-<script src="script.js?v=20260828e"></script>
+<script src="script.js?v=20260828f"></script>
 <!-- AI 助手：延迟加载云能力（首屏不加载，避免 786KB SDK 阻塞渲染） -->
 <script>
   window.RCS_CLOUD_SCRIPTS = [
     "cloudbase.bundle.js",
     "cloudbase-config.js",
     "auth-service.js?v=20260829d",
-    "account-ui.js?v=20260829b",
+    "account-ui.js?v=20260829e",
     "ai-assistant.js"
   ];
 </script>
-<script src="cloud-lazy.js?v=20260829a"></script>
+<script src="cloud-lazy.js?v=20260829e"></script>
 </body>
 </html>
