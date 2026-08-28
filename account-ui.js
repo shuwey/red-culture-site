@@ -22,8 +22,10 @@
     '        <input type="text" id="rcs-nick" placeholder="如：星星之火" autocomplete="nickname" maxlength="20">' +
     "      </div>" +
     '      <div class="rcs-field" id="rcs-email-field">' +
-    '        <label for="rcs-email">邮箱</label>' +
-    '        <input type="email" id="rcs-email" placeholder="you@example.com" autocomplete="email">' +
+    '        <label for="rcs-email">账号</label>' +
+    // 本环境未开启邮箱登录（email provider 未启用，且开启需先配置 SMTP 发件人），
+    // 账号由管理端创建后以「用户名」登录，故此处放开为文本输入。
+    '        <input type="text" id="rcs-email" placeholder="用户名或邮箱" autocomplete="username">' +
     "      </div>" +
     '      <div class="rcs-field" id="rcs-password-field">' +
     '        <label for="rcs-password">密码</label>' +
@@ -159,7 +161,12 @@
       if (!nick || nick.trim().length === 0) return "请填写昵称";
       return null;
     }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return "邮箱格式不正确";
+    // 支持「用户名」或「邮箱」两种形式：
+    // 本环境 email provider 未开启（开启需先配置 SMTP 发件人），注册当前不可用，
+    // 账号由管理端创建后以用户名登录，因此校验必须放宽，不能再强制邮箱格式。
+    var isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    var isName = /^[A-Za-z0-9_.@-]{3,32}$/.test(email);
+    if (!isEmail && !isName) return "请输入用户名（3-32 位字母、数字或 _ . - @）或邮箱";
     if (!pwd || pwd.length < 8) return "密码至少 8 位";
     if (tab === "register" && (!nick || nick.trim().length === 0)) return "请填写昵称";
     return null;
