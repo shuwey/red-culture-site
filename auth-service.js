@@ -30,28 +30,42 @@
     return RCS.getApp().auth();
   }
 
-  /* 昵称取值：按优先级取第一个非空值，最后回退本地存储。
-     背景：此前一律只用本地 localStorage，导致非注册途径（管理端建号后登录）
-     拿不到昵称，导航区只能显示「朋友」。 */
-  function resolveNick() {
+  /* 取参数中第一个非空值。
+     ⚠ 刻意不回退本地存储：localStorage 里存的是「上一个」用户的昵称，
+     在同一浏览器换账号登录时会串号（原本 A 登录后仍显示 B 的名字）。
+     调用方需自己决定兜底顺序。 */
+  function firstNonEmpty() {
     for (var i = 0; i < arguments.length; i++) {
       var v = arguments[i];
       if (v && String(v).trim()) return String(v).trim();
     }
-    return getStoredNick() || "";
+    return "";
   }
 
-  /* 从登录/注册响应中提取昵称（云端 user_metadata 优先） */
+  /* 登录账号名 → 展示用昵称（邮箱取 @ 前部分，避免把完整邮箱顶在导航栏） */
+  function nickFromAccount(account) {
+    var a = String(account || "").trim();
+    if (!a) return "";
+    var at = a.indexOf("@");
+    return at > 0 ? a.slice(0, at) : a;
+  }
+
+  /* 从登录/注册响应中提取昵称（只用云端数据） */
   function extractNick(res) {
     var u = res && res.data && res.data.user;
     var meta = (u && u.user_metadata) || {};
-    return resolveNick(meta.nickName, meta.name, meta.username, u && u.name, u && u.username);
+    return firstNonEmpty(
+      meta.nickName, meta.name, meta.username,
+      u && u.name, u && u.username
+    );
   }
 
   function buildState(loginState) {
     var u = loginState && (loginState.user || loginState);
     if (u && u.uid) {
-      return { uid: u.uid, nick: resolveNick(u.name, u.username, u.nickName) };
+      // 同样只用云端数据，兜底用账号名，避免刷新后串到上一个用户的昵称
+      var nick = firstNonEmpty(u.nickName, u.name, u.username) || nickFromAccount(u.username);
+      return { uid: u.uid, nick: nick };
     }
     return { uid: null, nick: null };
   }
@@ -142,8 +156,9 @@
         return auth()
           .signInWithPassword({ username: email, password: password })
           .then(function (loginRes) {
-            storeNick(nickname);
-            var state = { uid: extractUid(loginRes), nick: nickname || getStoredNick() };
+            var nick = extractNick(loginRes) || nickname || nickFromAccount(email);
+            storeNick(nick);
+            var state = { uid: extractUid(loginRes), nick: nick };
             emit(state);
             return { success: true, data: state };
           });
@@ -185,7 +200,7 @@
           };
         }
         // 云端昵称为准，其次用注册时填写的昵称
-        var nick = extractNick(res) || ctx.nickname || getStoredNick();
+        var nick = extractNick(res) || ctx.nickname || nickFromAccount(ctx.email);
         storeNick(nick);
         var state = { uid: uid, nick: nick };
         pendingVerify = null;
@@ -229,8 +244,9 @@
       : auth().signInWithPassword({ username: email, password: password });
     return op
       .then(function (res) {
-        // 云端昵称为准；拿不到时回退登录账号名，避免显示「朋友」
-        var nick = extractNick(res) || (email || "");
+        // 云端昵称 → 登录账号名。刻意不回退 getStoredNick()：
+        // 本地存的是上一个用户的昵称，换账号登录会导致显示错人。
+        var nick = extractNick(res) || nickFromAccount(email);
         storeNick(nick);
         var state = { uid: extractUid(res), nick: nick };
         emit(state);
