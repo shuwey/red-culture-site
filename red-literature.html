@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="nav-embed.css?v=20260828e">
+<title>红色文学 · 整本书阅读</title>
+<style>
+  :root{
+    --red:#c0202f; --red-deep:#8c1620; --red-soft:#fbe9ea;
+    --gold:#caa24a; --ink:#2b2320; --gray:#6b625c; --line:#e6ddd6;
+    --bg:#fcf9f5; --card:#ffffff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.75;font-size:16px}
+
+  .lit-head{background:linear-gradient(135deg,var(--red-deep),var(--red));color:#fff;padding:36px 20px 28px;text-align:center}
+  .lit-head h1{margin:0 0 8px;font-size:clamp(22px,5vw,32px);letter-spacing:3px}
+  .lit-head p{margin:4px 0;opacity:.92;font-size:14px}
+
+  .lit-wrap{max-width:1000px;margin:0 auto;padding:26px 18px 60px}
+  .lit-intro{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:22px;font-size:14.5px;color:var(--gray)}
+  .lit-intro b{color:var(--red-deep)}
+
+  .lit-books{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+  .lit-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;box-shadow:0 2px 10px rgba(80,40,30,.06)}
+  .lit-card h2{margin:0 0 4px;font-size:19px;color:var(--red-deep);letter-spacing:1px}
+  .lit-meta{font-size:12.5px;color:var(--gold);font-weight:600;margin:0 0 8px}
+  .lit-desc{font-size:14px;color:var(--gray);margin:0 0 14px}
+  .lit-links{display:flex;flex-direction:column;gap:8px}
+  .lit-links a{
+    display:block;padding:10px 14px;border:1px solid var(--line);border-radius:10px;
+    font-size:14.5px;color:var(--red-deep);text-decoration:none;background:#fffdfc;
+    transition:background .15s ease,border-color .15s ease;
+  }
+  .lit-links a:hover{background:var(--red-soft);border-color:#e8b9bd}
+  .lit-links a::after{content:" ›";color:var(--gold)}
+
+  .lit-more{margin-top:26px;padding:18px;border:1px dashed var(--line);border-radius:12px;
+    text-align:center;color:var(--gray);font-size:14px;background:#fff}
+  .lit-note{margin-top:20px;font-size:13px;color:var(--gray);text-align:center;line-height:1.8}
+
+  @media(max-width:560px){
+    .lit-head{padding:26px 16px 20px}
+    .lit-books{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<header class="nav" id="nav">
+  <a class="nav-logo" href="index.html" aria-label="红色文化传播网">
+    <svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.26 6.87.6-5.2 4.51 1.53 6.72L12 16.9l-6.1 3.19 1.53-6.72-5.2-4.51 6.87-.6L12 2z" fill="#C8102E"/></svg>
+    <span>红色文化传播网</span>
+  </a>
+  <nav class="nav-links" aria-label="主导航">
+    <a href="heroes.html">英雄人物</a>
+    <a href="places.html">红色地点</a>
+    <a href="events.html">历史事件</a>
+    <a href="index.html#quiz">知识考核</a>
+    <a href="index.html#footer">关于本站</a>
+  </nav>
+  <div class="nav-right">
+    <div id="user-area" class="nav-user-area"></div>
+    <button class="nav-search" aria-label="搜索">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M16.2 16.2L20.5 20.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+    <button class="nav-burger" id="burger" aria-label="菜单" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+<div class="nav-drawer" id="drawer">
+  <a href="heroes.html">英雄人物</a>
+  <a href="places.html">红色地点</a>
+  <a href="events.html">历史事件</a>
+  <a href="index.html#quiz">知识考核</a>
+  <a href="index.html#footer">关于本站</a>
+</div>
+
+<header class="lit-head">
+  <h1>红色文学</h1>
+  <p>革命传统题材名著 · 整本书阅读</p>
+  <p>依据《义务教育语文课程标准（2022年版）》"整本书阅读"拓展型任务群</p>
+</header>
+
+<div class="lit-wrap">
+  <div class="lit-intro">
+    本模块收录<b>革命传统题材文学名著</b>的整本书阅读资源。每本书按
+    <b>知识库（人物 · 地点 · 事件）</b>、<b>阅读题库</b>、<b>章节考点对照表</b>
+    三类资源组织，供初中语文教学与自主学习使用。
+  </div>
+
+  <!-- 书目卡片：由 script.js 依 MODULE.books 渲染；下方为 JS 未加载时的静态兜底 -->
+  <div class="lit-books" id="lit-books">
+    <article class="lit-card">
+      <h2>红岩</h2>
+      <p class="lit-meta">罗广斌、杨益言 著 · 整本书阅读</p>
+      <p class="lit-desc">重庆解放前夕地下斗争与狱中斗争的革命历史小说，初中必读书目。</p>
+      <div class="lit-links">
+        <a href="hongyan-knowledge-base.html">知识库 · 人物 / 地点 / 事件</a>
+        <a href="hongyan-quiz.html">阅读题库（229 题）</a>
+        <a href="chapter-map.html">章节考点对照表</a>
+      </div>
+    </article>
+  </div>
+
+  <div class="lit-more">更多书目持续整理中</div>
+
+  <p class="lit-note">
+    史料依据：人民网党史频道、中央党史和文献研究院、红岩革命历史博物馆等公开资料。<br>
+    版权说明：本页仅提供导读、考题与章节指引等转化性教学内容，不提供原书全文。
+  </p>
+</div>
+
+<script src="script.js?v=20260828e"></script>
+</body>
+</html>

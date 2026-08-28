@@ -158,6 +158,51 @@ button { font-family: inherit; border: none; background: none; cursor: pointer; 
 .nav-drawer a:last-child { border-bottom: none; }
 .nav-drawer.open { display: flex; }
 
+/* ---------- 主导航下拉模块（红色文学等，可扩展书目） ---------- */
+.nav-item { position: relative; display: flex; align-items: center; }
+.nav-trigger {
+  display: inline-flex; align-items: center; gap: 3px; cursor: pointer;
+  font-size: 13px; color: var(--gray-nav); transition: color .2s ease;
+}
+.nav-trigger:hover { color: var(--ink); }
+.nav-caret { font-size: 9px; line-height: 1; transition: transform .2s ease; }
+.nav-item.open .nav-caret { transform: rotate(180deg); }
+.nav-submenu {
+  position: absolute; top: calc(100% + 14px); left: 0;
+  min-width: 248px;
+  background: var(--white);
+  border: 1px solid var(--hairline);
+  border-radius: 14px;
+  box-shadow: 0 16px 40px rgba(0,0,0,.18);
+  padding: 8px;
+  display: flex; flex-direction: column;
+  z-index: 120;
+}
+.nav-submenu[hidden] { display: none; }
+.nav-group-label {
+  font-size: 12px; font-weight: 600; color: var(--gray-3);
+  padding: 8px 12px 4px; letter-spacing: .04em;
+}
+.nav-sep { height: 1px; background: var(--hairline); margin: 6px 4px; }
+.nav-submenu .nav-dropdown-item { width: 100%; }
+
+/* 移动端抽屉内的展开子模块 */
+.nav-drawer .nav-sub { border-bottom: 1px solid rgba(0,0,0,.06); }
+.nav-drawer .nav-sub-toggle {
+  width: 100%; text-align: left; background: none;
+  padding: 12px 0; font-size: 15px; color: var(--ink);
+  display: flex; align-items: center; justify-content: space-between;
+  font-family: inherit; cursor: pointer;
+}
+.nav-drawer .nav-sub-toggle .nav-caret { font-size: 10px; transition: transform .2s ease; }
+.nav-drawer .nav-sub.open .nav-caret { transform: rotate(180deg); }
+.nav-drawer .nav-sub-list { padding: 0 0 8px; }
+.nav-drawer .nav-sub-list a {
+  display: block; padding: 10px 0 10px 28px;
+  font-size: 14px; color: var(--gray-2);
+}
+.nav-drawer .nav-sub-list .nav-group-label { padding: 8px 0 2px 16px; }
+
 /* ---------- Hero ---------- */
 .hero {
   display: flex;

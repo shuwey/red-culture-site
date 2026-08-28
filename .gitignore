@@ -12,9 +12,19 @@ node_modules/
 # 日志
 *.log
 
-# 本地残留/调试（不入库）
-cloud-lazy.js
-cloudbase.bundle.js
+# 注意：cloud-lazy.js 与 cloudbase.bundle.js 是站点云功能核心（登录/AI/排行榜），
+# 必须入库，否则 GitHub 版本无法完整还原站点。
+
+# 调试产物（不入库）
+generated-images/
+assets/images/detail-tiananmen-old.png
+fix-report-*.md
+
+# 非本站内容：退费申诉文档（涉及支付争议，不进公开仓库）
 appeal-attachments/
 refund-appeal-*.md
-fix-report-*.md
+expert-failure-analysis-*.md
+rebuttal-to-engineer-*.md
+
+# 非本站内容：其他项目素材（骑楼文化海报）
+骑楼海报*.png

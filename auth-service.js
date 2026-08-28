@@ -90,8 +90,9 @@
         });
     }
     // 邮箱/密码模式：前端直接用 Web SDK signUp 建号（v3 Node SDK 已不支持服务端 createUser），成功后自动登录
+    // 注意：signUp 参数为 {email, password}，不是 {username, password}（sdkHints: signUp 接受 phone|email）
     return auth()
-      .signUp({ username: email, password: password })
+      .signUp({ email: email, password: password })
       .then(function () {
         return auth()
           .signInWithPassword({ username: email, password: password })

@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="nav-embed.css?v=20260828e">
+<title>《红星照耀中国》整本书阅读 · 知识库与教学设计</title>
+<style>
+  :root{
+    --red:#c0202f; --red-deep:#8c1620; --red-soft:#fbe9ea;
+    --gold:#caa24a; --ink:#2b2320; --gray:#6b625c; --line:#e6ddd6;
+    --bg:#fcf9f5; --card:#ffffff; --green:#3f7a4f; --blue:#2f6f9f;
+    --shadow:0 2px 10px rgba(80,40,30,.08);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--ink);line-height:1.75;font-size:16px}
+
+  .page-head{background:linear-gradient(135deg,var(--red-deep),var(--red));color:#fff;padding:34px 20px 26px;text-align:center}
+  .page-head h1{margin:0 0 8px;font-size:clamp(22px,5vw,34px);letter-spacing:2px}
+  .page-head p{margin:4px 0;opacity:.92;font-size:14px}
+
+  .pagenav{position:sticky;top:48px;z-index:30;background:rgba(252,249,245,.96);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding:8px 12px;display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+  .pagenav a{font-size:13px;color:var(--red-deep);text-decoration:none;padding:5px 10px;border-radius:20px;white-space:nowrap}
+  .pagenav a:hover{background:var(--red-soft)}
+
+  .wrap{max-width:1080px;margin:0 auto;padding:0 16px 60px}
+  section{margin:34px 0}
+  h2{font-size:22px;color:var(--red-deep);border-left:5px solid var(--red);padding-left:12px;margin:0 0 14px}
+  h3{font-size:17px;color:var(--ink);margin:18px 0 8px}
+  p{margin:8px 0}
+  .lead{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;box-shadow:var(--shadow)}
+
+  table{width:100%;border-collapse:collapse;background:var(--card);border-radius:10px;overflow:hidden;box-shadow:var(--shadow);font-size:14px}
+  th,td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
+  th{background:var(--red-soft);color:var(--red-deep);font-weight:600}
+  td.k{font-weight:600;white-space:nowrap;width:110px}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+  .pcard{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
+  .pcard .top{padding:11px 14px;color:#fff}
+  .pcard .top.red{background:linear-gradient(135deg,var(--red),var(--red-deep))}
+  .pcard .top.green{background:linear-gradient(135deg,#4f8f5f,var(--green))}
+  .pcard .top.blue{background:linear-gradient(135deg,#3f7fae,var(--blue))}
+  .pcard .top.gold{background:linear-gradient(135deg,#d0a755,var(--gold))}
+  .pcard .nm{font-size:17px;font-weight:700;letter-spacing:1px}
+  .pcard .rl{font-size:12px;opacity:.92}
+  .pcard .body{padding:12px 14px;font-size:13.5px}
+  .pcard .body p{margin:5px 0}
+  .pcard .k{color:var(--gold);font-weight:600}
+
+  .filters{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 14px}
+  .filters button{font:inherit;font-size:13px;padding:6px 14px;border:1px solid var(--line);background:#fff;color:var(--red-deep);border-radius:20px;cursor:pointer}
+  .filters button.on{background:var(--red);color:#fff;border-color:var(--red)}
+
+  .tagline{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+  .tag{display:inline-block;font-size:12px;padding:2px 10px;border-radius:20px;background:var(--red-soft);color:var(--red-deep);border:1px solid #f0d0d3}
+  .tag.g{background:#e8f3ea;color:var(--green);border-color:#c7e3cf}
+  .tag.b{background:#e8f1f8;color:var(--blue);border-color:#c6dced}
+
+  .qbox{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:10px;padding:12px 15px;margin:10px 0;font-size:14.5px}
+  .qbox b{color:var(--red-deep)}
+  .core{background:linear-gradient(135deg,#fff8e8,#fff);border:1px solid var(--gold);border-radius:12px;padding:16px 18px;text-align:center;font-size:18px;font-weight:600;color:var(--red-deep)}
+
+  .chartbox{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;box-shadow:var(--shadow);overflow-x:auto}
+  .note{font-size:13px;color:var(--gray);background:#fff;border:1px dashed var(--line);border-radius:10px;padding:12px 14px;margin-top:14px}
+  .warn{background:#fff6f6;border-color:#f0c8c8;color:#8c2b2b}
+
+  footer{text-align:center;color:var(--gray);font-size:12.5px;padding:26px 16px;border-top:1px solid var(--line);margin-top:30px}
+  @media(max-width:560px){ .page-head{padding:26px 16px 20px} .wrap{padding:0 12px 40px} }
+</style>
+</head>
+<body>
+<header class="nav" id="nav">
+  <a class="nav-logo" href="index.html" aria-label="红色文化传播网">
+    <svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.26 6.87.6-5.2 4.51 1.53 6.72L12 16.9l-6.1 3.19 1.53-6.72-5.2-4.51 6.87-.6L12 2z" fill="#C8102E"/></svg>
+    <span>红色文化传播网</span>
+  </a>
+  <nav class="nav-links" aria-label="主导航">
+    <a href="heroes.html">英雄人物</a>
+    <a href="places.html">红色地点</a>
+    <a href="events.html">历史事件</a>
+    <a href="index.html#quiz">知识考核</a>
+    <a href="index.html#footer">关于本站</a>
+  </nav>
+  <div class="nav-right">
+    <div id="user-area" class="nav-user-area"></div>
+    <button class="nav-search" aria-label="搜索">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M16.2 16.2L20.5 20.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+    <button class="nav-burger" id="burger" aria-label="菜单" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+<div class="nav-drawer" id="drawer">
+  <a href="heroes.html">英雄人物</a>
+  <a href="places.html">红色地点</a>
+  <a href="events.html">历史事件</a>
+  <a href="index.html#quiz">知识考核</a>
+  <a href="index.html#footer">关于本站</a>
+</div>
+
+<header class="page-head">
+  <h1>《红 星 照 耀 中 国》</h1>
+  <p>整本书阅读 · 知识库与教学设计</p>
+  <p>纪实作品的阅读 · 初中语文八年级上册名著导读 · 依据《义务教育语文课程标准（2022年版）》</p>
+</header>
+
+<nav class="pagenav">
+  <a href="#overview">全书概览</a>
+  <a href="#structure">篇章结构</a>
+  <a href="#objectives">教学目标</a>
+  <a href="#segments">教学环节</a>
+  <a href="#questions">课堂提问</a>
+  <a href="#persons">人物图谱</a>
+  <a href="#places">地点空间</a>
+  <a href="#events">事件时间轴</a>
+  <a href="#art">纪实艺术</a>
+  <a href="#spirit">精神内涵</a>
+  <a href="#sources">史料与版权</a>
+</nav>
+
+<div class="wrap">
+
+  <!-- 全书概览 -->
+  <section id="overview">
+    <h2>全书概览</h2>
+    <div class="lead">
+      <p><b>《红星照耀中国》</b>（Red Star Over China）是美国记者<b>埃德加·斯诺</b>（1905—1972）于1936年6月至10月深入中国西北革命根据地实地考察后写成的<b>纪实作品（报告文学）</b>，被誉为“研究中国革命的经典百科全书”。</p>
+      <p>1937年10月由伦敦<b>戈兰茨公司</b>首版，1938年1月美国兰登书屋出版；1938年2月上海<b>复社</b>推出最早中译本，为避开审查化名<b>《西行漫记》</b>。1979年<b>董乐山</b>据伦敦初版本重译，创译书名为《红星照耀中国》，恢复十二篇五十七小节原貌。</p>
+      <p>作为统编语文八年级上册名著导读篇目，本书是“<b>纪实作品的阅读</b>”的典范：它记录的是当时“红色中国”正在发生的“现实”，<b>用事实说话</b>，并适当穿插作者的分析与评论。</p>
+      <div class="tagline">
+        <span class="tag">纪实作品 / 报告文学</span>
+        <span class="tag">十二篇五十七小节</span>
+        <span class="tag">1936年实地采访</span>
+        <span class="tag">打破九年新闻封锁</span>
+        <span class="tag g">八上名著导读</span>
+        <span class="tag b">2023年起原著进公有领域</span>
+      </div>
+    </div>
+
+    <h3>版本与版权提示</h3>
+    <table>
+      <tr><td class="k">英文首版</td><td>1937年10月，英国伦敦戈兰茨公司（首版面向左翼读书俱乐部会员，当月重印三次仍供不应求）</td></tr>
+      <tr><td class="k">美国版</td><td>1938年1月，兰登书屋，首印15000本三周售罄</td></tr>
+      <tr><td class="k">最早中译本</td><td>1938年2月，上海复社，胡愈之主持、12位译者集体翻译，化名《西行漫记》</td></tr>
+      <tr><td class="k">通行译本</td><td>董乐山译本（1979年三联书店首次以《红星照耀中国》为名；2016年人民文学出版社版为教材推荐本）</td></tr>
+      <tr><td class="k">教材定位</td><td>统编语文八年级上册名著导读——“纪实作品的阅读”；列入《中小学生阅读指导目录（2020年版）》初中段</td></tr>
+    </table>
+  </section>
+
+  <!-- 篇章结构 -->
+  <section id="structure">
+    <h2>篇章结构（十二篇）</h2>
+    <table>
+      <tr><th style="width:70px">篇目</th><th style="width:180px">篇名</th><th>核心内容</th></tr>
+      <tr><td>第一篇</td><td>探寻红色中国</td><td>提出未获解答的问题；去西安的慢车；汉代青铜（隐显墨水信、董健吾）；通过红色大门（刘龙火）</td></tr>
+      <tr><td>第二篇</td><td>去红都的路上</td><td>遭白匪追逐；造反者（周恩来，安塞初遇、九十二天旅程）；贺龙二三事（李长林转述）；红军旅伴</td></tr>
+      <tr><td>第三篇</td><td>在保安</td><td>苏维埃掌权人物（毛泽东印象）；共产党的基本政策；论抗日战争（1936.7.16）；悬赏两百万元的首级（红军大学、林彪）；红军剧社（危拱之）</td></tr>
+      <tr><td>第四篇</td><td>一个共产党员的由来</td><td>毛泽东自述：童年→在长沙的日子→革命的前奏→国民革命时期→苏维埃运动→红军的成长（1920年读三本书确立信仰）</td></tr>
+      <tr><td>第五篇</td><td>长征</td><td>第五次围剿；举国大迁移（皎平渡、六船九天）；大渡河英雄（彝族结盟、安顺场、泸定桥30勇士）；过大草地（大雪山、川藏草地）</td></tr>
+      <tr><td>第六篇</td><td>红星在西北</td><td>刘志丹开创陕西苏区；死亡和捐税（三年大灾荒）；苏维埃社会；货币解剖；人生五十始（徐特立）</td></tr>
+      <tr><td>第七篇</td><td>去前线的路上</td><td>同红色农民谈话；苏区工业与吴起镇——“缺乏社会主义工业的物质，却有社会主义工业的精神”</td></tr>
+      <tr><td>第八篇</td><td>同红军在一起</td><td>“真正的”红军；彭德怀印象与其悲惨童年；为什么当红军；游击战术；红军战士的生活；政治课</td></tr>
+      <tr><td>第九篇</td><td>同红军在一起（续）</td><td>红色窑工徐海东；中国的阶级战争；四大马；穆斯林和马克思主义者</td></tr>
+      <tr><td>第十篇</td><td>战争与和平</td><td>再谈马；红小鬼；实践中的统一战线；关于朱德</td></tr>
+      <tr><td>第十一篇</td><td>回到保安</td><td>路上的邂逅；保安的生活；俄国的影响；中国共产主义运动和共产国际；那个外国智囊（李德）</td></tr>
+      <tr><td>第十二篇</td><td>又是白色世界</td><td>兵变前奏；总司令被逮（西安事变1936.12.12）；蒋张和共产党；红色的天际</td></tr>
+    </table>
+  </section>
+
+  <!-- 教学目标 -->
+  <section id="objectives">
+    <h2>教学目标（素养四维）</h2>
+    <p>依据《义务教育语文课程标准（2022年版）》：“阅读革命文学作品，如《红星照耀中国》等，体会、评析革命领袖、革命英雄的爱国精神和人格魅力”“根据阅读进度完成读书笔记，针对作品的语言、形象、主题等方面展开研讨”。</p>
+    <table>
+      <tr><th style="width:120px">维度</th><th>目标（行为动词可观察、可测量）</th></tr>
+      <tr><td class="k">语言建构与运用</td><td>①能借助序言、目录梳理全书十二篇的结构并复述采访行程；②能摘录并归类书中关键事实（时间、地点、数字、引语），制作“事实卡片”；③能写一段200字以上的推荐词，做到观点明确、证据来自文本。</td></tr>
+      <tr><td class="k">思维发展与提升</td><td>①能<b>辨析</b>“纪实”与“虚构”的差异，举例说明书中材料的可核查性；②能<b>比较</b>不同人物（周恩来与贺龙、毛泽东与彭德怀）刻画手法的异同；③能<b>推断</b>作者的立场与态度，并说明依据；④能<b>评价</b>长征是“战略性撤退而非溃败”的论断。</td></tr>
+      <tr><td class="k">审美鉴赏与创造</td><td>①能<b>赏析</b>书中细节描写（如“用英语打招呼”“一把菜刀”“30勇士攀铁索”）的表现力；②能<b>品味</b>朴素平实而蕴含激情的语言风格；③能<b>创作</b>人物小传、长征路线图或改编短剧等多样成果。</td></tr>
+      <tr><td class="k">文化传承与理解</td><td>①能<b>阐述</b>长征精神、苏区工业精神的内涵；②能<b>说明</b>本书打破新闻封锁、让世界认识中国共产党的历史意义；③能<b>联系</b>现实谈理想信念与自力更生的当代价值，增强爱国主义情怀与民族责任感。</td></tr>
+    </table>
+    <div class="note"><b>教—学—评一致性：</b>上述目标与“教学环节”“课堂提问”“题库测评”一一对应。评价方式包括：读书笔记（过程）、人物小传与路线图（成果）、课堂研讨发言（思维）、题库测评（知识，291题含回书指引）。</div>
+  </section>
+
+  <!-- 教学环节 -->
+  <section id="segments">
+    <h2>教学环节（7课时）</h2>
+    <table>
+      <tr><th style="width:80px">阶段</th><th style="width:60px">课时</th><th>主要活动</th><th style="width:170px">设计意图</th></tr>
+      <tr><td>读前导读</td><td>1</td><td>①出示1937年日本刊物上失真的毛泽东照片，设问“谁认识他？”制造悬念；②介绍作者、成书背景与“新闻封锁”；③指导用序言、目录把握结构；④制定四周阅读计划。</td><td>激发动机，提供纪实作品的阅读方法支架。</td></tr>
+      <tr><td>读中·人物</td><td>2</td><td>①制作“革命人物履历表”（外貌言行、出身、童年、教育、革命缘由）；②为毛泽东/周恩来/彭德怀写300字小传；③“红色人物故事会”交流。</td><td>把握纪实作品的人物刻画手法与人格魅力。</td></tr>
+      <tr><td>读中·时空</td><td>2</td><td>①绘制“斯诺西行路线图”与“长征路线图”（标注皎平渡、安顺场、泸定桥、大雪山、大草地）；②制作1936—1937大事时间轴；③为“红色中国”制作名片（政治、经济、文化、教育）。</td><td>建立时空坐标，理解“红色中国”的真实面貌。</td></tr>
+      <tr><td>读中·主题</td><td>1</td><td>①围绕核心问题研讨（见下）；②辨析“事实”与“立场”：找出书中哪些是事实、哪些是作者评论；③比较《红星照耀中国》与《红岩》的体裁差异。</td><td>深化主题理解，培养审辨思维。</td></tr>
+      <tr><td>读后展示</td><td>1</td><td>①成果展（手抄报、人物思维导图、长征组歌朗诵、推荐词、小视频）；②题库测评与错题回书；③写读书报告。</td><td>输出表达，实现读写结合与评价闭环。</td></tr>
+    </table>
+    <div class="note"><b>重难点：</b>重点——把握纪实作品“用事实说话”的特点与主要人物形象；难点——辨析作者对事实的立场、观点与态度，以及纪实与虚构的差异。</div>
+  </section>
+
+  <!-- 课堂提问 -->
+  <section id="questions">
+    <h2>课堂提问设计（钻石链问题链）</h2>
+    <div class="core">核心问题：一位外国记者，凭什么让世界相信了红星必将照耀中国？</div>
+    <p style="color:var(--gray);font-size:14px;text-align:center">以“真实”为魂，串起“事实—人物—立场—意义”五级问题链。</p>
+
+    <h3>L1 记忆（提取事实）</h3>
+    <div class="qbox"><b>Q1.</b> 斯诺是什么时间、通过什么路线进入红区的？沿途先后遇见了哪些人？</div>
+    <div class="qbox"><b>Q2.</b> 书中记述长征用了哪些具体数字？请列举三处。</div>
+
+    <h3>L2 理解（解释整合）</h3>
+    <div class="qbox"><b>Q3.</b> 第五篇说长征是“战略性撤退，而非溃败”，书中哪些事实支撑这一判断？</div>
+    <div class="qbox"><b>Q4.</b> 第七篇中“他们即使缺乏社会主义工业的物质，却有社会主义工业的精神”，这句话是什么意思？</div>
+
+    <h3>L3 应用（迁移方法）</h3>
+    <div class="qbox"><b>Q5.</b> 假如你要向一位没读过本书的同学证明“书中内容真实可信”，你会选用哪三条证据？为什么这三条最有说服力？</div>
+    <div class="qbox"><b>Q6.</b> 用“为人物写小传”的方法，为贺龙整理一份履历表（注意：他的材料来自他人转述）。</div>
+
+    <h3>L4 分析（比较辨析）</h3>
+    <div class="qbox"><b>Q7.</b> 同是写人，斯诺写周恩来（亲见）与写贺龙（转述）的笔法有何不同？这样处理说明了什么？</div>
+    <div class="qbox"><b>Q8.</b> 书中哪些是“事实”，哪些是作者的“分析评论”？请各举两例，并说说纪实作品为何允许有评论。</div>
+    <div class="qbox"><b>Q9.</b> 比较《红星照耀中国》与《红岩》：一个说“真”，一个讲“艺”，你更被哪一种打动？为什么？</div>
+
+    <h3>L5 评价与创造</h3>
+    <div class="qbox"><b>Q10.</b> 斯诺是外国人，他的记录是否可能有偏差？我们该如何看待纪实作品的“客观性”？</div>
+    <div class="qbox"><b>Q11.</b> 90年后再读“红小鬼代表着中国的希望”，你如何理解这句话的当代意义？请写一段演讲词。</div>
+
+    <div class="note">
+      <b>理答策略（四象限）：</b>
+      <b>①正确·浅层</b>——追问“证据在哪一篇？”引导回到文本；
+      <b>②正确·深刻</b>——请其提炼方法、示范给同伴；
+      <b>③错误·有价值</b>——抓住思维火花，反问“你为什么会这样想？”暴露思路；
+      <b>④错误·偏离</b>——给台阶“我们先看第五篇这句话”，拉回文本再答。
+    </div>
+  </section>
+
+  <!-- 人物图谱 -->
+  <section id="persons">
+    <h2>人物图谱</h2>
+    <div class="filters" id="pfilters">
+      <button data-f="all" class="on">全部</button>
+      <button data-f="leader">中共和红军领袖</button>
+      <button data-f="general">红军将领</button>
+      <button data-f="witness">亲历者与群众</button>
+      <button data-f="foreign">外国人物</button>
+    </div>
+    <div class="grid" id="pbox"></div>
+  </section>
+
+  <!-- 地点空间 -->
+  <section id="places">
+    <h2>地点空间</h2>
+    <div class="chartbox">
+      <svg viewBox="0 0 900 300" style="width:100%;height:auto" role="img" aria-label="斯诺西行与长征路线示意图">
+        <defs>
+          <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round"/>
+          </marker>
+        </defs>
+        <rect x="0" y="0" width="900" height="300" fill="#fdfaf6"/>
+        <text x="450" y="26" text-anchor="middle" font-size="15" font-weight="700" fill="#8c1620">斯诺西行路线与长征关键地点</text>
+
+        <g font-size="12" fill="#2b2320">
+          <circle cx="760" cy="150" r="7" fill="#2f6f9f"/><text x="770" y="155">北平（起点）</text>
+          <circle cx="640" cy="170" r="7" fill="#2f6f9f"/><text x="600" y="192">西安（杨虎城·邵力子）</text>
+          <circle cx="520" cy="130" r="7" fill="#3f7a4f"/><text x="482" y="120">安塞（初遇周恩来）</text>
+          <circle cx="400" cy="150" r="8" fill="#c0202f"/><text x="368" y="178">保安（中共中央·主要采访地）</text>
+          <circle cx="270" cy="130" r="6" fill="#3f7a4f"/><text x="232" y="120">吴起镇（苏区工业）</text>
+        </g>
+        <path d="M760 150 L640 170 L520 130 L400 150 L270 130" fill="none" stroke="#2f6f9f" stroke-width="2" marker-end="url(#ar)"/>
+
+        <line x1="60" y1="220" x2="840" y2="220" stroke="#e6ddd6" stroke-width="2"/>
+        <text x="450" y="248" text-anchor="middle" font-size="13" font-weight="600" fill="#8c1620">长征关键地点（自东向西、再北上）</text>
+        <g font-size="12" fill="#2b2320">
+          <circle cx="150" cy="268" r="6" fill="#caa24a"/><text x="122" y="290">瑞金（出发）</text>
+          <circle cx="280" cy="268" r="6" fill="#caa24a"/><text x="248" y="290">皎平渡（金沙江）</text>
+          <circle cx="410" cy="268" r="6" fill="#caa24a"/><text x="378" y="290">彝族区（结盟）</text>
+          <circle cx="540" cy="268" r="6" fill="#caa24a"/><text x="506" y="290">安顺场·泸定桥</text>
+          <circle cx="670" cy="268" r="6" fill="#caa24a"/><text x="638" y="290">大雪山·大草地</text>
+          <circle cx="800" cy="268" r="7" fill="#c0202f"/><text x="762" y="290">陕北（1935.10）</text>
+        </g>
+        <path d="M150 268 L280 268 L410 268 L540 268 L670 268 L800 268" fill="none" stroke="#caa24a" stroke-width="2" marker-end="url(#ar)"/>
+      </svg>
+    </div>
+    <table>
+      <tr><th style="width:120px">地点</th><th>书中意义</th></tr>
+      <tr><td class="k">西安</td><td>斯诺进入红区的门户；拜访杨虎城、邵力子；1936年12月12日西安事变发生地</td></tr>
+      <tr><td class="k">安塞</td><td>斯诺遇见周恩来、初识红军之处；“遭白匪追逐”一节的发生地</td></tr>
+      <tr><td class="k">保安</td><td>当时中共中央所在地（今陕西志丹县）；主要采访地，毛泽东长谈、红军大学、红军剧社所在</td></tr>
+      <tr><td class="k">吴起镇</td><td>第七篇所述苏区“工业中心”，体现社会主义工业精神</td></tr>
+      <tr><td class="k">皎平渡</td><td>巧渡金沙江处，六条大船摆渡九天，全军未损一兵一卒</td></tr>
+      <tr><td class="k">安顺场·泸定桥</td><td>大渡河沿线，奇袭安顺场夺船、30勇士攀铁索飞夺泸定桥</td></tr>
+      <tr><td class="k">大雪山·大草地</td><td>川藏边界，红军翻雪山过草地，伤亡重大而意志不屈</td></tr>
+    </table>
+  </section>
+
+  <!-- 事件时间轴 -->
+  <section id="events">
+    <h2>事件时间轴</h2>
+    <div class="chartbox">
+      <svg viewBox="0 0 900 260" style="width:100%;height:auto" role="img" aria-label="全书事件时间轴">
+        <line x1="40" y1="130" x2="860" y2="130" stroke="#c0202f" stroke-width="3"/>
+        <g font-size="12" fill="#2b2320">
+          <g><circle cx="120" cy="130" r="7" fill="#caa24a"/><text x="120" y="104" text-anchor="middle" font-weight="700">1934.10</text><text x="120" y="162" text-anchor="middle">中央红军</text><text x="120" y="178" text-anchor="middle">开始长征</text></g>
+          <g><circle cx="270" cy="130" r="7" fill="#caa24a"/><text x="270" y="104" text-anchor="middle" font-weight="700">1935.1</text><text x="270" y="162" text-anchor="middle">遵义会议</text><text x="270" y="178" text-anchor="middle">确立正确领导</text></g>
+          <g><circle cx="400" cy="130" r="7" fill="#caa24a"/><text x="400" y="104" text-anchor="middle" font-weight="700">1935.5</text><text x="400" y="162" text-anchor="middle">巧渡金沙江</text><text x="400" y="178" text-anchor="middle">强渡大渡河·夺泸定桥</text></g>
+          <g><circle cx="530" cy="130" r="7" fill="#caa24a"/><text x="530" y="104" text-anchor="middle" font-weight="700">1935.10</text><text x="530" y="162" text-anchor="middle">到达陕北</text><text x="530" y="178" text-anchor="middle">长征胜利结束</text></g>
+          <g><circle cx="660" cy="130" r="8" fill="#c0202f"/><text x="660" y="104" text-anchor="middle" font-weight="700">1936.6—10</text><text x="660" y="162" text-anchor="middle">斯诺实地考察</text><text x="660" y="178" text-anchor="middle">（本书主体内容）</text></g>
+          <g><circle cx="800" cy="130" r="7" fill="#2f6f9f"/><text x="800" y="104" text-anchor="middle" font-weight="700">1936.12.12</text><text x="800" y="162" text-anchor="middle">西安事变</text><text x="800" y="178" text-anchor="middle">推动统一战线</text></g>
+        </g>
+        <g font-size="12" fill="#6b625c">
+          <text x="450" y="222" text-anchor="middle">1937.10 伦敦首版 ｜ 1938.2 中译本《西行漫记》 ｜ 1938秋 增写第十三章《旭日上的暗影》</text>
+        </g>
+      </svg>
+    </div>
+  </section>
+
+  <!-- 纪实艺术 -->
+  <section id="art">
+    <h2>纪实艺术（“用事实说话”）</h2>
+    <table>
+      <tr><th style="width:130px">表现</th><th>说明与例子</th></tr>
+      <tr><td class="k">第一人称见证</td><td>以“我”的所见所闻展开，亲历者视角增强真实感与现场感。</td></tr>
+      <tr><td class="k">可核查的细节</td><td>大量确切数字：六条大船九天、30名勇士、80英里、月费不足15银洋、悬赏超两百万元、九十万军队对十八万红军。</td></tr>
+      <tr><td class="k">让人物自己说话</td><td>第四篇整篇为毛泽东自述；大量引用原话，注明是为“纠正种种不真实的传说”。</td></tr>
+      <tr><td class="k">交代信息来源</td><td>未见贺龙，则写明“听李长林介绍”，不虚构、不假托。</td></tr>
+      <tr><td class="k">正面+侧面结合</td><td>亲见者正面刻画；未见者借他人之口侧面转述，各有其法。</td></tr>
+      <tr><td class="k">事实中寓评论</td><td>客观记录中穿插分析评论（如评长征为战略性撤退、剧社是最有力的宣传武器），体现作者立场而不虚构事实。</td></tr>
+      <tr><td class="k">象征与抒情</td><td>书名以“红星”象征中国共产党及其领导的革命力量；语言朴素而蕴含激情。</td></tr>
+    </table>
+  </section>
+
+  <!-- 精神内涵 -->
+  <section id="spirit">
+    <h2>精神内涵</h2>
+    <div class="grid">
+      <div class="pcard"><div class="top red"><div class="nm">长征精神</div><div class="rl">坚定信念 · 不怕牺牲</div></div>
+        <div class="body"><p>把民族和人民的根本利益看得高于一切，坚定革命理想；为救国救民，不怕任何艰难险阻，不惜牺牲一切；坚持独立自主、实事求是；顾全大局、严守纪律、紧密团结；依靠人民群众，同人民群众生死相依。</p></div></div>
+      <div class="pcard"><div class="top green"><div class="nm">求真精神</div><div class="rl">用事实说话 · 亲历见证</div></div>
+        <div class="body"><p>斯诺以记者身份冒险深入，用亲眼所见、亲耳所闻打破九年新闻封锁；写作中如实交代信息来源，不虚构、不粉饰。这种实事求是、追求真相的职业精神，是本书穿越时代的力量。</p></div></div>
+      <div class="pcard"><div class="top gold"><div class="nm">苏区工业精神</div><div class="rl">自力更生 · 乐观创造</div></div>
+        <div class="body"><p>“他们即使缺乏社会主义工业的物质，却有社会主义工业的精神！”在极端困难中保持昂扬向上的劳动热情与主人翁意识，与长征精神一脉相承。</p></div></div>
+      <div class="pcard"><div class="top blue"><div class="nm">爱国主义与统一战线</div><div class="rl">团结御侮 · 抗日救亡</div></div>
+        <div class="body"><p>面对民族危亡，中国共产党提出抗日民族统一战线主张，推动西安事变和平解决，以民族大义为重，体现深厚的爱国情怀与责任担当。</p></div></div>
+      <div class="pcard"><div class="top red"><div class="nm">“红小鬼”的希望</div><div class="rl">少年强则国强</div></div>
+        <div class="body"><p>红色中国的少年们耐心、勤劳、聪明、努力学习，斯诺视其为“中国的希望”。革命事业薪火相传，青年一代是民族未来的光。</p></div></div>
+      <div class="pcard"><div class="top green"><div class="nm">国际主义</div><div class="rl">让世界看见真实的中国</div></div>
+        <div class="body"><p>一位外国记者以客观见证让世界认识真实的中国共产党，并影响史沫特莱、斯特朗等后来者。本书是世界了解中国革命的窗口，也是人类共同的精神财富。</p></div></div>
+    </div>
+  </section>
+
+  <!-- 史料与版权 -->
+  <section id="sources">
+    <h2>史料依据与版权说明</h2>
+    <div class="lead">
+      <p><b>主要依据：</b>人民网、光明日报、中国作家网、中央党史和文献研究院等公开资料；董乐山译本（人民文学出版社）十二篇五十七小节；统编语文八年级上册名著导读“纪实作品的阅读”。</p>
+      <p><b>真实性说明：</b>本书为纪实作品，书中毛泽东、周恩来、朱德、彭德怀、贺龙、徐海东、刘志丹、徐特立等均为<b>真实历史人物</b>，所记长征、西安事变等为真实事件——这与《红岩》的小说虚构有本质区别。但纪实作品同样体现作者的立场与选择，阅读时应辨析“事实”与“观点”。</p>
+    </div>
+    <div class="note warn">
+      <b>版权提示：</b>埃德加·斯诺（1905—1972）为美国作家。依我国《著作权法》及《伯尔尼公约》，外国作品在华保护期为作者终生及死后50年，故<b>其作品自2023年1月1日起在我国进入公有领域</b>，出版、改编、传播原著无需斯诺基金会或后人授权。
+      <b>但是：</b>①<b>中译本译者</b>（如董乐山，1924—1999）对其译作享有独立著作权，保护期至2049年12月31日，网络流传的中文全文不可随意转载；②依《著作权法》第22条，作者的<b>署名权、修改权、保护作品完整权保护期不受限制</b>，使用时须正确署名、不得歪曲篡改。
+      本页仅提供章节定位、考点指引与转化性教学内容，<b>不提供原书全文</b>；引用限于教学所需的少量适当引用并注明出处。
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  红色文化传播网 · 《红星照耀中国》整本书阅读知识库<br>
+  配套资源：<a href="hongxing-quiz.html" style="color:var(--red-deep)">阅读题库（291题）</a> ｜
+  <a href="hongxing-chapter-map.html" style="color:var(--red-deep)">章节考点对照表</a>
+</footer>
+
+<script>
+const PERSONS=[
+ {n:"毛泽东",r:"leader",rl:"中国共产党领袖",id:"真实人物（第四篇整篇为其自述）",ev:"1893年生于湖南湘潭农民家庭；1920年读《共产党宣言》《阶级斗争》《社会主义史》确立马克思主义信仰；在保安与斯诺多次长谈，阐述基本政策与抗日主张。",sp:"质朴纯真、博览群书、精力过人，天才的军事和政治战略家"},
+ {n:"周恩来",r:"leader",rl:"红军指挥员",id:"真实人物（第二篇“造反者”）",ev:"在安塞用英语向斯诺打招呼；亲自为其起草九十二天采访旅程；回顾求学、留学、组织罢工与广州公社、九死一生到达陕北的经历。",sp:"头脑冷静、善于分析推理、讲究实际经验、态度温和、细心热情"},
+ {n:"朱德",r:"leader",rl:"中国工农红军总司令",id:"真实人物（第十篇“关于朱德”）",ev:"第十篇专节介绍其生平与领导才能；长征中与毛泽东、周恩来、彭德怀共同决策占领泸定桥。",sp:"杰出的领导才能与个人魅力，与战士同甘共苦"},
+ {n:"彭德怀",r:"general",rl:"红军将领",id:"真实人物（第八篇重点介绍）",ev:"第八篇先述其性格，再述其促使他走上革命道路的悲惨童年；与部下同甘共苦，关爱“红小鬼”。",sp:"率直爽朗、乐观豁达、生活简朴、爱兵如子"},
+ {n:"贺龙",r:"general",rl:"红军将领",id:"真实人物（第二篇，由李长林转述）",ev:"在哥老会中名声遍及全国；1927年南昌起义后参加共产党；用一把菜刀在湖南建立苏区；率部长征过雪山与朱德会师。",sp:"威望高、口才好，英勇善战、急躁而又谦虚"},
+ {n:"徐海东",r:"general",rl:"红军将领",id:"真实人物（第九篇“红色窑工徐海东”）",ev:"出身窑工，成长为红军将领；第九篇由其经历展开对中国残酷阶级战争的记述。",sp:"出身贫苦、意志坚强、作战勇猛"},
+ {n:"刘志丹",r:"general",rl:"西北苏区开创者",id:"真实人物（第六篇）",ev:"第六篇开篇介绍其革命生涯及开创陕西苏区的历程；今志丹县即为纪念他而命名。",sp:"扎根群众、开创根据地的卓越领导人"},
+ {n:"徐特立",r:"leader",rl:"教育家",id:"真实人物（第六篇“人生五十始”）",ev:"五十岁投身革命，第六篇以“人生五十始”记述其经历与共产党的教育政策。",sp:"老当益壮、终身学习、献身教育"},
+ {n:"林彪",r:"general",rl:"红军大学校长",id:"真实人物（第三篇）",ev:"任红军大学校长时年仅28岁，据说从未打过败仗；学员首级赏格合计超过两百万元。",sp:"年轻有为的军事指挥员"},
+ {n:"邓发",r:"witness",rl:"共产党人",id:"真实人物（第一篇）",ev:"斯诺在汉代古城遗址等车时遇见他，当时其首级被悬赏五万元。",sp:"热情活泼、勇敢大胆"},
+ {n:"刘龙火",r:"witness",rl:"贫民会主席",id:"真实人物（第一篇）",ev:"斯诺进入红区后受到他热情款待，他为其安排年轻向导与骡夫，并给苏区纸币使用。",sp:"质朴热情、支持革命的根据地群众"},
+ {n:"李长林",r:"witness",rl:"红军指挥员",id:"真实人物（第二篇）",ev:"在前往保安的路上向斯诺介绍贺龙的革命经历，是“贺龙二三事”的信息来源。",sp:"健谈、熟悉红军历史"},
+ {n:"危拱之",r:"witness",rl:"人民抗日剧社社长",id:"真实人物（第三篇）",ev:"斯诺观看红军剧社演出后访问她，她介绍了红军剧社的历史。",sp:"投身革命文艺宣传"},
+ {n:"红小鬼",r:"witness",rl:"红军中的少年先锋队员",id:"真实群体（第十篇）",ev:"第十篇专节记述红色中国的少年们耐心、勤劳、聪明、努力学习。",sp:"乐观向上、勤奋好学，代表中国的希望"},
+ {n:"李德",r:"foreign",rl:"德国军事顾问",id:"真实人物（第十一篇“那个外国智囊”）",ev:"第十一篇记述其指挥作战时出现的失误及其原因。",sp:"（作为反面经验被记述）脱离实际的教条指挥"},
+ {n:"鲍罗廷",r:"foreign",rl:"俄国首席政治顾问",id:"真实人物（第四篇）",ev:"毛泽东认为其对1927年革命失败负有仅次于陈独秀的责任。",sp:"（历史评价见第四篇毛泽东自述）"},
+ {n:"埃德加·斯诺",r:"foreign",rl:"美国记者·本书作者",id:"真实人物（全书叙述者）",ev:"1905—1972；1928年来华，1933—1935年兼任燕京大学新闻系讲师；1936年6—10月深入西北革命根据地采访，为第一个深入红区的西方记者。",sp:"求真务实、勇敢无畏，以客观见证打破新闻封锁"}
+];
+const RL_MAP={leader:"领袖",general:"将领",witness:"亲历者/群众",foreign:"外国人物"};
+const CLS={leader:"red",general:"green",witness:"blue",foreign:"gold"};
+function render(f){
+  const box=document.getElementById('pbox');
+  box.innerHTML='';
+  PERSONS.filter(p=>f==='all'||p.r===f).forEach(p=>{
+    const d=document.createElement('div');
+    d.className='pcard';
+    d.innerHTML='<div class="top '+CLS[p.r]+'"><div class="nm">'+p.n+'</div><div class="rl">'+p.rl+'　·　'+RL_MAP[p.r]+'</div></div>'+
+      '<div class="body"><p><span class="k">真实性：</span>'+p.id+'</p><p><span class="k">关键事迹：</span>'+p.ev+'</p><p><span class="k">精神品质：</span>'+p.sp+'</p></div>';
+    box.appendChild(d);
+  });
+}
+render('all');
+document.getElementById('pfilters').addEventListener('click',e=>{
+  if(e.target.tagName!=='BUTTON')return;
+  document.querySelectorAll('#pfilters button').forEach(b=>b.classList.remove('on'));
+  e.target.classList.add('on');
+  render(e.target.dataset.f);
+});
+</script>
+<script src="script.js?v=20260828e"></script>
+</body>
+</html>

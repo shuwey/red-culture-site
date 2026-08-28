@@ -267,3 +267,112 @@
     v.pause();
   });
 })();
+
+/* ============================================================
+   主导航模块：红色文学
+   —— 点击直接跳转子页面（不使用 hover 弹窗）
+   —— 幂等注入：已存在 #nav-redlit 则跳过
+   —— 以后加书目：只改下方 MODULE.books 数组，导航与子页面同步更新
+   ============================================================ */
+(function () {
+  "use strict";
+
+  // 模块数据：红色文学落地页 + 各书目及其页面链接
+  var MODULE = {
+    label: "红色文学",
+    href: "red-literature.html",
+    books: [
+      {
+        label: "红岩",
+        author: "罗广斌、杨益言 著 · 整本书阅读",
+        desc: "重庆解放前夕地下斗争与狱中斗争的革命历史小说，初中必读书目。",
+        items: [
+          { t: "知识库 · 人物 / 地点 / 事件", h: "hongyan-knowledge-base.html" },
+          { t: "阅读题库（229 题）", h: "hongyan-quiz.html" },
+          { t: "章节考点对照表", h: "chapter-map.html" }
+        ]
+      },
+      {
+        label: "红星照耀中国",
+        author: "埃德加·斯诺 著 · 纪实作品",
+        desc: "1936年深入陕甘宁边区实地考察的纪实经典，八上名著导读“纪实作品的阅读”。",
+        items: [
+          { t: "知识库 · 人物 / 地点 / 事件", h: "hongxing-knowledge-base.html" },
+          { t: "阅读题库（291 题）", h: "hongxing-quiz.html" },
+          { t: "章节考点对照表", h: "hongxing-chapter-map.html" }
+        ]
+      }
+      // 后续书目在此追加：
+      // { label:"书名", author:"作者", desc:"简介", items:[ { t:"…", h:"…" } ] }
+    ]
+  };
+
+  // 暴露给子页面复用（保持"加书目只改一处"）
+  window.RCS_LIT = MODULE;
+
+  var esc = function (s) {
+    return String(s).replace(/[&<>"]/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
+    });
+  };
+
+  // 桌面与抽屉统一：普通链接，点击即跳转（无下拉、无 hover 弹窗）
+  function buildLink(id) {
+    return '<a id="' + id + '" href="' + esc(MODULE.href) + '">' + esc(MODULE.label) + "</a>";
+  }
+
+  // 子页面书目渲染：页面存在 #lit-books 时，按 MODULE.books 生成卡片
+  function renderLitIndex() {
+    var box = document.getElementById("lit-books");
+    if (!box) { return; }
+    var html = MODULE.books.map(function (b) {
+      var links = b.items.map(function (it) {
+        return '<a href="' + esc(it.h) + '">' + esc(it.t) + "</a>";
+      }).join("");
+      return '<article class="lit-card">' +
+        "<h2>" + esc(b.label) + "</h2>" +
+        '<p class="lit-meta">' + esc(b.author || "") + "</p>" +
+        '<p class="lit-desc">' + esc(b.desc || "") + "</p>" +
+        '<div class="lit-links">' + links + "</div>" +
+        "</article>";
+    }).join("");
+    box.innerHTML = html;
+  }
+
+  // 定位「关于本站」链接：兼容 href="index.html#footer"（子页）与 href="#footer"（首页）
+  function findAbout(root) {
+    return root.querySelector('a[href="index.html#footer"]') ||
+           root.querySelector('a[href="#footer"]') ||
+           [].slice.call(root.querySelectorAll("a")).filter(function (a) {
+             return a.textContent.replace(/\s/g, "") === "关于本站";
+           })[0] || null;
+  }
+
+  function injectNav() {
+    var links = document.querySelector(".nav-links");
+    var drawer = document.getElementById("drawer");
+    if (!links || !drawer) { return; }
+    if (document.getElementById("nav-redlit")) { return; } // 幂等
+
+    // 注意：beforebegin 必须对「锚点元素」调用，
+    // 若对容器 links 调用会插到容器之前（落在 <header> 里），导致位置错误。
+    var about = findAbout(links);
+    if (about) { about.insertAdjacentHTML("beforebegin", buildLink("nav-redlit")); }
+    else { links.insertAdjacentHTML("beforeend", buildLink("nav-redlit")); }
+
+    var aboutM = findAbout(drawer);
+    if (aboutM) { aboutM.insertAdjacentHTML("beforebegin", buildLink("drawer-redlit")); }
+    else { drawer.insertAdjacentHTML("beforeend", buildLink("drawer-redlit")); }
+  }
+
+  function boot() {
+    injectNav();
+    renderLitIndex();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot);
+  } else {
+    boot();
+  }
+})();
