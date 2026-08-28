@@ -31,6 +31,11 @@
     '        <label for="rcs-password">密码</label>' +
     '        <input type="password" id="rcs-password" placeholder="至少 8 位" autocomplete="current-password">' +
     "      </div>" +
+    // 邮箱注册第二步：填邮箱验证码（邮箱登录开启后 signUp 需经验证码激活）
+    '      <div class="rcs-field" id="rcs-code-field" hidden>' +
+    '        <label for="rcs-code">邮箱验证码</label>' +
+    '        <input type="text" id="rcs-code" placeholder="查收邮件中的 6 位验证码" autocomplete="one-time-code" maxlength="12" inputmode="numeric">' +
+    "      </div>" +
     '      <p class="rcs-error" id="rcs-auth-error" hidden></p>' +
     '      <button type="submit" class="pill-btn rcs-submit" id="rcs-auth-submit">登录</button>' +
     "    </form>" +
@@ -49,6 +54,7 @@
     "</div>";
 
   var tab = "login";
+  var resending = false;
 
   function el(id) {
     return document.getElementById(id);
@@ -98,6 +104,8 @@
     var submit = el("rcs-auth-submit");
     var switchLink = el("rcs-switch");
     var tabs = el("rcs-tabs");
+    var codeField = el("rcs-code-field");
+    if (codeField) codeField.hidden = t !== "verify";
 
     if (local) {
       if (tabs) tabs.style.display = "none";
@@ -106,6 +114,16 @@
       if (nickField) nickField.hidden = false;
       submit.textContent = "进入";
       switchLink.innerHTML = "";
+    } else if (t === "verify") {
+      // 邮箱注册第二步：只留验证码输入
+      if (tabs) tabs.style.display = "none";
+      if (emailField) emailField.hidden = true;
+      if (pwdField) pwdField.hidden = true;
+      if (nickField) nickField.hidden = true;
+      submit.textContent = "验证并登录";
+      switchLink.innerHTML =
+        '没收到邮件？<a href="javascript:void(0)" id="rcs-resend-code">重新发送</a>' +
+        ' · <a href="javascript:void(0)" id="rcs-to-login">返回登录</a>';
     } else {
       if (tabs) tabs.style.display = "";
       if (emailField) emailField.hidden = false;
@@ -139,6 +157,20 @@
       e.preventDefault();
       setTab("login");
     };
+    var resend = el("rcs-resend-code");
+    if (resend) resend.onclick = function (e) {
+      e.preventDefault();
+      if (resending) return;
+      resending = true;
+      var old = resend.textContent;
+      resend.textContent = "发送中…";
+      RCSAuth.resendEmailCode().then(function (r) {
+        resending = false;
+        resend.textContent = old;
+        if (r && r.success) showError("验证码已重新发送，请查收邮箱。");
+        else showError((r && r.error && r.error.message) || "重发失败，请稍后再试。");
+      });
+    };
   }
 
   function clearError() {
@@ -162,8 +194,6 @@
       return null;
     }
     // 支持「用户名」或「邮箱」两种形式：
-    // 本环境 email provider 未开启（开启需先配置 SMTP 发件人），注册当前不可用，
-    // 账号由管理端创建后以用户名登录，因此校验必须放宽，不能再强制邮箱格式。
     var isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     var isName = /^[A-Za-z0-9_.@-]{3,32}$/.test(email);
     if (!isEmail && !isName) return "请输入用户名（3-32 位字母、数字或 _ . - @）或邮箱";
@@ -175,6 +205,24 @@
   async function submitForm(e) {
     e.preventDefault();
     clearError();
+    var submitBtn = el("rcs-auth-submit");
+
+    // ① 邮箱注册第二步：提交验证码
+    if (tab === "verify") {
+      var code = (el("rcs-code").value || "").trim();
+      if (!code) { showError("请输入邮箱中的验证码"); return; }
+      submitBtn.disabled = true;
+      var vr = await RCSAuth.verifyEmailCode(code);
+      submitBtn.disabled = false;
+      if (vr.success) {
+        closeLogin();
+        toast("注册成功，欢迎你，" + (vr.data.nick || "朋友"));
+      } else {
+        showError((vr.error && vr.error.message) || "验证失败，请重试");
+      }
+      return;
+    }
+
     var email = el("rcs-email").value.trim();
     var pwd = el("rcs-password").value;
     var nick = el("rcs-nick").value.trim();
@@ -183,7 +231,6 @@
       showError(err);
       return;
     }
-    var submitBtn = el("rcs-auth-submit");
     submitBtn.disabled = true;
     var res;
     if (getAuthMode() === "local") {
@@ -195,6 +242,17 @@
           : await RCSAuth.login(email, pwd);
     }
     submitBtn.disabled = false;
+
+    // ② 注册成功但需要邮箱验证码激活 → 切到验证步骤
+    if (res.success && res.needVerify) {
+      setTab("verify");
+      setTimeout(function () {
+        var c = el("rcs-code");
+        if (c) c.focus();
+      }, 50);
+      return;
+    }
+
     if (res.success) {
       closeLogin();
       toast("登录成功，欢迎你，" + (res.data.nick || "朋友"));

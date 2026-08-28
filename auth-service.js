@@ -12,6 +12,8 @@
   var NICK_KEY = "rcs_nick"; // 匿名/展示昵称兜底
   var subscribers = [];
   var cloudListenerAttached = false;
+  // 邮箱注册待验证上下文（signUp 后、verifyOtp 前暂存，不持久化）
+  var pendingVerify = null;
 
   function getStoredNick() {
     try { return localStorage.getItem(NICK_KEY) || ""; } catch (e) { return ""; }
@@ -89,11 +91,25 @@
           };
         });
     }
-    // 邮箱/密码模式：前端直接用 Web SDK signUp 建号（v3 Node SDK 已不支持服务端 createUser），成功后自动登录
+    // 邮箱/密码模式：前端直接用 Web SDK signUp 建号（v3 Node SDK 已不支持服务端 createUser）
     // 注意：signUp 参数为 {email, password}，不是 {username, password}（sdkHints: signUp 接受 phone|email）
+    //
+    // 重要：邮箱登录开启后，signUp 返回 { data:{ verifyOtp, resend }, error:null }，
+    // 此时账号尚未激活，必须经邮箱验证码确认；若仍照旧直接 signInWithPassword 会因
+    // 邮箱未验证而失败，用户会看到「注册失败」——实际账号已创建，只是卡在验证环节。
     return auth()
       .signUp({ email: email, password: password })
-      .then(function () {
+      .then(function (res) {
+        if (res && res.data && typeof res.data.verifyOtp === "function") {
+          pendingVerify = {
+            email: email,
+            nickname: nickname,
+            verifyOtp: res.data.verifyOtp,
+            resend: res.data.resend,
+          };
+          return { success: true, needVerify: true, data: { email: email } };
+        }
+        // 无需验证（环境配置为免验证建号）：照旧自动登录
         return auth()
           .signInWithPassword({ username: email, password: password })
           .then(function (loginRes) {
@@ -102,6 +118,73 @@
             emit(state);
             return { success: true, data: state };
           });
+      })
+      .catch(function (err) {
+        return { success: false, error: { code: "AUTH_ERROR", message: errMsg(err) } };
+      });
+  }
+
+  /* 邮箱注册第二步：提交验证码完成激活并登录 */
+  function verifyEmailCode(code) {
+    if (!pendingVerify) {
+      return Promise.resolve({
+        success: false,
+        error: { code: "NO_PENDING", message: "验证已失效，请重新注册" },
+      });
+    }
+    var ctx = pendingVerify;
+    return Promise.resolve()
+      .then(function () {
+        return ctx.verifyOtp({ token: String(code || "").trim() });
+      })
+      .then(function (res) {
+        // SDK 把错误放在返回值的 .error 里而不抛异常，必须显式检查；
+        // 否则错误验证码也会被当成成功，用户以为注册成功实则未登录。
+        // 注：不走 errMsg 通用映射——SDK 报错含 invalid 等字样会被误译作
+        // 「账号或密码不正确」，在验证码场景下会误导用户。
+        if (res && res.error) {
+          return {
+            success: false,
+            error: { code: "AUTH_ERROR", message: "验证码不正确或已失效，请重新输入" },
+          };
+        }
+        var uid = extractUid(res);
+        if (!uid) {
+          return {
+            success: false,
+            error: { code: "AUTH_ERROR", message: "验证码不正确或已失效，请重新输入" },
+          };
+        }
+        storeNick(ctx.nickname);
+        var state = { uid: uid, nick: ctx.nickname || getStoredNick() };
+        pendingVerify = null;
+        emit(state);
+        return { success: true, data: state };
+      })
+      .catch(function (err) {
+        return { success: false, error: { code: "AUTH_ERROR", message: errMsg(err) } };
+      });
+  }
+
+  /* 重新发送邮箱验证码 */
+  function resendEmailCode() {
+    if (!pendingVerify || typeof pendingVerify.resend !== "function") {
+      return Promise.resolve({
+        success: false,
+        // signUp 返回的 data 仅含 verifyOtp（无 resend），故重发不可用，
+        // 提示改为可操作：让用户返回重新注册以触发新验证码。
+        error: {
+          code: "NO_RESEND",
+          message: "当前无法重发验证码，请点击「返回登录」后重新注册一次。",
+        },
+      });
+    }
+    return Promise.resolve()
+      .then(function () {
+        return pendingVerify.resend();
+      })
+      .then(function () {
+        return { success: true };
       })
       .catch(function (err) {
         return { success: false, error: { code: "AUTH_ERROR", message: errMsg(err) } };
@@ -155,6 +238,8 @@
 
   window.RCSAuth = {
     register: register,
+    verifyEmailCode: verifyEmailCode,
+    resendEmailCode: resendEmailCode,
     login: login,
     logout: logout,
     getState: getState,
