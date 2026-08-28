@@ -196,6 +196,22 @@
   color: var(--red, #C8102E);
 }
 
+/* 未登录引导：AI 需要真实登录后才能调用云函数（安全规则禁止匿名调用） */
+.rcs-login-cta {
+  margin-top: 8px;
+  font-size: 13px;
+  padding: 7px 14px;
+  border-radius: 980px;
+  background: var(--red, #C8102E);
+  color: #fff;
+  border: 1px solid var(--red, #C8102E);
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+.rcs-login-cta:hover {
+  opacity: 0.85;
+}
+
 /* 输入区 */
 .rcs-ai-input {
   display: flex;

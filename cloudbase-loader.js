@@ -6,17 +6,47 @@
  */
 (function () {
   "use strict";
-  if (typeof window.cloudbase !== "undefined") {
+
+  var CDN = "https://static.cloudbase.net/cloudbase-js-sdk/3.8.2/cloudbase.full.js";
+  // 本地 esbuild 打包版本（自包含、零外部依赖），作为 CDN 不可用时的兜底
+  var LOCAL = "cloudbase.bundle.js?v=20260829a";
+
+  function announce() {
     window.dispatchEvent(new Event("cloudbase-ready"));
+  }
+
+  function load(src, onOk, onFail) {
+    var s = document.createElement("script");
+    s.src = src;
+    s.onload = onOk;
+    s.onerror = onFail;
+    document.head.appendChild(s);
+  }
+
+  // CDN 失败时回退本地包，避免外部依赖成为单点故障
+  function fallback() {
+    load(LOCAL, function () {
+      if (typeof window.cloudbase !== "undefined") announce();
+      else console.error("[RCS] 本地 CloudBase SDK 加载失败，云功能不可用");
+    }, function () {
+      console.error("[RCS] 本地 CloudBase SDK 加载失败，云功能不可用");
+    });
+  }
+
+  if (typeof window.cloudbase !== "undefined") {
+    announce();
     return;
   }
-  var s = document.createElement("script");
-  s.src = "https://static.cloudbase.net/cloudbase-js-sdk/3.8.2/cloudbase.full.js";
-  s.onerror = function () {
-    console.error("[RCS] CloudBase SDK 官方 CDN 加载失败，AI/注册/排行榜等云功能将不可用");
-  };
-  // 经典脚本（非 async/defer）：appendChild 后浏览器会同步加载并执行，
-  // UMD 执行完即挂载 window.cloudbase，本加载器随后派发 cloudbase-ready。
-  document.head.appendChild(s);
-  window.dispatchEvent(new Event("cloudbase-ready"));
+
+  /* 重要：动态创建的 <script> 是「异步」加载的。
+     原实现在 appendChild 之后立即派发 cloudbase-ready，导致事件早于 SDK 真正挂载
+     （实测：事件触发时 window.cloudbase 仍为 undefined），依赖该事件的代码会拿到未就绪状态。
+     改为在 onload 回调中确认已挂载后再派发。 */
+  load(CDN, function () {
+    if (typeof window.cloudbase !== "undefined") announce();
+    else fallback();
+  }, function () {
+    console.warn("[RCS] CloudBase SDK 官方 CDN 加载失败，回退本地打包版本");
+    fallback();
+  });
 })();

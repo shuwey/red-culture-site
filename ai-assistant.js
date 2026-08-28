@@ -226,19 +226,32 @@
     if (m && m.parentNode) m.parentNode.removeChild(m);
   }
 
-  /* 确保有登录态（匿名），返回 uid 用于留痕；失败则返回空串（不阻断提交） */
+  /* 确保有登录态（匿名亦可），返回 uid 用于留痕；失败则返回空串（不阻断提交） */
   async function ensureUid() {
-    try {
-      var app = RCS.getApp();
-      var auth = app.auth();
-      var st = await auth.getLoginState();
-      if (st && st.uid) return st.uid;
-      await auth.signInAnonymously();
-      st = await auth.getLoginState();
-      return st && st.uid ? st.uid : "";
-    } catch (e) {
-      return "";
-    }
+    return await ensureAnyUid();
+  }
+
+  /* 未登录引导气泡：附「去登录」按钮，点击直接唤起登录面板 */
+  function addLoginPrompt(text) {
+    var body = el("rcs-ai-body");
+    var msg = document.createElement("div");
+    msg.className = "rcs-msg rcs-msg-assistant";
+    var bubble = document.createElement("div");
+    bubble.className = "rcs-bubble";
+    bubble.textContent = text;
+    msg.appendChild(bubble);
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "rcs-login-cta";
+    btn.textContent = "去登录";
+    btn.onclick = function () {
+      if (window.RCSAccount && typeof RCSAccount.openLogin === "function") {
+        RCSAccount.openLogin();
+      }
+    };
+    msg.appendChild(btn);
+    body.appendChild(msg);
+    body.scrollTop = body.scrollHeight;
   }
 
   async function submitCorrection() {
@@ -369,36 +382,162 @@
     });
   }
 
+  /* ------------------------------------------------------------
+     错误提示：按类型区分，避免「一刀切」掩盖真实原因
+     背景：此前所有失败（未登录/超时/网络/SDK未就绪/上游错误）都显示
+          同一句「助手开小差了」，导致真实故障（未登录被鉴权拒绝）长期无法定位。
+     ------------------------------------------------------------ */
+  var ERR_MSG = {
+    UNAUTHENTICATED: "AI 助手需要登录后才能使用，登录后即可继续提问。",
+    SDK_NOT_READY: "云能力尚未加载完成，请稍候几秒后重试。",
+    TIMEOUT: "模型响应超时，请稍后再试。",
+    UPSTREAM: "AI 服务暂时不可用，请稍后再试。",
+    UNKNOWN: "助手开小差了，请稍后再试。",
+  };
+
+  /* 等待云 SDK 就绪
+     原因：cloudbase-loader 动态插入的 <script> 是异步加载的，
+           其派发的 cloudbase-ready 事件可能早于 SDK 真正挂载（实测确认）。
+           这里改为轮询 window.cloudbase，不再依赖该事件。 */
+  function waitCloudReady(maxMs) {
+    return new Promise(function (resolve, reject) {
+      if (typeof window.cloudbase !== "undefined") return resolve();
+      var waited = 0,
+        step = 200;
+      var t = setInterval(function () {
+        waited += step;
+        if (typeof window.cloudbase !== "undefined") {
+          clearInterval(t);
+          resolve();
+        } else if (waited >= maxMs) {
+          clearInterval(t);
+          reject(new Error("SDK_NOT_READY"));
+        }
+      }, step);
+    });
+  }
+
+  function uidOf(st) {
+    if (!st) return "";
+    return st.uid || (st.user && st.user.uid) || "";
+  }
+
+  /* 建立登录态（含匿名兜底），返回 uid；失败返回空串，不阻断调用方。
+     用途：纠错留痕等非阻断场景。 */
+  async function ensureAnyUid() {
+    try {
+      await waitCloudReady(8000);
+      var auth = RCS.getApp().auth();
+      var uid = uidOf(await auth.getLoginState());
+      if (uid) return uid;
+      await auth.signInAnonymously();
+      return uidOf(await auth.getLoginState());
+    } catch (e) {
+      return "";
+    }
+  }
+
+  /* 是否已登录。
+     注意：云函数安全规则为 auth != null && auth.loginType != 'ANONYMOUS'，
+     匿名身份调用会被 EXCEED_AUTHORITY 拒绝，因此这里不再尝试匿名登录——
+     未登录直接引导用户登录，避免一次注定失败的请求。 */
+  async function isLoggedIn() {
+    try {
+      await waitCloudReady(8000);
+      return !!uidOf(await RCS.getApp().auth().getLoginState());
+    } catch (e) {
+      return false;
+    }
+  }
+
+  /* 错误归一化：把 SDK 抛出的各种形态统一成可识别类型 */
+  function classifyError(e) {
+    var msg = (e && e.message) || "";
+    if (e && e.rcsCode) return e.rcsCode;
+    var raw = msg;
+    try {
+      raw = JSON.stringify(e) || msg;
+    } catch (_) {
+      /* 循环引用等，回退用 message */
+    }
+    // EXCEED_AUTHORITY：安全规则拒绝了匿名身份，等同「未登录」
+    if (
+      raw.indexOf("unauthenticated") !== -1 ||
+      raw.indexOf("credentials not found") !== -1 ||
+      raw.indexOf("EXCEED_AUTHORITY") !== -1
+    )
+      return "UNAUTHENTICATED";
+    if (msg.indexOf("SDK_NOT_READY") !== -1) return "SDK_NOT_READY";
+    if (msg.indexOf("TIMEOUT") !== -1) return "TIMEOUT";
+    return "UNKNOWN";
+  }
+
+  /* 单次云函数调用 */
+  async function callAIOnce(question, contexts) {
+    var app = RCS.getApp();
+    var res = await app.callFunction({
+      name: "ai-chat",
+      data: {
+        question: question,
+        history: history.slice(-8),
+        contexts: contexts,
+      },
+    });
+    return res.result; // {success, data:{answer,sources}, error:{code,message}}
+  }
+
   async function callAI(question, contexts, typing) {
     try {
-      var app = RCS.getApp();
-      var res = await app.callFunction({
-        name: "ai-chat",
-        data: {
-          question: question,
-          history: history.slice(-8),
-          contexts: contexts,
-        },
-      });
-      var result = res.result; // {success, data:{answer,sources}, error:{code,message}}
+      // ① 关键修复：云函数安全规则禁止匿名调用，未登录直接引导登录，不发注定失败的请求
+      if (!(await isLoggedIn())) {
+        if (typing && typing.parentNode) typing.parentNode.removeChild(typing);
+        addLoginPrompt(ERR_MSG.UNAUTHENTICATED);
+        return;
+      }
+
+      var result = null;
+      try {
+        result = await callAIOnce(question, contexts);
+      } catch (e1) {
+        var k1 = classifyError(e1);
+        // ② 瞬时错误重试一次（审计日志显示：上游抖动重试即成功）
+        if (k1 === "TIMEOUT" || k1 === "UNKNOWN") {
+          await new Promise(function (r) {
+            setTimeout(r, 600);
+          });
+          result = await callAIOnce(question, contexts);
+        } else {
+          throw e1;
+        }
+      }
+
       if (typing && typing.parentNode) typing.parentNode.removeChild(typing);
+
       if (result && result.success) {
         addAssistantBubble(result.data.answer, result.data.sources || []);
         history.push({ role: "user", content: question });
         history.push({ role: "assistant", content: result.data.answer });
         if (history.length > 8) history = history.slice(-8);
-      } else if (
-        result &&
-        result.error &&
-        (result.error.code === "SENSITIVE" || result.error.code === "NO_CONTEXT")
-      ) {
+        return;
+      }
+
+      // ③ 业务层错误码分类提示
+      var code = result && result.error && result.error.code;
+      if (code === "SENSITIVE" || code === "NO_CONTEXT" || code === "NO_GROUNDED" || code === "INVALID_PARAM") {
         addAssistantBubble(result.error.message, []);
+      } else if (code === "TIMEOUT") {
+        addAssistantBubble(ERR_MSG.TIMEOUT, []);
+      } else if (code === "UPSTREAM_ERROR") {
+        addAssistantBubble(ERR_MSG.UPSTREAM, []);
       } else {
-        addAssistantBubble("助手开小差了，请稍后再试。", []);
+        addAssistantBubble(ERR_MSG.UNKNOWN, []);
       }
     } catch (e) {
+      var kind = classifyError(e);
       if (typing && typing.parentNode) typing.parentNode.removeChild(typing);
-      addAssistantBubble("助手开小差了，请稍后再试。", []);
+      addAssistantBubble(ERR_MSG[kind] || ERR_MSG.UNKNOWN, []);
+      // 保留真实错误，便于后续排查（此前被静默吞掉）
+      if (window.console && console.error) console.error("[RCS-AI] 调用失败:", kind, e);
     }
   }
 

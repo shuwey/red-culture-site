@@ -46,6 +46,7 @@
     .lit-books{grid-template-columns:1fr}
   }
 </style>
+<link rel="stylesheet" href="ai-assistant.css?v=20260829a">
 </head>
 <body>
 <header class="nav" id="nav">
@@ -114,5 +115,16 @@
 </div>
 
 <script src="script.js?v=20260828e"></script>
+<!-- AI 助手：延迟加载云能力（首屏不加载，避免 786KB SDK 阻塞渲染） -->
+<script>
+  window.RCS_CLOUD_SCRIPTS = [
+    "cloudbase.bundle.js",
+    "cloudbase-config.js",
+    "auth-service.js",
+    "account-ui.js",
+    "ai-assistant.js"
+  ];
+</script>
+<script src="cloud-lazy.js?v=20260829a"></script>
 </body>
 </html>

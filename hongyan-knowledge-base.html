@@ -97,6 +97,7 @@
   details{margin:8px 0;background:#fff;border:1px solid var(--line);border-radius:10px;padding:6px 14px}
   summary{cursor:pointer;font-weight:600;color:var(--red-deep);padding:6px 0}
 </style>
+<link rel="stylesheet" href="ai-assistant.css?v=20260829a">
 </head>
 <body>
 <header class="nav" id="nav">
@@ -465,5 +466,16 @@ document.getElementById('pfilters').addEventListener('click',e=>{
 });
 </script>
 <script src="script.js?v=20260828e"></script>
+<!-- AI 助手：延迟加载云能力（首屏不加载，避免 786KB SDK 阻塞渲染） -->
+<script>
+  window.RCS_CLOUD_SCRIPTS = [
+    "cloudbase.bundle.js",
+    "cloudbase-config.js",
+    "auth-service.js",
+    "account-ui.js",
+    "ai-assistant.js"
+  ];
+</script>
+<script src="cloud-lazy.js?v=20260829a"></script>
 </body>
 </html>
