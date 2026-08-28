@@ -30,9 +30,29 @@
     return RCS.getApp().auth();
   }
 
+  /* 昵称取值：按优先级取第一个非空值，最后回退本地存储。
+     背景：此前一律只用本地 localStorage，导致非注册途径（管理端建号后登录）
+     拿不到昵称，导航区只能显示「朋友」。 */
+  function resolveNick() {
+    for (var i = 0; i < arguments.length; i++) {
+      var v = arguments[i];
+      if (v && String(v).trim()) return String(v).trim();
+    }
+    return getStoredNick() || "";
+  }
+
+  /* 从登录/注册响应中提取昵称（云端 user_metadata 优先） */
+  function extractNick(res) {
+    var u = res && res.data && res.data.user;
+    var meta = (u && u.user_metadata) || {};
+    return resolveNick(meta.nickName, meta.name, meta.username, u && u.name, u && u.username);
+  }
+
   function buildState(loginState) {
     var u = loginState && (loginState.user || loginState);
-    if (u && u.uid) return { uid: u.uid, nick: getStoredNick() };
+    if (u && u.uid) {
+      return { uid: u.uid, nick: resolveNick(u.name, u.username, u.nickName) };
+    }
     return { uid: null, nick: null };
   }
 
@@ -59,6 +79,15 @@
     if (res.user && res.user.uid) return res.user.uid;
     if (res.uid) return res.uid;
     if (res.result && res.result.user && res.result.user.uid) return res.result.user.uid;
+    // 新版 SDK 登录响应形如 { data:{ user:{ id, user_metadata:{ uid } } } }：
+    // 顶层用户对象用的是 id 而非 uid，uid 在 user_metadata 里。
+    // 缺了这两条会导致登录成功后 uid 取不到、导航用户区不刷新（长期遗留问题）。
+    if (res.data && res.data.user) {
+      var u = res.data.user;
+      if (u.uid) return u.uid;
+      if (u.id) return u.id;
+      if (u.user_metadata && u.user_metadata.uid) return u.user_metadata.uid;
+    }
     return null;
   }
 
@@ -155,8 +184,10 @@
             error: { code: "AUTH_ERROR", message: "验证码不正确或已失效，请重新输入" },
           };
         }
-        storeNick(ctx.nickname);
-        var state = { uid: uid, nick: ctx.nickname || getStoredNick() };
+        // 云端昵称为准，其次用注册时填写的昵称
+        var nick = extractNick(res) || ctx.nickname || getStoredNick();
+        storeNick(nick);
+        var state = { uid: uid, nick: nick };
         pendingVerify = null;
         emit(state);
         return { success: true, data: state };
@@ -198,7 +229,10 @@
       : auth().signInWithPassword({ username: email, password: password });
     return op
       .then(function (res) {
-        var state = { uid: extractUid(res), nick: getStoredNick() };
+        // 云端昵称为准；拿不到时回退登录账号名，避免显示「朋友」
+        var nick = extractNick(res) || (email || "");
+        storeNick(nick);
+        var state = { uid: extractUid(res), nick: nick };
         emit(state);
         return { success: true, data: state };
       })
