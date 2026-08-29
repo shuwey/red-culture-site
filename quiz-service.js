@@ -38,6 +38,10 @@
     }
   }
 
+  // 集合 quiz_scores 的安全规则为 read: doc._openid == auth.uid，
+  // 因此查询必须按 _openid 过滤（与规则条件构成子集），否则报 Permission denied。
+  // 不能用 userId 过滤——字段存在，但规则不认，子集校验失败。
+  // _openid 由 Web SDK 在 .add() 时自动写入创建者 uid，正好等于 state.uid。
   async function getScores() {
     var state = await RCSAuth.getState();
     if (!state || !state.uid)
@@ -45,12 +49,12 @@
     try {
       var db = RCS.getApp().database().collection(COLLECTION);
       var recentRes = await db
-        .where({ userId: state.uid })
+        .where({ _openid: state.uid })
         .orderBy("createdAt", "desc")
         .limit(20)
         .get();
       var bestRes = await db
-        .where({ userId: state.uid })
+        .where({ _openid: state.uid })
         .orderBy("score", "desc")
         .limit(1)
         .get();
