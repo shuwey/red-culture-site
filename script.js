@@ -49,8 +49,15 @@
     revealEls.forEach(function (el) { el.classList.add("visible"); });
   }
 
-  /* ---------- 知识考核 ---------- */
-  var QUESTIONS = [
+  /* ---------- 知识考核 ----------
+     题库来源优先级：
+       ① window.RCS_QUIZ_BANK（quiz-bank.js，699 题，每次随机抽 PER_ATTEMPT 题）
+       ② FALLBACK_QUESTIONS（下方内联 5 题，仅当 ① 未加载时兜底，保证永远可考）
+  */
+  var PER_ATTEMPT = 10;
+
+  // 兜底题库：quiz-bank.js 缺失/加载失败时使用（失败安全，不要删）
+  var FALLBACK_QUESTIONS = [
     {
       q: "中共一大召开于哪一年？",
       options: ["1919 年", "1921 年", "1927 年", "1935 年"],
@@ -77,6 +84,23 @@
       answer: 2
     }
   ];
+
+  // 抽题逻辑：优先用 quiz-bank.js 的 699 题大题库随机抽 PER_ATTEMPT 题；
+  // 若该脚本未加载（缺失/网络失败），回退到内联 FALLBACK_QUESTIONS，保证永远可考。
+  function getQuizPool() {
+    var bank = window.RCS_QUIZ_BANK;
+    if (Array.isArray(bank) && bank.length) {
+      var pool = bank.slice();
+      // Fisher–Yates 洗牌
+      for (var i = pool.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var t = pool[i]; pool[i] = pool[j]; pool[j] = t;
+      }
+      return pool.slice(0, Math.min(PER_ATTEMPT, pool.length));
+    }
+    return FALLBACK_QUESTIONS.slice();
+  }
+  var QUESTIONS = getQuizPool();
 
   /* ---------- 知识考核（弹窗元素仅存在于首页） ---------- */
   var modal = document.getElementById("quiz-modal");
@@ -294,6 +318,7 @@
         items: [
           { t: "知识库 · 人物 / 地点 / 事件", h: "hongyan-knowledge-base.html" },
           { t: "阅读题库（229 题）", h: "hongyan-quiz.html" },
+          { t: "中考真题（25 题 · 已核实）", h: "hongyan-zhenti.html" },
           { t: "章节考点对照表", h: "chapter-map.html" }
         ]
       },
@@ -304,6 +329,7 @@
         items: [
           { t: "知识库 · 人物 / 地点 / 事件", h: "hongxing-knowledge-base.html" },
           { t: "阅读题库（291 题）", h: "hongxing-quiz.html" },
+          { t: "中考真题（73 题 · 已核实）", h: "hongxing-zhenti.html" },
           { t: "章节考点对照表", h: "hongxing-chapter-map.html" }
         ]
       }
