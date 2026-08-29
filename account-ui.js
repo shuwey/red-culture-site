@@ -32,12 +32,16 @@
     "      </div>" +
     '      <div class="rcs-field" id="rcs-code-field" hidden>' +
     '        <label for="rcs-code">短信验证码</label>' +
-    '        <input type="text" id="rcs-code" placeholder="查收手机短信中的 6 位验证码" autocomplete="one-time-code" maxlength="12" inputmode="numeric">' +
+    '        <div class="rcs-code-row">' +
+    '          <input type="text" id="rcs-code" placeholder="查收手机短信中的 6 位验证码" autocomplete="one-time-code" maxlength="12" inputmode="numeric">' +
+    '          <button type="button" class="pill-btn rcs-send-code" id="rcs-send-code" hidden>获取验证码</button>' +
+    "        </div>" +
     "      </div>" +
     '      <p class="rcs-error" id="rcs-auth-error" hidden></p>' +
     '      <button type="submit" class="pill-btn rcs-submit" id="rcs-auth-submit">登录</button>' +
     "    </form>" +
     '    <p class="rcs-switch" id="rcs-switch">还没有账号？<a href="javascript:void(0)" id="rcs-to-register">去注册</a></p>' +
+    '    <p class="rcs-sms-line" id="rcs-sms-line" hidden><a href="javascript:void(0)" id="rcs-to-sms-login">用短信验证码登录 ›</a></p>' +
     "  </div>" +
     "</div>";
 
@@ -52,6 +56,7 @@
     "</div>";
 
   var tab = "login";
+  var smsMode = false; // 登录页是否处于「手机号 + 短信验证码」模式
   var resending = false;
   // 下拉菜单点击外部收起：只绑定一次 document 监听，避免 renderUserArea 每次渲染都累积新监听（泄漏）
   var currentUserEl = null;
@@ -105,6 +110,7 @@
 
   function setTab(t) {
     tab = t;
+    if (t !== "login") smsMode = false; // 离开登录页时退出短信模式
     var local = getAuthMode() === "local";
     var emailField = el("rcs-email-field");
     var pwdField = el("rcs-password-field");
@@ -144,9 +150,17 @@
         el("rcs-tab-register").classList.remove("active");
         if (nickField) nickField.hidden = true;
         submit.textContent = "登录";
-        if (emailLabel) emailLabel.textContent = "账号";
-        if (emailInput) emailInput.placeholder = "用户名 / 手机号 / 邮箱";
-        switchLink.innerHTML = '还没有账号？<a href="javascript:void(0)" id="rcs-to-register">去注册</a>';
+        if (emailLabel) emailLabel.textContent = smsMode ? "手机号" : "账号";
+        if (emailInput) emailInput.placeholder = smsMode ? "11 位手机号" : "用户名 / 手机号 / 邮箱";
+        if (pwdField) pwdField.hidden = smsMode; // 短信模式隐藏密码框
+        if (codeField) codeField.hidden = !smsMode; // 短信模式显示验证码框
+        var sendBtn = el("rcs-send-code");
+        if (sendBtn) sendBtn.hidden = !smsMode;
+        var smsLine = el("rcs-sms-line");
+        if (smsLine) smsLine.hidden = smsMode; // 已进入短信模式则隐藏入口链接
+        switchLink.innerHTML = smsMode
+          ? '<a href="javascript:void(0)" id="rcs-to-pwd-login">用密码登录</a> · 还没有账号？<a href="javascript:void(0)" id="rcs-to-register">去注册</a>'
+          : '还没有账号？<a href="javascript:void(0)" id="rcs-to-register">去注册</a> · <a href="javascript:void(0)" id="rcs-to-sms-login">用短信验证码登录 ›</a>';
       } else {
         el("rcs-tab-register").classList.add("active");
         el("rcs-tab-login").classList.remove("active");
@@ -193,6 +207,55 @@
         else showError((r && r.error && r.error.message) || "重发失败，请稍后再试。");
       });
     };
+
+    // 登录页：「用短信验证码登录」切换（手机号账号注册后最稳的登录方式）
+    var toSms = el("rcs-to-sms-login");
+    if (toSms) toSms.onclick = function (e) {
+      e.preventDefault();
+      smsMode = true;
+      setTab("login");
+    };
+    var toPwd = el("rcs-to-pwd-login");
+    if (toPwd) toPwd.onclick = function (e) {
+      e.preventDefault();
+      smsMode = false;
+      setTab("login");
+    };
+    var sendCode = el("rcs-send-code");
+    if (sendCode) sendCode.onclick = function (e) {
+      e.preventDefault();
+      if (sendCode.disabled) return;
+      var phone = (el("rcs-email").value || "").trim();
+      if (!/^1[3-9]\d{9}$/.test(phone)) { showError("请输入有效的 11 位手机号"); return; }
+      var oldTxt = sendCode.textContent;
+      sendCode.textContent = "发送中…";
+      RCSAuth.sendPhoneLoginCode(phone).then(function (r) {
+        if (r && r.success) {
+          showError("验证码已发送，请查收短信。");
+          startSendCooldown(sendCode);
+        } else {
+          sendCode.textContent = oldTxt;
+          showError((r && r.error && r.error.message) || "发送失败，请稍后再试。");
+        }
+      });
+    };
+  }
+
+  // 获取验证码按钮 60 秒冷却，避免频繁请求
+  function startSendCooldown(btn) {
+    var left = 60;
+    btn.disabled = true;
+    btn.textContent = left + " 秒后重发";
+    var timer = setInterval(function () {
+      left -= 1;
+      if (left <= 0) {
+        clearInterval(timer);
+        btn.disabled = false;
+        btn.textContent = "获取验证码";
+      } else {
+        btn.textContent = left + " 秒后重发";
+      }
+    }, 1000);
   }
 
   function clearError() {
@@ -218,10 +281,13 @@
     if (tab === "register") {
       // 注册走手机号（自包含短信验证，无需 SMTP）
       if (!/^1[3-9]\d{9}$/.test(email)) return "请输入有效的 11 位手机号";
+    } else if (tab === "login" && smsMode) {
+      if (!/^1[3-9]\d{9}$/.test(email)) return "请输入有效的 11 位手机号";
     } else if (!email || !email.trim()) {
       return "请输入账号";
     }
-    if (!pwd || pwd.length < 8) return "密码至少 8 位";
+    // 短信验证码登录不需要密码；其余（密码登录 / 注册）密码至少 8 位
+    if (!smsMode && (!pwd || pwd.length < 8)) return "密码至少 8 位";
     if (tab === "register" && (!nick || nick.trim().length === 0)) return "请填写昵称";
     return null;
   }
@@ -260,10 +326,14 @@
     if (getAuthMode() === "local") {
       res = tab === "register" ? await RCSAuth.register(nick) : await RCSAuth.login(nick);
     } else {
-      res =
-        tab === "register"
-          ? await RCSAuth.register(email, pwd, nick)
-          : await RCSAuth.login(email, pwd);
+      if (tab === "register") {
+        res = await RCSAuth.register(email, pwd, nick);
+      } else if (smsMode) {
+        // 手机号 + 短信验证码登录（注册账号已短信验证，必可用，是密码登录的兜底）
+        res = await RCSAuth.loginWithPhoneCode(email, el("rcs-code").value.trim());
+      } else {
+        res = await RCSAuth.login(email, pwd);
+      }
     }
     submitBtn.disabled = false;
 

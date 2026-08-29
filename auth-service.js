@@ -61,6 +61,11 @@
     return at > 0 ? a.slice(0, at) : a;
   }
 
+  // 判断账号是否为手机号（注册 / 登录统一用此识别走手机号通道）
+  function isPhone(s) {
+    return /^1[3-9]\d{9}$/.test(String(s || "").trim());
+  }
+
   /* 从登录/注册响应中提取昵称（只用云端数据） */
   function extractNick(res) {
     var u = res && res.data && res.data.user;
@@ -269,13 +274,30 @@
 
   function login(email, password) {
     var anon = getMode() === "anonymous" || getMode() === "local";
-    var op = anon
-      ? auth().signInAnonymously()
+    if (anon) {
+      return auth()
+        .signInAnonymously()
+        .then(function (res) {
+          var st = { uid: extractUid(res), nick: nickFromAccount(email) };
+          emit(st);
+          return { success: true, data: st };
+        })
+        .catch(function (err) {
+          return { success: false, error: { code: "AUTH_ERROR", message: errMsg(err) } };
+        });
+    }
+    // 手机号账号必须用 signInWithPhoneCodeOrPassword：signInWithPassword 对手机号无效
+    // （会返回无 uid 的「成功」对象，触发"账号或密码不正确"假失败）。
+    var op = isPhone(email)
+      ? auth().signInWithPhoneCodeOrPassword({ phoneNumber: email, password: password })
       : auth().signInWithPassword({ username: email, password: password });
     return op
       .then(function (res) {
-        // 以云端真实会话为准：signInWithPassword 对「不存在 / 未验证邮箱」的账号可能返回
-        // 带 user 但无 uid 的「成功」对象，直接据此报成功会导致导航不刷新、AI 误判未登录。
+        if (res && res.error) {
+          return { success: false, error: { code: "AUTH_ERROR", message: (res.error && res.error.message) || "账号或密码不正确" } };
+        }
+        // 以云端真实会话为准：对「不存在 / 未验证邮箱」的账号可能返回带 user 但无 uid 的
+        // 「成功」对象，直接据此报成功会导致导航不刷新、AI 误判未登录。
         return readSession().then(function (st) {
           if (!st.uid) {
             return {
@@ -290,6 +312,48 @@
             getStoredNickForUid(st.uid) ||
             extractNick(res) ||
             nickFromAccount(email);
+          storeNickForUid(st.uid, nick);
+          emit({ uid: st.uid, nick: nick });
+          return { success: true, data: { uid: st.uid, nick: nick } };
+        });
+      })
+      .catch(function (err) {
+        return { success: false, error: { code: "AUTH_ERROR", message: errMsg(err) } };
+      });
+  }
+
+  /* 发送登录用短信验证码（手机号账号登录备用方式，账号已短信验证过，必可用） */
+  function sendPhoneLoginCode(phone) {
+    return Promise.resolve()
+      .then(function () {
+        return auth().sendPhoneCode(phone);
+      })
+      .then(function () {
+        return { success: true };
+      })
+      .catch(function (err) {
+        return { success: false, error: { code: "AUTH_ERROR", message: errMsg(err) } };
+      });
+  }
+
+  /* 手机号 + 短信验证码登录 */
+  function loginWithPhoneCode(phone, code) {
+    return Promise.resolve()
+      .then(function () {
+        return auth().signInWithPhoneCodeOrPassword({
+          phoneNumber: phone,
+          phoneCode: String(code || "").trim(),
+        });
+      })
+      .then(function (res) {
+        if (res && res.error) {
+          return { success: false, error: { code: "AUTH_ERROR", message: (res.error && res.error.message) || "验证码不正确或已失效" } };
+        }
+        return readSession().then(function (st) {
+          if (!st.uid) {
+            return { success: false, error: { code: "AUTH_ERROR", message: "验证码不正确或已失效，请重试" } };
+          }
+          var nick = st.nick || getStoredNickForUid(st.uid) || nickFromAccount(phone);
           storeNickForUid(st.uid, nick);
           emit({ uid: st.uid, nick: nick });
           return { success: true, data: { uid: st.uid, nick: nick } };
@@ -354,6 +418,8 @@
     verifyCode: verifyCode,
     resendCode: resendCode,
     login: login,
+    sendPhoneLoginCode: sendPhoneLoginCode,
+    loginWithPhoneCode: loginWithPhoneCode,
     logout: logout,
     getState: getState,
     onAuthChange: onAuthChange,

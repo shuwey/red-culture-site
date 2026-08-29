@@ -1291,6 +1291,11 @@ button.stat:focus-visible { outline: 2px solid rgba(255,255,255,.6); outline-off
 .rcs-submit { margin-top: 4px; width: 100%; }
 .rcs-switch { text-align: center; font-size: 13px; color: var(--gray-2); margin-top: 16px; }
 .rcs-switch a { color: var(--red); font-weight: 600; }
+.rcs-code-row { display: flex; gap: 8px; align-items: stretch; }
+.rcs-code-row input { flex: 1; min-width: 0; }
+.rcs-send-code { white-space: nowrap; padding: 0 14px; font-size: 13px; }
+.rcs-sms-line { text-align: center; font-size: 13px; color: var(--gray-2); margin-top: -6px; }
+.rcs-sms-line a { color: var(--red); font-weight: 600; }
 
 /* ---------- 我的成绩面板 ---------- */
 .rcs-scores-body { margin-top: 4px; }
