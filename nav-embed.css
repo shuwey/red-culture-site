@@ -16,6 +16,20 @@
 
 body { padding-top: 48px; }   /* 让位固定导航 */
 
+/* ---------- 按钮基础重置（与 style.css 第 39 行保持一致）----------
+   缺失此段时，本文件的 <button> 会保留浏览器默认的 2px outset 边框，
+   渲染成一圈「半灰半白」的立体描边（AI 悬浮球、导航登录按钮、胶囊按钮等
+   都会受影响），而引用 style.css 的 45 个页面因有该重置故表现正常。
+   各组件若有自己的 border/background 会在此之后覆盖，不受影响。 */
+button {
+  font-family: inherit;
+  border: none;
+  background: none;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
 /* ---------- 导航栏（毛玻璃吸顶，与全站一致） ---------- */
 .nav {
   position: fixed;

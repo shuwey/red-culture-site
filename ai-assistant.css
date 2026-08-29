@@ -2,6 +2,27 @@
    红色历史问答助手 · 浮窗样式（独立文件，不污染 style.css 主样式）
    ============================================================ */
 
+/* 作用域内补齐 <button> 重置
+   背景：红色文学等 7 个页面用 nav-embed.css 替代 style.css，而 nav-embed.css
+   缺少 style.css 第 39 行的全局重置「button{border:none;background:none;…}」。
+   本组件用的是 <button>，于是保留了浏览器默认的 2px outset 边框，渲染成
+   一圈「半灰半白」的立体描边（悬浮球最明显，关闭/发送按钮同理）。
+   这里只在本组件作用域内补回重置，不动全站样式，避免影响其它按钮。
+   注意：.rcs-chip 自带 1px 发丝边框，刻意不参与 border 重置，仅补字体/外观。 */
+.rcs-ai-fab,
+.rcs-ai-send,
+.rcs-ai-close {
+  border: none;
+}
+.rcs-ai-fab,
+.rcs-ai-send,
+.rcs-ai-close,
+.rcs-chip {
+  font-family: inherit;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
 /* 悬浮球 */
 .rcs-ai-fab {
   position: fixed;
