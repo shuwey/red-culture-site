@@ -93,8 +93,11 @@
       if (cloudNick) {
         storeNickForUid(uid, cloudNick);
         if (currentUid === uid) emit({ uid: uid, nick: cloudNick });
-      } else if (localNick && !isPhone(localNick)) {
-        saveProfileNick(uid, localNick);
+      } else {
+        // localNick 可能是手机号形态（账号名兜底），此时它并非真昵称、不能回写云端，
+        // 改用按 uid 存的本地昵称补齐云端，避免该账号在别处永远显示手机号。
+        var real = localNick && !isPhone(localNick) ? localNick : getStoredNickForUid(uid);
+        if (real && !isPhone(real)) saveProfileNick(uid, real);
       }
     });
   }
@@ -145,15 +148,20 @@
   function buildState(loginState) {
     var u = loginState && (loginState.user || loginState);
     if (u && u.uid) {
-      // 优先云端昵称；云端为空时回退到「按 uid/手机号存的本地昵称」（手机号注册时填写的昵称，
-      // 因 Web SDK 的 updateUser 不足以持久化到 getLoginState 可读字段），最后兜底用账号名。
-      // ⚠ 刻意不在 primary 链里放 u.username：手机号账号的 username 就是手机号本身，
-      // 放进去会直接顶掉本地昵称、导致导航栏显示手机号。账号名兜底放到最后一步。
-      // 按 uid/手机号存储可避免换号串昵称。
+      // ⚠ 实测（2026-08-29）：手机号账号的 user.name **就是手机号本身**（如 "13701060959"），
+      // 且 user.nickName 字段根本不存在。原逻辑 firstNonEmpty(u.nickName, u.name) 会命中的
+      // 手机号并直接短路，永远走不到 getStoredNickForUid() —— 于是「本页登录显示昵称，
+      // 换页面后导航栏变成手机号、昵称消失」（本页靠 login() 显式 emit 真昵称才正常）。
+      // 故：云端值是手机号时一律视为「无昵称」，继续回退到按 uid/手机号存的本地昵称。
+      var cloudNick = firstNonEmpty(u.nickName, u.name);
+      if (cloudNick && isPhone(cloudNick)) cloudNick = "";
+      // 按手机号维度兜底：覆盖「注册早于 per-uid 修复」的老账号
+      var phoneNo = u.phone_number || (isPhone(u.username) ? u.username : "");
       var nick =
-        firstNonEmpty(u.nickName, u.name) ||
-        getStoredNickForUid(u.uid) ||
-        nickFromAccount(u.username);
+        cloudNick ||                    // ① 云端真实昵称（已排除手机号形态）
+        getStoredNickForUid(u.uid) ||   // ② 按 uid 存的本地昵称（手机号账号主力来源）
+        getStoredNickForPhone(phoneNo) || // ③ 按手机号存的本地昵称
+        nickFromAccount(u.username);    // ④ 账号名兜底
       return { uid: u.uid, nick: nick };
     }
     return { uid: null, nick: null };
