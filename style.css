@@ -1175,6 +1175,10 @@ button.stat:focus-visible { outline: 2px solid rgba(255,255,255,.6); outline-off
 .figure-red-boat img {
   object-position: 50% 40%;
 }
+/* 泸定桥：桥身与锁链横跨画面中部偏下，避免 2:1 裁切切掉桥体 */
+.figure-luding img {
+  object-position: 50% 58%;
+}
 /* 历史文献照：按原比例完整显示，不裁切、不缓动，浅底衬出史料质感 */
 .detail-figure--doc {
   background: #f3f1ec;
