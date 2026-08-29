@@ -47,6 +47,65 @@ body { padding-top: 48px; }   /* 让位固定导航 */
 
 .nav-right { display: flex; align-items: center; gap: 18px; }
 .nav-user-area { display: flex; align-items: center; }
+
+/* ---------- 导航栏用户区（登录按钮 + 已登录头像下拉，与全站 style.css 一致） ---------- */
+.nav-login-btn {
+  padding: 8px 20px;
+  border-radius: 980px;
+  background: var(--red);
+  color: var(--white);
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  transition: background .2s ease, transform .2s ease;
+}
+.nav-login-btn:hover { background: #A80D27; transform: scale(1.03); }
+.nav-login-btn:active { transform: scale(.97); }
+
+.nav-user {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 980px;
+  transition: background .2s ease;
+}
+.nav-user:hover { background: rgba(0,0,0,.05); }
+.nav-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--red);
+  color: var(--white);
+  font-size: 15px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  border: none;
+  cursor: pointer;
+}
+.nav-nick { font-size: 14px; color: var(--ink); font-weight: 500; max-width: 96px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* 用户区下拉箭头覆盖子菜单的 9px caret，与全站一致 */
+.nav-user .nav-caret { font-size: 11px; color: var(--gray-3); }
+.nav-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 148px;
+  background: var(--white);
+  border: 1px solid var(--hairline);
+  border-radius: 14px;
+  box-shadow: 0 12px 32px rgba(0,0,0,.14);
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  z-index: 60;
+}
+.nav-dropdown[hidden] { display: none; }
 .nav-search {
   color: var(--gray-nav); width: 15px; height: 15px; display: flex;
 }
@@ -137,3 +196,143 @@ body { padding-top: 48px; }   /* 让位固定导航 */
   .nav-burger { display: flex; }
   .nav-drawer { padding: 8px 18px 20px; }
 }
+
+/* ============================================================
+   登录/注册弹窗 + 我的成绩 + Toast（复用 .quiz-modal/.quiz-card，
+   与全站 style.css 一致；子页不引 style.css，故在此补齐，
+   使两本书子页的登录位置响应与主页完全一致）
+   ============================================================ */
+
+/* 弹窗遮罩与卡片 */
+.quiz-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, .48);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+.quiz-modal[hidden] { display: none; }
+.quiz-card {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  background: var(--white);
+  border-radius: 28px;
+  padding: 48px;
+}
+.quiz-close {
+  position: absolute;
+  top: 16px; right: 20px;
+  font-size: 28px;
+  line-height: 1;
+  color: var(--gray-3);
+  background: none; border: none; cursor: pointer;
+  transition: color .2s ease;
+}
+.quiz-close:hover { color: var(--ink); }
+
+/* 弹窗眉标 */
+.kicker {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--red);
+  letter-spacing: 2px;
+}
+.kicker.sm { font-size: 14px; }
+
+/* 主按钮（登录 / 获取验证码） */
+.pill-btn {
+  margin-top: 4px;
+  padding: 14px 40px;
+  border-radius: 980px;
+  background: var(--red);
+  color: var(--white);
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background .2s ease, transform .2s ease;
+}
+.pill-btn:hover { background: #A80D27; transform: scale(1.02); }
+.pill-btn:active { transform: scale(.98); }
+
+/* 登录 / 注册卡片 */
+.rcs-auth-card { max-width: 400px; }
+.rcs-auth-title { font-size: 26px; font-weight: 600; letter-spacing: -0.01em; margin: 6px 0 18px; }
+.rcs-tabs { display: flex; gap: 8px; margin-bottom: 18px; }
+.rcs-tab {
+  flex: 1;
+  padding: 10px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  border: none; cursor: pointer;
+  background: var(--surface);
+  color: var(--gray-2);
+  transition: background .15s ease, color .15s ease;
+}
+.rcs-tab.active { background: var(--red); color: var(--white); }
+.rcs-auth-form { display: flex; flex-direction: column; gap: 14px; }
+.rcs-field { display: flex; flex-direction: column; gap: 6px; }
+.rcs-field label { font-size: 13px; font-weight: 600; color: var(--gray-2); }
+.rcs-field input {
+  padding: 12px 14px;
+  border: 1px solid var(--hairline);
+  border-radius: 12px;
+  font-size: 15px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color .2s ease;
+}
+.rcs-field input:focus { border-color: var(--red); }
+.rcs-error { font-size: 13px; color: #C0271D; background: #FDEBEE; padding: 8px 12px; border-radius: 10px; }
+.rcs-submit { margin-top: 4px; width: 100%; }
+.rcs-switch { text-align: center; font-size: 13px; color: var(--gray-2); margin-top: 16px; }
+.rcs-switch a { color: var(--red); font-weight: 600; }
+.rcs-code-row { display: flex; gap: 8px; align-items: stretch; }
+.rcs-code-row input { flex: 1; min-width: 0; }
+.rcs-send-code { white-space: nowrap; padding: 0 14px; font-size: 13px; }
+.rcs-sms-line { text-align: center; font-size: 13px; color: var(--gray-2); margin-top: -6px; }
+.rcs-sms-line a { color: var(--red); font-weight: 600; }
+
+/* 我的成绩面板 */
+.rcs-scores-body { margin-top: 4px; }
+.rcs-scores-loading, .rcs-scores-empty { font-size: 14px; color: var(--gray-2); text-align: center; padding: 28px 0; }
+.rcs-best { font-size: 15px; color: var(--ink); margin-bottom: 14px; text-align: center; }
+.rcs-best b { color: var(--red); font-size: 18px; }
+.rcs-scores-list { list-style: none; display: flex; flex-direction: column; max-height: 320px; overflow-y: auto; }
+.rcs-scores-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 4px;
+  border-bottom: 1px solid var(--hairline);
+  font-size: 14px;
+}
+.rcs-scores-list li:last-child { border-bottom: none; }
+.sc-score { font-weight: 600; color: var(--ink); }
+.sc-book { flex: 1; margin: 0 10px; font-size: 13px; color: var(--gray-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sc-date { font-size: 13px; color: var(--gray-3); }
+
+/* Toast */
+.rcs-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 40px;
+  transform: translateX(-50%) translateY(20px);
+  z-index: 400;
+  background: rgba(29,29,31,.92);
+  color: #fff;
+  padding: 12px 22px;
+  border-radius: 980px;
+  font-size: 14px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease, transform .25s ease;
+}
+.rcs-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
