@@ -524,9 +524,20 @@
       RCSAuth.onAuthChange(function (state) {
         renderUserArea(state);
       });
-      RCSAuth.getState().then(function (state) {
-        renderUserArea(state);
-      });
+      // CloudBase 会话是**异步恢复**的：静态页上 cloudbase-loader.js（type=module）
+      // 异步注入 bundle，而 account-ui.js 是普通脚本先执行，首读 getLoginState()
+      // 常拿到空；onLoginStateChanged 又可能在监听真正挂载前就已触发完毕，
+      // 于是导航栏一直停在"登录"按钮、永不恢复（红色文学等走 cloud-lazy 顺序注入
+      // 的页面因 bundle 先于 ui 加载故不暴露）。这里主动轮询补读，不依赖事件时序。
+      var tries = 0;
+      (function pollState() {
+        RCSAuth.getState().then(function (state) {
+          renderUserArea(state);
+          tries += 1;
+          // 已拿到登录态即停止；未登录最多再试 7 次（约 3s），避免长时间空转
+          if ((!state || !state.uid) && tries < 8) setTimeout(pollState, 400);
+        });
+      })();
     }
     // 外部（如成绩未登录时）请求打开登录弹窗
     document.addEventListener("rcs:request-login", function () {

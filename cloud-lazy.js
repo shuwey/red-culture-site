@@ -6,7 +6,7 @@
  *       若未设置，回退为通用 5 件套。
  */
 (function () {
-  var VER = "20260829z";
+  var VER = "20260829ad";
   var DEFAULT = [
     "cloudbase.bundle.js",
     "cloudbase-config.js",

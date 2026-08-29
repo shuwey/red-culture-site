@@ -110,6 +110,33 @@
     return RCS.getApp().auth();
   }
 
+  /* 等待 CloudBase SDK 就绪（轮询 window.cloudbase）。
+     背景（实测 2026-08-29）：静态页里 cloudbase-loader.js 是 type="module"，
+     它**异步**插入 bundle 脚本；而 account-ui.js 是普通脚本、会立刻执行，
+     于是 init 时 window.cloudbase 尚未挂载 → auth() 抛错 → getState() 返回
+     未登录 → 导航栏一直显示"登录"且永不恢复。走 cloud-lazy 顺序注入的页面
+     （红色文学各页）因 bundle 先于 ui 加载故不暴露此问题。
+     与 ai-assistant.js 的 waitCloudReady 同思路：不依赖 cloudbase-ready 事件
+     （该事件实测会早于 SDK 真正挂载派发）。 */
+  function whenReady(maxMs) {
+    return new Promise(function (resolve) {
+      if (typeof window.cloudbase !== "undefined") return resolve(true);
+      var waited = 0,
+        step = 100,
+        max = maxMs || 10000;
+      var t = setInterval(function () {
+        waited += step;
+        if (typeof window.cloudbase !== "undefined") {
+          clearInterval(t);
+          resolve(true);
+        } else if (waited >= max) {
+          clearInterval(t);
+          resolve(false);
+        }
+      }, step);
+    });
+  }
+
   /* 取参数中第一个非空值。
      ⚠ 刻意不回退本地存储：localStorage 里存的是「上一个」用户的昵称，
      在同一浏览器换账号登录时会串号（原本 A 登录后仍显示 B 的名字）。
@@ -199,14 +226,25 @@
 
   function ensureCloudListener() {
     if (cloudListenerAttached) return;
-    cloudListenerAttached = true;
     try {
       auth().onLoginStateChanged(function (loginState) {
         emit(buildState(loginState));
       });
+      cloudListenerAttached = true; // 仅真正挂载成功才标记
+      return;
     } catch (e) {
-      console.error("RCSAuth: 订阅登录态失败", e);
+      /* SDK 尚未就绪：不标记已挂载，走下面的重试 */
     }
+    // 就绪后补挂，保证迟到的登录态事件仍能刷新导航栏
+    whenReady().then(function (ok) {
+      if (!ok || cloudListenerAttached) return;
+      try {
+        auth().onLoginStateChanged(function (loginState) {
+          emit(buildState(loginState));
+        });
+        cloudListenerAttached = true;
+      } catch (e2) {}
+    });
   }
 
   function extractUid(res) {
@@ -529,21 +567,26 @@
   }
 
   function getState() {
-    try {
-      return auth()
-        .getLoginState()
-        .then(function (loginState) {
-          var st = buildState(loginState);
-          currentUid = st.uid;
-          if (st.uid) refreshNickFromProfile(st.uid, st.nick);
-          return st;
-        })
-        .catch(function () {
-          return { uid: null, nick: null };
-        });
-    } catch (e) {
-      return Promise.resolve({ uid: null, nick: null });
-    }
+    // 静态页上 account-ui.js 可能早于 bundle 就绪执行，直接 auth() 会抛错并被
+    // catch 成"未登录"，导致导航栏永远停在"登录"按钮。先等 SDK 就绪再读。
+    return whenReady().then(function (ok) {
+      if (!ok) return { uid: null, nick: null };
+      try {
+        return auth()
+          .getLoginState()
+          .then(function (loginState) {
+            var st = buildState(loginState);
+            currentUid = st.uid;
+            if (st.uid) refreshNickFromProfile(st.uid, st.nick);
+            return st;
+          })
+          .catch(function () {
+            return { uid: null, nick: null };
+          });
+      } catch (e) {
+        return { uid: null, nick: null };
+      }
+    });
   }
 
   function onAuthChange(cb) {
