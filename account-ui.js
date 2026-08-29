@@ -391,7 +391,12 @@
     }
     var res = await RCSQuiz.getScores();
     if (!res.success) {
-      body.innerHTML = '<p class="rcs-scores-empty">请先登录后查看成绩。</p>';
+      // 区分「真没登录」与「查库被安全规则拒绝」：后者若一律显示「请先登录」会误导排查
+      var isNoAuth = res.error && res.error.code === "NO_AUTH";
+      var msg = isNoAuth
+        ? "请先登录后查看成绩。"
+        : "成绩加载失败：" + ((res.error && res.error.message) || "请稍后重试");
+      body.innerHTML = '<p class="rcs-scores-empty">' + escapeHtml(msg) + "</p>";
       return;
     }
     var list = res.data.list || [];

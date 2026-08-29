@@ -22,6 +22,16 @@
   function storeNick(nick) {
     try { if (nick) localStorage.setItem(NICK_KEY, String(nick)); } catch (e) {}
   }
+  // 按 uid 维度存昵称：手机号注册时填写的昵称，云端 updateUser 无法稳定写回
+  // getLoginState 可读字段，故用本地存储兜底；按 uid 存可避免换号串昵称。
+  function getStoredNickForUid(uid) {
+    if (!uid) return "";
+    try { return localStorage.getItem(NICK_KEY + ":" + uid) || ""; } catch (e) { return ""; }
+  }
+  function storeNickForUid(uid, nick) {
+    if (!uid || !nick) return;
+    try { localStorage.setItem(NICK_KEY + ":" + uid, String(nick)); } catch (e) {}
+  }
 
   function getMode() {
     return (window.RCS && RCS.config && RCS.config.authMode) || "email";
@@ -64,8 +74,13 @@
   function buildState(loginState) {
     var u = loginState && (loginState.user || loginState);
     if (u && u.uid) {
-      // 同样只用云端数据，兜底用账号名，避免刷新后串到上一个用户的昵称
-      var nick = firstNonEmpty(u.nickName, u.name, u.username) || nickFromAccount(u.username);
+      // 优先云端昵称；云端为空时回退到「按 uid 存的本地昵称」（手机号注册时填写的昵称，
+      // 因 Web SDK 的 updateUser 不足以持久化到 getLoginState 可读字段），最后兜底用账号名。
+      // 按 uid 存储可避免换号串昵称。
+      var nick =
+        firstNonEmpty(u.nickName, u.name, u.username) ||
+        getStoredNickForUid(u.uid) ||
+        nickFromAccount(u.username);
       return { uid: u.uid, nick: nick };
     }
     return { uid: null, nick: null };
@@ -216,11 +231,15 @@
           if (!st.uid) {
             return { success: false, error: { code: "AUTH_ERROR", message: "验证码不正确或已失效，请重新输入" } };
           }
-          var nk = st.nick || ctx.nickname || nickFromAccount(ctx.phone);
-          storeNick(nk);
+          // 优先用注册时填写的昵称：手机号账号在云端没有昵称，buildState 会回退成手机号，
+          // 不处理就会在导航栏显示手机号而非昵称。
+          var nk = ctx.nickname || st.nick || nickFromAccount(ctx.phone);
+          // 按 uid 维度存本地昵称（Web SDK updateUser 无法稳定写回 getLoginState 可读字段，
+          // 故用本地兜底；buildState 会在云端为空时回退到这里），保证刷新/下次登录也显示昵称。
+          storeNickForUid(st.uid, nk);
           pendingVerify = null;
-          emit(st);
-          return { success: true, data: st };
+          emit({ uid: st.uid, nick: nk });
+          return { success: true, data: { uid: st.uid, nick: nk } };
         });
       })
       .catch(function (err) {
@@ -264,12 +283,16 @@
               error: { code: "AUTH_ERROR", message: "账号或密码不正确，或邮箱尚未完成验证" },
             };
           }
-          // 云端昵称 → 登录账号名。刻意不回退 getStoredNick()：
-          // 本地存的是上一个用户的昵称，换账号登录会导致显示错人。
-          var nick = st.nick || extractNick(res) || nickFromAccount(email);
-          storeNick(nick);
-          emit(st);
-          return { success: true, data: st };
+          // 云端昵称 → 按 uid 存的本地昵称 → 登录账号名。刻意不回退 getStoredNick()（全局键，
+          // 存的是上一个用户的昵称，换账号会串号）；改为按 uid 维度回退，安全且不串号。
+          var nick =
+            st.nick ||
+            getStoredNickForUid(st.uid) ||
+            extractNick(res) ||
+            nickFromAccount(email);
+          storeNickForUid(st.uid, nick);
+          emit({ uid: st.uid, nick: nick });
+          return { success: true, data: { uid: st.uid, nick: nick } };
         });
       })
       .catch(function (err) {
