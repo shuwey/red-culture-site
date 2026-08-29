@@ -220,15 +220,26 @@
 
   function errMsg(err) {
     if (!err) return "操作失败，请重试";
-    var m = err.message || String(err);
+    // CloudBase SDK 错误是对象（{code,error,error_description,error_code,...}），没有 message，
+    // 直接 String(err) 会得到 "[object Object]"，故优先取 error_description / error / code。
+    var m =
+      err.error_description ||
+      err.errMsg ||
+      err.message ||
+      (err.error && (err.error.error_description || err.error.message || err.error)) ||
+      (typeof err === "string" ? err : "");
+    if (!m) m = "操作失败，请重试";
     if (/already|已注册|existed|E11000|duplicate/i.test(m)) return "该账号已注册，请直接登录";
     if (/password|invalid|INVALID|不正确/i.test(m)) return "账号或密码不正确";
     if (/not exist|no such|不存在|找不到/i.test(m)) return "账号不存在，请先注册";
-    return m || "操作失败，请重试";
+    return m;
   }
 
   // 注册第二步待验证上下文（signUp 后、verifyOtp 前暂存，不持久化）
   var pendingVerify = null;
+  // 短信验证码登录的待验证上下文：getVerification 返回的 verification_id（JWT），
+  // 配合短信里的 6 位验证码传给 verifyOtp({type:'phone',...}) 完成登录。
+  var loginVerify = null;
 
   function register(phone, password, nickname) {
     // 匿名/昵称模式：直接匿名建号，昵称存本地（无需服务端建号云函数）
@@ -405,13 +416,16 @@
       });
   }
 
-  /* 发送登录用短信验证码（手机号账号登录备用方式，账号已短信验证过，必可用） */
+  /* 发送登录用短信验证码（手机号账号登录备用方式，账号已短信验证过，必可用）。
+     同时抓回 getVerification 返回的 verification_id（JWT），供 loginWithPhoneCode 使用。 */
   function sendPhoneLoginCode(phone) {
     return Promise.resolve()
       .then(function () {
-        return auth().sendPhoneCode(phone);
+        // getVerification 既下发短信，也返回 verification_id（JWT）
+        return auth().getVerification({ phone_number: phone });
       })
-      .then(function () {
+      .then(function (v) {
+        loginVerify = { phone: phone, verificationId: v && v.verification_id };
         return { success: true };
       })
       .catch(function (err) {
@@ -419,22 +433,33 @@
       });
   }
 
-  /* 手机号 + 短信验证码登录 */
+  /* 手机号 + 短信验证码登录。
+     正确流程：sendPhoneLoginCode 已拿到 verification_id；这里用「6 位短信码」作为 token、
+     verification_id 作为 messageId 调 verifyOtp({type:'phone',...})，由 SDK 完成登录。
+     （signInWithPhoneCodeOrPassword 的 phoneCode 期望 JWT 而非 6 位码，故不能把 6 位码直接传给它。） */
   function loginWithPhoneCode(phone, code) {
+    if (!loginVerify || !loginVerify.verificationId) {
+      return Promise.resolve({
+        success: false,
+        error: { code: "NO_VERIFY", message: "请先点击「获取验证码」获取短信" },
+      });
+    }
     return Promise.resolve()
       .then(function () {
-        return auth().signInWithPhoneCodeOrPassword({
-          phoneNumber: phone,
-          phoneCode: String(code || "").trim(),
+        return auth().verifyOtp({
+          type: "phone",
+          token: String(code || "").trim(),
+          messageId: loginVerify.verificationId,
+          phone: phone,
         });
       })
       .then(function (res) {
         if (res && res.error) {
-          return { success: false, error: { code: "AUTH_ERROR", message: (res.error && res.error.message) || "验证码不正确或已失效" } };
+          return { success: false, error: { code: "AUTH_ERROR", message: "验证码不正确或已失效，请重新获取" } };
         }
         return readSession().then(function (st) {
           if (!st.uid) {
-            return { success: false, error: { code: "AUTH_ERROR", message: "验证码不正确或已失效，请重试" } };
+            return { success: false, error: { code: "AUTH_ERROR", message: "验证码不正确或已失效，请重新获取" } };
           }
           var nick =
             getStoredNickForUid(st.uid) ||
@@ -444,6 +469,7 @@
           if (nick && !isPhone(nick)) storeNickForUid(st.uid, nick);
           saveProfileNick(st.uid, nick);
           refreshNickFromProfile(st.uid, nick);
+          loginVerify = null;
           emit({ uid: st.uid, nick: nick });
           return { success: true, data: { uid: st.uid, nick: nick } };
         });

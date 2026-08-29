@@ -41,7 +41,6 @@
     '      <button type="submit" class="pill-btn rcs-submit" id="rcs-auth-submit">登录</button>' +
     "    </form>" +
     '    <p class="rcs-switch" id="rcs-switch">还没有账号？<a href="javascript:void(0)" id="rcs-to-register">去注册</a></p>' +
-    '    <p class="rcs-sms-line" id="rcs-sms-line" hidden><a href="javascript:void(0)" id="rcs-to-sms-login">用短信验证码登录 ›</a></p>' +
     "  </div>" +
     "</div>";
 
@@ -156,8 +155,6 @@
         if (codeField) codeField.hidden = !smsMode; // 短信模式显示验证码框
         var sendBtn = el("rcs-send-code");
         if (sendBtn) sendBtn.hidden = !smsMode;
-        var smsLine = el("rcs-sms-line");
-        if (smsLine) smsLine.hidden = smsMode; // 已进入短信模式则隐藏入口链接
         switchLink.innerHTML = smsMode
           ? '<a href="javascript:void(0)" id="rcs-to-pwd-login">用密码登录</a> · 还没有账号？<a href="javascript:void(0)" id="rcs-to-register">去注册</a>'
           : '还没有账号？<a href="javascript:void(0)" id="rcs-to-register">去注册</a> · <a href="javascript:void(0)" id="rcs-to-sms-login">用短信验证码登录 ›</a>';
@@ -209,12 +206,18 @@
     };
 
     // 登录页：「用短信验证码登录」切换（手机号账号注册后最稳的登录方式）
-    var toSms = el("rcs-to-sms-login");
-    if (toSms) toSms.onclick = function (e) {
-      e.preventDefault();
-      smsMode = true;
-      setTab("login");
-    };
+    // 注意：rcs-sms-line 与 switchLink 里各有一个同名 id="rcs-to-sms-login"（重复 id），
+    // 故用 querySelectorAll 给所有匹配元素都绑上处理器，避免 getElementById 只命中隐藏的那个。
+    var toSmsAll = document.querySelectorAll("#rcs-to-sms-login");
+    if (toSmsAll) {
+      toSmsAll.forEach(function (toSms) {
+        toSms.onclick = function (e) {
+          e.preventDefault();
+          smsMode = true;
+          setTab("login");
+        };
+      });
+    }
     var toPwd = el("rcs-to-pwd-login");
     if (toPwd) toPwd.onclick = function (e) {
       e.preventDefault();
