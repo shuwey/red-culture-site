@@ -1171,6 +1171,10 @@ button.stat:focus-visible { outline: 2px solid rgba(255,255,255,.6); outline-off
 .detail-figure--kaiquo img {
   object-position: 72% 46%;
 }
+/* 南湖红船：船体居中偏上，2:1 裁切时保留画舫主体而非过多前景堤岸 */
+.figure-red-boat img {
+  object-position: 50% 40%;
+}
 /* 历史文献照：按原比例完整显示，不裁切、不缓动，浅底衬出史料质感 */
 .detail-figure--doc {
   background: #f3f1ec;
