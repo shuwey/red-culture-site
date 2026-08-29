@@ -1171,6 +1171,16 @@ button.stat:focus-visible { outline: 2px solid rgba(255,255,255,.6); outline-off
 .detail-figure--kaiquo img {
   object-position: 72% 46%;
 }
+/* 历史文献照：按原比例完整显示，不裁切、不缓动，浅底衬出史料质感 */
+.detail-figure--doc {
+  background: #f3f1ec;
+}
+.detail-figure.detail-figure--doc img {
+  aspect-ratio: auto;
+  height: auto;
+  object-fit: initial;
+  animation: none;
+}
 .detail-figure video {
   display: block;
   width: 100%;
