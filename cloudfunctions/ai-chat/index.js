@@ -152,34 +152,47 @@ function parseModel(raw) {
   return { answer: String(raw || "").trim(), grounded: true };
 }
 
-/* 词面接地校验（防日期类幻觉）：若回答中出现史料里没有的公元年份，视为未接地 */
+/* 词面接地校验（P1 放宽）：
+   旧逻辑——回答出现史料里没有的公元年份即判未接地，过于严格，常误伤
+   「广为人知但语料未收录」的正确年份（如 1921 建党）。
+   新逻辑——仅当回答「同时包含史料内年份 + 史料外年份」时才视为可能冲突而拒，
+   即只拦「与史料已有日期相矛盾」的情况；单纯史料外的年份（如常识性年份）放行。
+   真正的「不得编造」仍由系统提示词 + 模型 grounded 自报 + 输出侧敏感词扫描兜底。 */
 function lexicalUngrounded(answer, contexts) {
   const ctxText = (contexts || [])
     .map((c) => String(c.text || "") + " " + String(c.title || ""))
     .join(" ");
-  const years = answer.match(/\b(1[89]\d\d|20\d\d)\b/g) || [];
-  const seen = new Set();
-  for (const y of years) {
-    if (seen.has(y)) continue;
-    seen.add(y);
-    if (ctxText.indexOf(y) === -1) return true;
-  }
-  return false;
+  const ctxYears = new Set(ctxText.match(/\b(1[89]\d\d|20\d\d)\b/g) || []);
+  if (ctxYears.size === 0) return false; // 史料本身无年份 → 不卡
+  const ansYears = answer.match(/\b(1[89]\d\d|20\d\d)\b/g) || [];
+  const ansSet = new Set(ansYears);
+  let hasInside = false;
+  let hasOutside = false;
+  ansSet.forEach((y) => {
+    if (ctxYears.has(y)) hasInside = true;
+    else hasOutside = true;
+  });
+  return hasInside && hasOutside; // 仅冲突才拒，单纯史料外年份放行
 }
 
-/* 从回答中提取命中的语料 url 作为来源 */
+/* 从回答中提取来源：模型若把 url 写进回答则取命中项；
+   否则兜底返回最相关的一条，保证成功回答始终有可核查来源（审计遗留③） */
 function extractSources(answer, contexts) {
   if (!contexts || !contexts.length) return [];
-  return contexts
-    .filter((c) => c.url && answer.indexOf(c.url) !== -1)
-    .map((c) => ({ title: c.title || "", url: c.url }));
+  const matched = contexts.filter((c) => c.url && answer.indexOf(c.url) !== -1);
+  if (matched.length) {
+    return matched.map((c) => ({ title: c.title || "", url: c.url }));
+  }
+  const top = contexts[0];
+  return top && top.url ? [{ title: top.title || "", url: top.url }] : [];
 }
 
 /* 入口 */
 exports.main = async (event, context) => {
   const question = String((event && event.question) || "").trim();
   const history = Array.isArray(event && event.history) ? event.history.slice(-8) : [];
-  const contexts = Array.isArray(event && event.contexts) ? event.contexts.slice(0, 3) : [];
+  // P1：检索上下文上限 3 → 6，让模型看到更宽史料面
+  const contexts = Array.isArray(event && event.contexts) ? event.contexts.slice(0, 6) : [];
   const titles = contexts.map((c) => c.title || "");
 
   let result;

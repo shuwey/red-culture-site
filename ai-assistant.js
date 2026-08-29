@@ -6,7 +6,7 @@
 (function () {
   "use strict";
 
-  var CORPUS_URL = "data/corpus.json";
+  var CORPUS_URL = "data/corpus.json?v=20260829t";
   var corpusCache = null;
   var corpusLoading = null;
   var history = []; // 最近 4 轮（8 条消息）
@@ -361,7 +361,8 @@
     scored.sort(function (a, b) {
       return b.score - a.score;
     });
-    return scored.slice(0, 3).map(function (x) {
+    // P1：检索候选从 top3 提升到 top6，让模型看到更宽的史料面
+    return scored.slice(0, 6).map(function (x) {
       return {
         id: x.it.id,
         title: x.it.name,
