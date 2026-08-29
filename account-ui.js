@@ -22,19 +22,17 @@
     '        <input type="text" id="rcs-nick" placeholder="如：星星之火" autocomplete="nickname" maxlength="20">' +
     "      </div>" +
     '      <div class="rcs-field" id="rcs-email-field">' +
-    '        <label for="rcs-email">账号</label>' +
-    // 本环境未开启邮箱登录（email provider 未启用，且开启需先配置 SMTP 发件人），
-    // 账号由管理端创建后以「用户名」登录，故此处放开为文本输入。
-    '        <input type="text" id="rcs-email" placeholder="用户名或邮箱" autocomplete="username">' +
+    '        <label for="rcs-email" id="rcs-email-label">账号</label>' +
+    // 登录支持用户名/手机号/邮箱；注册走手机号（自包含短信验证，无需 SMTP）。
+    '        <input type="text" id="rcs-email" placeholder="用户名 / 手机号 / 邮箱" autocomplete="username">' +
     "      </div>" +
     '      <div class="rcs-field" id="rcs-password-field">' +
     '        <label for="rcs-password">密码</label>' +
     '        <input type="password" id="rcs-password" placeholder="至少 8 位" autocomplete="current-password">' +
     "      </div>" +
-    // 邮箱注册第二步：填邮箱验证码（邮箱登录开启后 signUp 需经验证码激活）
     '      <div class="rcs-field" id="rcs-code-field" hidden>' +
-    '        <label for="rcs-code">邮箱验证码</label>' +
-    '        <input type="text" id="rcs-code" placeholder="查收邮件中的 6 位验证码" autocomplete="one-time-code" maxlength="12" inputmode="numeric">' +
+    '        <label for="rcs-code">短信验证码</label>' +
+    '        <input type="text" id="rcs-code" placeholder="查收手机短信中的 6 位验证码" autocomplete="one-time-code" maxlength="12" inputmode="numeric">' +
     "      </div>" +
     '      <p class="rcs-error" id="rcs-auth-error" hidden></p>' +
     '      <button type="submit" class="pill-btn rcs-submit" id="rcs-auth-submit">登录</button>' +
@@ -114,6 +112,7 @@
     var submit = el("rcs-auth-submit");
     var switchLink = el("rcs-switch");
     var tabs = el("rcs-tabs");
+    // 短信验证码输入框只在「验证」步骤显示
     var codeField = el("rcs-code-field");
     if (codeField) codeField.hidden = t !== "verify";
 
@@ -124,31 +123,37 @@
       if (nickField) nickField.hidden = false;
       submit.textContent = "进入";
       switchLink.innerHTML = "";
-    } else if (t === "verify") {
-      // 邮箱注册第二步：只留验证码输入
-      if (tabs) tabs.style.display = "none";
-      if (emailField) emailField.hidden = true;
-      if (pwdField) pwdField.hidden = true;
-      if (nickField) nickField.hidden = true;
-      submit.textContent = "验证并登录";
-      switchLink.innerHTML =
-        '没收到邮件？<a href="javascript:void(0)" id="rcs-resend-code">重新发送</a>' +
-        ' · <a href="javascript:void(0)" id="rcs-to-login">返回登录</a>';
     } else {
       if (tabs) tabs.style.display = "";
       if (emailField) emailField.hidden = false;
       if (pwdField) pwdField.hidden = false;
-      if (t === "login") {
+      var emailLabel = el("rcs-email-label");
+      var emailInput = el("rcs-email");
+      if (t === "verify") {
+        // 注册第二步：只留短信验证码输入
+        if (tabs) tabs.style.display = "none";
+        if (emailField) emailField.hidden = true;
+        if (pwdField) pwdField.hidden = true;
+        if (nickField) nickField.hidden = true;
+        submit.textContent = "验证并登录";
+        switchLink.innerHTML =
+          '没收到短信？<a href="javascript:void(0)" id="rcs-resend-code">重新发送</a>' +
+          ' · <a href="javascript:void(0)" id="rcs-to-login">返回登录</a>';
+      } else if (t === "login") {
         el("rcs-tab-login").classList.add("active");
         el("rcs-tab-register").classList.remove("active");
         if (nickField) nickField.hidden = true;
         submit.textContent = "登录";
+        if (emailLabel) emailLabel.textContent = "账号";
+        if (emailInput) emailInput.placeholder = "用户名 / 手机号 / 邮箱";
         switchLink.innerHTML = '还没有账号？<a href="javascript:void(0)" id="rcs-to-register">去注册</a>';
       } else {
         el("rcs-tab-register").classList.add("active");
         el("rcs-tab-login").classList.remove("active");
         if (nickField) nickField.hidden = false;
         submit.textContent = "注册";
+        if (emailLabel) emailLabel.textContent = "手机号";
+        if (emailInput) emailInput.placeholder = "11 位手机号";
         switchLink.innerHTML = '已有账号？<a href="javascript:void(0)" id="rcs-to-login">去登录</a>';
       }
     }
@@ -181,10 +186,10 @@
       resending = true;
       var old = resend.textContent;
       resend.textContent = "发送中…";
-      RCSAuth.resendEmailCode().then(function (r) {
+      RCSAuth.resendCode().then(function (r) {
         resending = false;
         resend.textContent = old;
-        if (r && r.success) showError("验证码已重新发送，请查收邮箱。");
+        if (r && r.success) showError("验证码已重新发送，请查收短信。");
         else showError((r && r.error && r.error.message) || "重发失败，请稍后再试。");
       });
     };
@@ -210,10 +215,12 @@
       if (!nick || nick.trim().length === 0) return "请填写昵称";
       return null;
     }
-    // 支持「用户名」或「邮箱」两种形式：
-    var isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    var isName = /^[A-Za-z0-9_.@-]{3,32}$/.test(email);
-    if (!isEmail && !isName) return "请输入用户名（3-32 位字母、数字或 _ . - @）或邮箱";
+    if (tab === "register") {
+      // 注册走手机号（自包含短信验证，无需 SMTP）
+      if (!/^1[3-9]\d{9}$/.test(email)) return "请输入有效的 11 位手机号";
+    } else if (!email || !email.trim()) {
+      return "请输入账号";
+    }
     if (!pwd || pwd.length < 8) return "密码至少 8 位";
     if (tab === "register" && (!nick || nick.trim().length === 0)) return "请填写昵称";
     return null;
@@ -224,12 +231,12 @@
     clearError();
     var submitBtn = el("rcs-auth-submit");
 
-    // ① 邮箱注册第二步：提交验证码
+    // ① 注册第二步：提交短信验证码
     if (tab === "verify") {
       var code = (el("rcs-code").value || "").trim();
-      if (!code) { showError("请输入邮箱中的验证码"); return; }
+      if (!code) { showError("请输入手机短信中的验证码"); return; }
       submitBtn.disabled = true;
-      var vr = await RCSAuth.verifyEmailCode(code);
+      var vr = await RCSAuth.verifyCode(code);
       submitBtn.disabled = false;
       if (vr.success) {
         closeLogin();
@@ -260,7 +267,8 @@
     }
     submitBtn.disabled = false;
 
-    // ② 注册成功但需要邮箱验证码激活 → 切到验证步骤
+    // 注册成功但需短信验证码激活 → 切到验证码步骤（不能直接算登录成功，
+    // 否则账号实为未激活、AI 不可用，正是此前被投诉的「假成功」）。
     if (res.success && res.needVerify) {
       setTab("verify");
       setTimeout(function () {

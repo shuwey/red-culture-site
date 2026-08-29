@@ -1,8 +1,11 @@
 /* ============================================================
    红色文化传播网 · 认证门面（CloudBase Auth 新 SDK）
    全局命名：window.RCSAuth
-   登录：auth().signInWithPassword({ username: email, password })  // usernamePassword 策略（已开启）
-   注册：auth().signUp({ username, password }) 后自动登录（v3 前端直连，Node SDK 已不支持服务端 createUser）
+   登录：auth().signInWithPassword({ username: 账号, password })  // usernamePassword 策略（已开启，账号可为用户名/邮箱/手机号）
+   注册：手机号 + 密码。auth().signUp({ phone, password }) 返回 verifyOtp，云端经
+        「默认短信通道」下发验证码，提交验证码激活后账号即生效、可直接登录。
+        —— 说明：本环境 email provider 强制 signUp→verifyOtp，但 SMTP 未配置、验证码无法送达，
+           邮箱注册会死锁；Node SDK 也无服务端建号能力。故注册统一走手机号（自包含，无需 SMTP/SMS 配置）。
    匿名：auth().signInAnonymously()
    对外接口保持不变：register / login / logout / getState / onAuthChange
    ============================================================ */
@@ -12,8 +15,6 @@
   var NICK_KEY = "rcs_nick"; // 匿名/展示昵称兜底
   var subscribers = [];
   var cloudListenerAttached = false;
-  // 邮箱注册待验证上下文（signUp 后、verifyOtp 前暂存，不持久化）
-  var pendingVerify = null;
 
   function getStoredNick() {
     try { return localStorage.getItem(NICK_KEY) || ""; } catch (e) { return ""; }
@@ -133,11 +134,14 @@
     return m || "操作失败，请重试";
   }
 
-  function register(email, password, nickname) {
+  // 注册第二步待验证上下文（signUp 后、verifyOtp 前暂存，不持久化）
+  var pendingVerify = null;
+
+  function register(phone, password, nickname) {
     // 匿名/昵称模式：直接匿名建号，昵称存本地（无需服务端建号云函数）
     var anon = getMode() === "anonymous" || getMode() === "local";
     if (anon) {
-      var nick = nickname || email || "";
+      var nick = nickname || phone || "";
       return auth()
         .signInAnonymously()
         .then(function (res) {
@@ -153,47 +157,37 @@
           };
         });
     }
-    // 邮箱/密码模式：前端直接用 Web SDK signUp 建号（v3 Node SDK 已不支持服务端 createUser）
-    // 注意：signUp 参数为 {email, password}，不是 {username, password}（sdkHints: signUp 接受 phone|email）
-    //
-    // 重要：邮箱登录开启后，signUp 返回 { data:{ verifyOtp, resend }, error:null }，
-    // 此时账号尚未激活，必须经邮箱验证码确认；若仍照旧直接 signInWithPassword 会因
-    // 邮箱未验证而失败，用户会看到「注册失败」——实际账号已创建，只是卡在验证环节。
+    // 手机号 + 密码模式：Web SDK signUp 返回 verifyOtp，云端经「默认短信通道」下发验证码，
+    // 提交验证码激活后账号即生效、可直接登录。邮箱注册因 email provider 强制验证且 SMTP 未配置
+    // 无法送达，Node SDK 也无服务端建号能力，故注册统一走手机号（自包含，无需 SMTP/SMS 配置）。
     return auth()
-      .signUp({ email: email, password: password })
+      .signUp({ phone: phone, password: password })
       .then(function (res) {
         if (res && res.data && typeof res.data.verifyOtp === "function") {
           pendingVerify = {
-            email: email,
+            phone: phone,
             nickname: nickname,
             verifyOtp: res.data.verifyOtp,
-            resend: res.data.resend,
+            resend: typeof res.data.resend === "function" ? res.data.resend : null,
           };
-          return { success: true, needVerify: true, data: { email: email } };
+          return { success: true, needVerify: true, data: { phone: phone } };
         }
-        // 无需验证（环境配置为免验证建号）：照旧自动登录
+        // 极少数无需验证的场景：直接建立会话
         return auth()
-          .signInWithPassword({ username: email, password: password })
-          .then(function (loginRes) {
-            // 以真实会话复核 uid，杜绝「成功但无 uid」的假登录
+          .signInWithPassword({ username: phone, password: password })
+          .then(function () {
             return readSession().then(function (st) {
               if (!st.uid) {
-                return {
-                  success: false,
-                  error: {
-                    code: "AUTH_ERROR",
-                    message: "注册成功但自动登录失败，请返回登录页用新账号登录",
-                  },
-                };
+                return { success: false, error: { code: "AUTH_ERROR", message: "注册成功但自动登录失败，请用新账号登录" } };
               }
-              var nick = st.nick || extractNick(loginRes) || nickname || nickFromAccount(email);
-              storeNick(nick);
+              var nk = st.nick || nickname || nickFromAccount(phone);
+              storeNick(nk);
               emit(st);
               return { success: true, data: st };
             });
           })
-          .catch(function (err) {
-            return { success: false, error: { code: "AUTH_ERROR", message: errMsg(err) } };
+          .catch(function () {
+            return { success: false, error: { code: "AUTH_ERROR", message: "注册成功但自动登录失败，请用新账号登录" } };
           });
       })
       .catch(function (err) {
@@ -201,13 +195,10 @@
       });
   }
 
-  /* 邮箱注册第二步：提交验证码完成激活并登录 */
-  function verifyEmailCode(code) {
+  /* 注册第二步：提交短信验证码完成激活并登录 */
+  function verifyCode(code) {
     if (!pendingVerify) {
-      return Promise.resolve({
-        success: false,
-        error: { code: "NO_PENDING", message: "验证已失效，请重新注册" },
-      });
+      return Promise.resolve({ success: false, error: { code: "NO_PENDING", message: "验证已失效，请重新注册" } });
     }
     var ctx = pendingVerify;
     return Promise.resolve()
@@ -217,25 +208,16 @@
       .then(function (res) {
         // SDK 把错误放在返回值的 .error 里而不抛异常，必须显式检查；
         // 否则错误验证码也会被当成成功，用户以为注册成功实则未登录。
-        // 注：不走 errMsg 通用映射——SDK 报错含 invalid 等字样会被误译作
-        // 「账号或密码不正确」，在验证码场景下会误导用户。
         if (res && res.error) {
-          return {
-            success: false,
-            error: { code: "AUTH_ERROR", message: "验证码不正确或已失效，请重新输入" },
-          };
+          return { success: false, error: { code: "AUTH_ERROR", message: "验证码不正确或已失效，请重新输入" } };
         }
         // 以真实会话复核：verifyOtp 返回对象未必含 uid，必须读 getLoginState 确认激活成功
         return readSession().then(function (st) {
           if (!st.uid) {
-            return {
-              success: false,
-              error: { code: "AUTH_ERROR", message: "验证码不正确或已失效，请重新输入" },
-            };
+            return { success: false, error: { code: "AUTH_ERROR", message: "验证码不正确或已失效，请重新输入" } };
           }
-          // 云端昵称为准，其次用注册时填写的昵称
-          var nick = st.nick || ctx.nickname || nickFromAccount(ctx.email);
-          storeNick(nick);
+          var nk = st.nick || ctx.nickname || nickFromAccount(ctx.phone);
+          storeNick(nk);
           pendingVerify = null;
           emit(st);
           return { success: true, data: st };
@@ -246,17 +228,12 @@
       });
   }
 
-  /* 重新发送邮箱验证码 */
-  function resendEmailCode() {
-    if (!pendingVerify || typeof pendingVerify.resend !== "function") {
+  /* 重新发送短信验证码（仅当 signUp 返回 resend 时可用；手机号注册通常无 resend，前端会提示重注册） */
+  function resendCode() {
+    if (!pendingVerify || !pendingVerify.resend) {
       return Promise.resolve({
         success: false,
-        // signUp 返回的 data 仅含 verifyOtp（无 resend），故重发不可用，
-        // 提示改为可操作：让用户返回重新注册以触发新验证码。
-        error: {
-          code: "NO_RESEND",
-          message: "当前无法重发验证码，请点击「返回登录」后重新注册一次。",
-        },
+        error: { code: "NO_RESEND", message: "暂不支持重发验证码，请返回重新注册一次。" },
       });
     }
     return Promise.resolve()
@@ -351,8 +328,8 @@
 
   window.RCSAuth = {
     register: register,
-    verifyEmailCode: verifyEmailCode,
-    resendEmailCode: resendEmailCode,
+    verifyCode: verifyCode,
+    resendCode: resendCode,
     login: login,
     logout: logout,
     getState: getState,
