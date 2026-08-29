@@ -403,7 +403,7 @@
      角标纯展示，失败安全。 */
   var AI_IMAGE_FILES = [
     // P1 中风险：AI 生成的党史地标图
-    "zunyi.jpg", "red-boat.jpg", "luding.jpg", "xibaipo.jpg",
+    "red-boat.jpg", "luding.jpg", "xibaipo.jpg",
     "hero-jinggangshan.jpg", "card-places.jpg", "detail-yanan.png",
     // P2 低风险：AI 生成的英雄场景 / 氛围图
     "detail-dongcunrui.png", "detail-fangzhimin.png", "detail-jiangzhujun.png",
