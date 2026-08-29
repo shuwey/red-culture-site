@@ -1167,6 +1167,10 @@ button.stat:focus-visible { outline: 2px solid rgba(255,255,255,.6); outline-off
   display: block;
   animation: kenburns 26s ease-in-out infinite alternate;
 }
+/* 开国大典图：人物偏右，焦点右移并略偏上，避免 2:1 裁切切到脸部 */
+.detail-figure--kaiquo img {
+  object-position: 72% 46%;
+}
 .detail-figure video {
   display: block;
   width: 100%;

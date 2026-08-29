@@ -206,7 +206,7 @@ const EVENTS = [
     epithet: "中国人民从此站起来了",
     lead:
       "1949 年 10 月 1 日下午三时，开国大典在天安门广场举行。毛泽东庄严宣告中华人民共和国中央人民政府成立，三十万军民欢聚，五星红旗冉冉升起。",
-    img: { src: "assets/images/detail-kaiquo.jpg", alt: "1949 年 10 月 1 日，毛泽东在天安门城楼宣告中华人民共和国中央人民政府成立（历史资料图）", caption: "1949 年 10 月 1 日，毛泽东主席在天安门城楼宣告中华人民共和国中央人民政府成立。（历史资料图 · 来源：Wikimedia Commons，公有领域）" },
+    img: { src: "assets/images/detail-kaiquo.jpg", alt: "1949 年 10 月 1 日，毛泽东在天安门城楼宣告中华人民共和国中央人民政府成立（历史资料图）", caption: "1949 年 10 月 1 日，毛泽东主席在天安门城楼宣告中华人民共和国中央人民政府成立。（历史资料图 · 来源：Wikimedia Commons，公有领域）", kaiquo: true },
     quote: "中华人民共和国中央人民政府今天成立了！",
     quoteNote: "—— 毛泽东，1949 年 10 月 1 日",
     stories: [
@@ -499,7 +499,7 @@ ${nav()}
     <!-- 导语 -->
     <section class="bio-section">
       <p class="bio-lead reveal">${e.lead}</p>
-${e.img ? `      <figure class="detail-figure reveal">\n        <img src="${e.img.src}" alt="${e.img.alt}" loading="lazy">\n        ${e.img.caption ? `        <figcaption>${e.img.caption}</figcaption>\n` : ""}      </figure>\n` : ""}    </section>
+${e.img ? `      <figure class="detail-figure reveal${e.img.kaiquo ? ' detail-figure--kaiquo' : ''}">\n        <img src="${e.img.src}" alt="${e.img.alt}" loading="lazy">\n        ${e.img.caption ? `        <figcaption>${e.img.caption}</figcaption>\n` : ""}      </figure>\n` : ""}    </section>
 
     <!-- 名句 -->
     <section class="quote-black">
