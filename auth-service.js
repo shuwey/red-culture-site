@@ -15,6 +15,7 @@
   var NICK_KEY = "rcs_nick"; // 匿名/展示昵称兜底
   var subscribers = [];
   var cloudListenerAttached = false;
+  var currentUid = null; // 当前已登录 uid（用于刷新昵称时判断会话是否仍有效）
 
   function getStoredNick() {
     try { return localStorage.getItem(NICK_KEY) || ""; } catch (e) { return ""; }
@@ -41,6 +42,61 @@
   function storeNickForPhone(phone, nick) {
     if (!phone || !nick) return;
     try { localStorage.setItem(NICK_KEY + ":phone:" + phone, String(nick)); } catch (e) {}
+  }
+
+  // ===== 云端昵称持久化（user_profile 集合，跨浏览器/设备跟账号走）=====
+  // 手机号账号云端无昵称字段、updateUser 无法持久化，昵称只能靠本地存储，换设备会丢。
+  // 故新增 user_profile 集合：_id = uid，存 { uid, nickName, updatedAt }。
+  // 安全规则：PRIVATE（仅创建者可读写）→ 等价于 doc._openid == auth.uid（_openid 由 Web SDK
+  // 在写入时自动置为当前用户 uid）。登录/注册后从云端拉取昵称覆盖本地（跨设备），或把本地真实
+  // 昵称回写云端（首次/旧账号补齐）。
+  var PROFILE_COLL = "user_profile";
+  function profileColl() {
+    try { return RCS.getApp().database().collection(PROFILE_COLL); } catch (e) { return null; }
+  }
+  // 把昵称写入云端（仅当 nick 为真实昵称、非手机号）
+  function saveProfileNick(uid, nick) {
+    if (!uid || !nick || isPhone(nick)) return Promise.resolve(false);
+    var coll = profileColl();
+    if (!coll) return Promise.resolve(false);
+    try {
+      return coll.doc(uid).set({ uid: uid, nickName: nick, updatedAt: Date.now() })
+        .then(function () { return true; })
+        .catch(function () { return false; });
+    } catch (e) {
+      return Promise.resolve(false);
+    }
+  }
+  // 从云端读取昵称；返回 "" 表示无记录或读取出错
+  function loadProfileNick(uid) {
+    if (!uid) return Promise.resolve("");
+    var coll = profileColl();
+    if (!coll) return Promise.resolve("");
+    try {
+      return coll.doc(uid).get()
+        .then(function (res) {
+          var d = res && res.data;
+          if (!d) return "";
+          if (Array.isArray(d)) d = d[0];
+          var n = d && (d.nickName || d.nick);
+          return n ? String(n) : "";
+        })
+        .catch(function () { return ""; });
+    } catch (e) {
+      return Promise.resolve("");
+    }
+  }
+  // 登录/注册完成后调用：云端有昵称则拉取覆盖本地（跨设备），否则把本地真实昵称回写云端。
+  function refreshNickFromProfile(uid, localNick) {
+    if (!uid) return;
+    loadProfileNick(uid).then(function (cloudNick) {
+      if (cloudNick) {
+        storeNickForUid(uid, cloudNick);
+        if (currentUid === uid) emit({ uid: uid, nick: cloudNick });
+      } else if (localNick && !isPhone(localNick)) {
+        saveProfileNick(uid, localNick);
+      }
+    });
   }
 
   function getMode() {
@@ -112,7 +168,10 @@
       return auth()
         .getLoginState()
         .then(function (ls) {
-          return buildState(ls);
+          var st = buildState(ls);
+          currentUid = st.uid;
+          if (st.uid) refreshNickFromProfile(st.uid, st.nick);
+          return st;
         })
         .catch(function () {
           return { uid: null, nick: null };
@@ -123,6 +182,8 @@
   }
 
   function emit(state) {
+    if (state && state.uid) currentUid = state.uid;
+    else if (state && state.uid === null) currentUid = null;
     subscribers.forEach(function (cb) {
       try { cb(state); } catch (e) { console.error(e); }
     });
@@ -256,6 +317,9 @@
           // 同时按手机号存一份，覆盖注册早于本修复的老账号（同一浏览器即可找回昵称）。
           storeNickForUid(st.uid, nk);
           if (ctx.phone) storeNickForPhone(ctx.phone, nk);
+          // 落库到云端 user_profile（跨设备跟随账号），并从云端拉取（若其他设备改过昵称则覆盖本地）
+          saveProfileNick(st.uid, nk);
+          refreshNickFromProfile(st.uid, nk);
           pendingVerify = null;
           emit({ uid: st.uid, nick: nk });
           return { success: true, data: { uid: st.uid, nick: nk } };
@@ -329,7 +393,9 @@
             st.nick ||
             extractNick(res) ||
             nickFromAccount(email);
-          storeNickForUid(st.uid, nick);
+          if (nick && !isPhone(nick)) storeNickForUid(st.uid, nick);
+          saveProfileNick(st.uid, nick);
+          refreshNickFromProfile(st.uid, nick);
           emit({ uid: st.uid, nick: nick });
           return { success: true, data: { uid: st.uid, nick: nick } };
         });
@@ -375,7 +441,9 @@
             getStoredNickForPhone(phone) ||
             st.nick ||
             nickFromAccount(phone);
-          storeNickForUid(st.uid, nick);
+          if (nick && !isPhone(nick)) storeNickForUid(st.uid, nick);
+          saveProfileNick(st.uid, nick);
+          refreshNickFromProfile(st.uid, nick);
           emit({ uid: st.uid, nick: nick });
           return { success: true, data: { uid: st.uid, nick: nick } };
         });
@@ -383,6 +451,20 @@
       .catch(function (err) {
         return { success: false, error: { code: "AUTH_ERROR", message: errMsg(err) } };
       });
+  }
+
+  /* 修改昵称：同步写本地（per-uid/phone）+ 云端 user_profile；emit 触发 UI 刷新 */
+  function setNickname(nick) {
+    nick = String(nick || "").trim();
+    if (!nick) return Promise.resolve({ success: false, error: { message: "昵称不能为空" } });
+    if (isPhone(nick)) return Promise.resolve({ success: false, error: { message: "昵称不能是手机号" } });
+    return readSession().then(function (st) {
+      if (!st.uid) return { success: false, error: { code: "NO_AUTH", message: "请先登录后再修改昵称" } };
+      storeNickForUid(st.uid, nick);
+      saveProfileNick(st.uid, nick);
+      emit({ uid: st.uid, nick: nick });
+      return { success: true, data: { uid: st.uid, nick: nick } };
+    });
   }
 
   function logout() {
@@ -417,7 +499,10 @@
       return auth()
         .getLoginState()
         .then(function (loginState) {
-          return buildState(loginState);
+          var st = buildState(loginState);
+          currentUid = st.uid;
+          if (st.uid) refreshNickFromProfile(st.uid, st.nick);
+          return st;
         })
         .catch(function () {
           return { uid: null, nick: null };
@@ -441,6 +526,7 @@
     login: login,
     sendPhoneLoginCode: sendPhoneLoginCode,
     loginWithPhoneCode: loginWithPhoneCode,
+    setNickname: setNickname,
     logout: logout,
     getState: getState,
     onAuthChange: onAuthChange,
