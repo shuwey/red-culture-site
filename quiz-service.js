@@ -14,9 +14,10 @@
     var score = Number(opts.score) || 0;
     var total = Number(opts.total) || 0;
     var durationSec = Number(opts.durationSec) || 0;
+    var book = String(opts.book || "").trim();
     var state = await RCSAuth.getState();
     if (!state || !state.uid) {
-      pending = { score: score, total: total, durationSec: durationSec };
+      pending = { score: score, total: total, durationSec: durationSec, book: book };
       return { success: false, error: { code: "NO_AUTH" } };
     }
     var doc = {
@@ -25,6 +26,7 @@
       score: score,
       total: total,
       durationSec: durationSec,
+      book: book,
       createdAt: new Date().toISOString(),
     };
     try {
@@ -80,14 +82,15 @@
       var score = Number(detail.score) || 0;
       var total = Number(detail.total) || 0;
       var durationSec = Number(detail.durationSec) || 0;
+      var book = String(detail.book || "").trim();
       var state = await RCSAuth.getState();
       if (!state || !state.uid) {
-        pending = { score: score, total: total, durationSec: durationSec };
+        pending = { score: score, total: total, durationSec: durationSec, book: book };
         toast("登录后即可保存你的成绩");
         if (window.RCSAccount && RCSAccount.openLogin) RCSAccount.openLogin();
         return;
       }
-      var r = await save({ score: score, total: total, durationSec: durationSec });
+      var r = await save({ score: score, total: total, durationSec: durationSec, book: book });
       if (r.success) toast("成绩已保存");
     });
 

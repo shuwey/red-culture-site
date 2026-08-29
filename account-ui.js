@@ -485,11 +485,14 @@
     html += '<ul class="rcs-scores-list">';
     list.forEach(function (r) {
       var d = (r.createdAt || "").replace("T", " ").slice(0, 16);
+      var book = r.book ? escapeHtml(r.book) : "首页知识考核";
       html +=
         '<li><span class="sc-score">' +
         r.score +
         "/" +
         r.total +
+        '</span><span class="sc-book">' +
+        book +
         '</span><span class="sc-date">' +
         d +
         "</span></li>";

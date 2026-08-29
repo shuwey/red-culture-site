@@ -1313,6 +1313,7 @@ button.stat:focus-visible { outline: 2px solid rgba(255,255,255,.6); outline-off
 }
 .rcs-scores-list li:last-child { border-bottom: none; }
 .sc-score { font-weight: 600; color: var(--ink); }
+.sc-book { flex: 1; margin: 0 10px; font-size: 13px; color: var(--gray-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .sc-date { font-size: 13px; color: var(--gray-3); }
 
 /* ---------- Toast ---------- */

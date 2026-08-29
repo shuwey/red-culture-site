@@ -106,6 +106,7 @@ footer{text-align:center;color:var(--mut);font-size:12px;padding:18px}
     <label class="chk"><input type="checkbox" id="fWrong">仅看错题</label>
     <label class="chk"><input type="checkbox" id="fShuffle">打乱顺序</label>
     <button class="btn ghost" id="reset">重置进度</button>
+    <button class="btn primary" id="rcs-save-score">保存成绩到云端</button>
   </div>
   <div id="list"></div>
   <footer id="foot"></footer>
@@ -277,7 +278,32 @@ document.getElementById("list").addEventListener("click",e=>{
   if(rev){revealShort(rev);return;}
 });
 
-topStats();render();
+  function currentScore() {
+    var ids = curList.map(function (q) { return q.id; });
+    var graded = ids.filter(function (id) {
+      return answered[id] !== undefined && byId(id).type !== "short";
+    });
+    var right = graded.filter(function (id) { return answered[id] === true; }).length;
+    return { score: right, total: graded.length };
+  }
+  var rcsSaveBtn = document.getElementById("rcs-save-score");
+  if (rcsSaveBtn) {
+    rcsSaveBtn.onclick = function () {
+      if (!window.RCSQuiz || !RCSQuiz.save) {
+        if (window.RCSAccount && RCSAccount.toast) RCSAccount.toast("成绩功能加载中，请稍候再试");
+        return;
+      }
+      var s = currentScore();
+      if (!s.total) {
+        if (window.RCSAccount && RCSAccount.toast) RCSAccount.toast("还没有可保存的题目，先作答几道吧");
+        return;
+      }
+      document.dispatchEvent(new CustomEvent("rcs:quiz-finished", {
+        detail: { score: s.score, total: s.total, durationSec: 0, book: META.title }
+      }));
+    };
+  }
+  topStats();render();
 </script>
 <script src="script.js?v=20260828f"></script>
 <!-- AI 助手：延迟加载云能力（首屏不加载，避免 786KB SDK 阻塞渲染） -->
@@ -286,7 +312,8 @@ topStats();render();
     "cloudbase.bundle.js",
     "cloudbase-config.js",
     "auth-service.js?v=20260829q",
-    "account-ui.js?v=20260829q",
+    "account-ui.js?v=20260829r",
+    "quiz-service.js?v=20260829r",
     "ai-assistant.js"
   ];
 </script>
