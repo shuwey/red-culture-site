@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>红色文化网站 · 代码审计报告</title>
+<style>
+  :root{--bg:#f5f6f8;--card:#fff;--ink:#1f2329;--muted:#5b6470;--line:#e6e8ec;--red:#d4380d;--orange:#d46b08;--green:#237804;--blue:#0958d9;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;}
+  .wrap{max-width:920px;margin:0 auto;padding:32px 20px 64px;}
+  h1{font-size:24px;margin:0 0 4px}
+  .sub{color:var(--muted);margin:0 0 24px;font-size:13px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin:16px 0;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+  h2{font-size:17px;margin:0 0 12px;display:flex;align-items:center;gap:8px}
+  .tag{font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px;color:#fff}
+  .t-red{background:var(--red)} .t-orange{background:var(--orange)} .t-green{background:var(--green)} .t-blue{background:var(--blue)}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--muted);font-weight:600;background:#fafbfc}
+  code{background:#f0f2f5;padding:1px 5px;border-radius:4px;font-size:12.5px}
+  .sev{font-weight:700}
+  .sev-crit{color:var(--red)} .sev-high{color:var(--orange)} .sev-mid{color:var(--blue)} .sev-low{color:var(--muted)}
+  ul{margin:8px 0;padding-left:20px} li{margin:4px 0}
+  .ok{color:var(--green);font-weight:600}
+  .meta{display:flex;gap:18px;flex-wrap:wrap;color:var(--muted);font-size:12.5px;margin-top:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>红色文化网站 · 代码审计报告</h1>
+  <p class="sub">审计时间 2026-08-28 · 范围：53 个 HTML + 全部前端 JS + 云函数 · 方法：静态审查 + 真实浏览器端到端冒烟测试（Chrome for Testing / agent-browser）</p>
+
+  <div class="card">
+    <h2>📋 审计结论 <span class="tag t-green">整体健康</span></h2>
+    <p>站点可正常加载、登录、答题、调用 AI，<b>全站零运行时报错</b>。发现 1 个<b>严重缓存隐患</b>（版本漂移）、2 个<b>代码缺陷</b>（已修复），以及 4 个<b>非阻断待办</b>。本次已修复全部阻断/缺陷项并重新部署上线、git 推送（<code>ba002df</code>）。</p>
+    <div class="meta">
+      <span>真实浏览器验证：登录 / 下拉 / 子页 / AI 全绿</span>
+      <span>部署：CloudBase 静态托管 + curl 校验通过</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>✅ 本次已修复（3 项）</h2>
+    <table>
+      <tr><th style="width:8%">级别</th><th style="width:20%">问题</th><th>修复</th></tr>
+      <tr>
+        <td><span class="sev sev-high">高</span></td>
+        <td>account-ui.js 监听泄漏</td>
+        <td><code>renderUserArea()</code> 每次渲染都 <code>document.addEventListener('click',…)</code> 累积死监听（登录/刷新越多泄漏越严重）。改为模块级 <code>onDocClickForDropdown</code> <b>只绑定一次</b>；<code>logout</code> 后清空 <code>currentUserEl/currentDropdownEl</code> 引用。</td>
+      </tr>
+      <tr>
+        <td><span class="sev sev-high">高</span></td>
+        <td>account-ui.js 版本漂移</td>
+        <td>全站 HTML（含 cloud-lazy 清单）引用 <code>account-ui.js?v=20260829f</code>，而同级脚本已是 <code>20260829d</code> → CDN 可能长期返回旧文件。已将全站 + <code>cloud-lazy VER</code> 统一到 <code>20260829e</code>。</td>
+      </tr>
+      <tr>
+        <td><span class="sev sev-mid">中</span></td>
+        <td>script.js 空指针隐患</td>
+        <td><code>nav/burger/drawer</code> 无 null 守卫，且 <code>onScroll()</code> 立即执行 → 缺 <code>#nav</code> 的页面首屏直接抛错白屏。已加 null 守卫（当前 49 页均含导航，属潜在崩溃，已消除）。</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>🟡 待处理（非阻断，4 项）</h2>
+    <table>
+      <tr><th style="width:8%">级别</th><th style="width:22%">问题</th><th>说明与建议</th></tr>
+      <tr>
+        <td><span class="sev sev-mid">中</span></td>
+        <td>quiz-bank.js 孤儿文件</td>
+        <td><code>window.RCS_QUIZ_BANK</code>（699 题）从未被任何 HTML 加载；首页测验用的是 script.js 内联 <code>QUESTIONS</code> 数组。建议删除该文件或接入为正式题库（注意：当前首页测验仅固定 ~18 题、无随机抽题）。</td>
+      </tr>
+      <tr>
+        <td><span class="sev sev-mid">中</span></td>
+        <td>子页成绩可能不入库</td>
+        <td>子页测验经 <code>rcs:quiz-finished</code> 事件上报，但 <code>quiz-service.js</code> 仅在 <code>index.html</code> 引入。子页（<code>*_quiz.html</code>）即使派发事件也无监听器 → 成绩不保存。建议在子页也加载 <code>quiz-service.js</code> 或全局注入。</td>
+      </tr>
+      <tr>
+        <td><span class="sev sev-low">低</span></td>
+        <td>AI 回答缺引用来源</td>
+        <td><code>ai-assistant.js</code> 调用 <code>data/corpus.json</code> 知识库并做接地校验，但回答界面未展示引用的来源条目。建议答案下方附"参考来源"提升可信度与可核查性。</td>
+      </tr>
+      <tr>
+        <td><span class="sev sev-low">低</span></td>
+        <td>默认域名"风险提醒"拦截页</td>
+        <td>访问 <code>*tcloudbaseapp.com</code> 默认域名会先弹"风险提醒"页需点"确定访问"。属默认域名正常行为，建议绑定自定义域名以去除拦截、提升专业度。</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>🧪 真实浏览器端到端验证</h2>
+    <table>
+      <tr><th>验证项</th><th>结果</th></tr>
+      <tr><td>首页加载 / 全局对象（cloudbase·RCS·RCSAuth·RCAI·RCSAccount）</td><td class="ok">✓ 加载成功，零 console 报错</td></tr>
+      <tr><td>登录 Jason / Test1234 → 昵称与 uid 正确</td><td class="ok">✓ nick=Jason，下拉渲染正常</td></tr>
+      <tr><td>下拉菜单：点击头像展开 / 点击外部收起</td><td class="ok">✓ 开关正确，零报错（泄漏已修复）</td></tr>
+      <tr><td>退出登录 → 回到"登录"按钮</td><td class="ok">✓ 正常</td></tr>
+      <tr><td>子页（hongxing-quiz.html）经 cloud-lazy 加载</td><td class="ok">✓ 零报错，登录态延续</td></tr>
+      <tr><td>AI 助手（遵义会议意义）→ 接地回答</td><td class="ok">✓ 返回正确史实答案</td></tr>
+    </table>
+    <p style="color:var(--muted);font-size:12.5px;margin-bottom:0">注：RCAI.ask 为"渲染型"接口（结果写入聊天 DOM，本身返回 undefined），验证时读取渲染后的答案文本，<b>非接口回归</b>。</p>
+  </div>
+
+  <div class="card">
+    <h2>🔧 部署与版本</h2>
+    <ul>
+      <li>已变更：<code>account-ui.js</code>(20260829b→<b>20260829e</b>)、<code>script.js</code>(20260828e→<b>20260828f</b>)、<code>cloud-lazy.js</code>(VER 20260829d→<b>20260829e</b>)，53 个 HTML 引用同步递增。</li>
+      <li>CloudBase 静态托管已上传（排除 <code>.git/</code>、<code>.workbuddy/</code>、videos、docs、云函数等），curl 校验线上版本号与代码内容均更新。</li>
+      <li>Git：<code>ba002df</code> 已 push（<code>f18743b..ba002df</code>，57 文件）。</li>
+      <li>用户侧：建议<b>硬刷新</b>（Cmd/Ctrl+Shift+R）以清除本地 CDN 缓存。</li>
+    </ul>
+  </div>
+</div>
+</body>
+</html>

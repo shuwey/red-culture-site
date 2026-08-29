@@ -157,6 +157,13 @@
   }
 
   function bindSwitch() {
+    // 顶部「登录 / 注册」标签页按钮也要可点击切换（此前只有底部文字链接能切换，
+    // 导致用户点标签页后仍在登录表单，提交被当成登录、出现「不输验证码也能注册」的假象）
+    var tabLogin = el("rcs-tab-login");
+    if (tabLogin) tabLogin.onclick = function () { setTab("login"); };
+    var tabReg = el("rcs-tab-register");
+    if (tabReg) tabReg.onclick = function () { setTab("register"); };
+
     var toReg = el("rcs-to-register");
     if (toReg) toReg.onclick = function (e) {
       e.preventDefault();

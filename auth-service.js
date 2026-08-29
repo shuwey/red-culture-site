@@ -70,6 +70,25 @@
     return { uid: null, nick: null };
   }
 
+  /* 以云端真实会话为准读取当前登录态。
+     关键：signInWithPassword 对「不存在 / 未验证邮箱」的账号可能返回带 user 但无 uid 的
+     「成功」对象，直接据此报成功会导致导航不刷新、AI 误判未登录。所有登录/注册动作完成后
+     都必须用本函数复核真实 uid，避免假成功。 */
+  function readSession() {
+    try {
+      return auth()
+        .getLoginState()
+        .then(function (ls) {
+          return buildState(ls);
+        })
+        .catch(function () {
+          return { uid: null, nick: null };
+        });
+    } catch (e) {
+      return Promise.resolve({ uid: null, nick: null });
+    }
+  }
+
   function emit(state) {
     subscribers.forEach(function (cb) {
       try { cb(state); } catch (e) { console.error(e); }
@@ -156,11 +175,25 @@
         return auth()
           .signInWithPassword({ username: email, password: password })
           .then(function (loginRes) {
-            var nick = extractNick(loginRes) || nickname || nickFromAccount(email);
-            storeNick(nick);
-            var state = { uid: extractUid(loginRes), nick: nick };
-            emit(state);
-            return { success: true, data: state };
+            // 以真实会话复核 uid，杜绝「成功但无 uid」的假登录
+            return readSession().then(function (st) {
+              if (!st.uid) {
+                return {
+                  success: false,
+                  error: {
+                    code: "AUTH_ERROR",
+                    message: "注册成功但自动登录失败，请返回登录页用新账号登录",
+                  },
+                };
+              }
+              var nick = st.nick || extractNick(loginRes) || nickname || nickFromAccount(email);
+              storeNick(nick);
+              emit(st);
+              return { success: true, data: st };
+            });
+          })
+          .catch(function (err) {
+            return { success: false, error: { code: "AUTH_ERROR", message: errMsg(err) } };
           });
       })
       .catch(function (err) {
@@ -192,20 +225,21 @@
             error: { code: "AUTH_ERROR", message: "验证码不正确或已失效，请重新输入" },
           };
         }
-        var uid = extractUid(res);
-        if (!uid) {
-          return {
-            success: false,
-            error: { code: "AUTH_ERROR", message: "验证码不正确或已失效，请重新输入" },
-          };
-        }
-        // 云端昵称为准，其次用注册时填写的昵称
-        var nick = extractNick(res) || ctx.nickname || nickFromAccount(ctx.email);
-        storeNick(nick);
-        var state = { uid: uid, nick: nick };
-        pendingVerify = null;
-        emit(state);
-        return { success: true, data: state };
+        // 以真实会话复核：verifyOtp 返回对象未必含 uid，必须读 getLoginState 确认激活成功
+        return readSession().then(function (st) {
+          if (!st.uid) {
+            return {
+              success: false,
+              error: { code: "AUTH_ERROR", message: "验证码不正确或已失效，请重新输入" },
+            };
+          }
+          // 云端昵称为准，其次用注册时填写的昵称
+          var nick = st.nick || ctx.nickname || nickFromAccount(ctx.email);
+          storeNick(nick);
+          pendingVerify = null;
+          emit(st);
+          return { success: true, data: st };
+        });
       })
       .catch(function (err) {
         return { success: false, error: { code: "AUTH_ERROR", message: errMsg(err) } };
@@ -244,13 +278,22 @@
       : auth().signInWithPassword({ username: email, password: password });
     return op
       .then(function (res) {
-        // 云端昵称 → 登录账号名。刻意不回退 getStoredNick()：
-        // 本地存的是上一个用户的昵称，换账号登录会导致显示错人。
-        var nick = extractNick(res) || nickFromAccount(email);
-        storeNick(nick);
-        var state = { uid: extractUid(res), nick: nick };
-        emit(state);
-        return { success: true, data: state };
+        // 以云端真实会话为准：signInWithPassword 对「不存在 / 未验证邮箱」的账号可能返回
+        // 带 user 但无 uid 的「成功」对象，直接据此报成功会导致导航不刷新、AI 误判未登录。
+        return readSession().then(function (st) {
+          if (!st.uid) {
+            return {
+              success: false,
+              error: { code: "AUTH_ERROR", message: "账号或密码不正确，或邮箱尚未完成验证" },
+            };
+          }
+          // 云端昵称 → 登录账号名。刻意不回退 getStoredNick()：
+          // 本地存的是上一个用户的昵称，换账号登录会导致显示错人。
+          var nick = st.nick || extractNick(res) || nickFromAccount(email);
+          storeNick(nick);
+          emit(st);
+          return { success: true, data: st };
+        });
       })
       .catch(function (err) {
         return { success: false, error: { code: "AUTH_ERROR", message: errMsg(err) } };
@@ -258,10 +301,30 @@
   }
 
   function logout() {
-    try { auth().signOut(); } catch (e) {}
-    try { localStorage.removeItem(NICK_KEY); } catch (e) {}
-    emit({ uid: null, nick: null });
-    return Promise.resolve({ success: true });
+    // 必须先 await signOut 真正清除云端会话，再读真实状态；
+    // 否则 signOut 未完成时就 readSession，会把旧用户又 emit 回去，导航残留已登录态。
+    return Promise.resolve()
+      .then(function () {
+        try {
+          return auth().signOut();
+        } catch (e) {
+          return null;
+        }
+      })
+      .then(function () {
+        try {
+          localStorage.removeItem(NICK_KEY);
+        } catch (e) {}
+        return readSession();
+      })
+      .then(function (st) {
+        emit(st); // 此时应已无 uid
+        return { success: true };
+      })
+      .catch(function () {
+        emit({ uid: null, nick: null });
+        return { success: true };
+      });
   }
 
   function getState() {
