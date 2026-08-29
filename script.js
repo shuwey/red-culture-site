@@ -396,13 +396,20 @@
     else { drawer.insertAdjacentHTML("beforeend", buildLink("drawer-redlit")); }
   }
 
-  /* ---------- 图片合规角标（红文学图片合规 P1） ----------
-     给中风险 AI 生成图加「AI 生成 · 艺术再现」角标。
-     白名单仅含中风险地标图；真实照片（detail-kaiquo.jpg /
-     detail-tiananmen.jpg）绝不加角标。角标纯展示，失败安全。 */
-  var AI_MID_RISK = [
+  /* ---------- 图片合规角标（红文学图片合规 P1/P2） ----------
+     给 AI 生成的配图加「AI 生成 · 艺术再现」角标。
+     白名单含：中风险党史地标图（P1）+ 低风险英雄场景/氛围图（P2）。
+     真实照片（detail-kaiquo.jpg / detail-tiananmen.jpg）绝不加角标。
+     角标纯展示，失败安全。 */
+  var AI_IMAGE_FILES = [
+    // P1 中风险：AI 生成的党史地标图
     "zunyi.jpg", "red-boat.jpg", "luding.jpg", "xibaipo.jpg",
-    "hero-jinggangshan.jpg", "card-places.jpg", "detail-yanan.png"
+    "hero-jinggangshan.jpg", "card-places.jpg", "detail-yanan.png",
+    // P2 低风险：AI 生成的英雄场景 / 氛围图
+    "detail-dongcunrui.png", "detail-fangzhimin.png", "detail-jiangzhujun.png",
+    "detail-lidazhao.png", "detail-liuhulan.png", "detail-qiushaoyun.png",
+    "detail-yangjingyu.png", "detail-zhaoyiman.png",
+    "card-heroes.jpg", "card-events.jpg", "long-march.jpg"
   ];
   function baseName(src) {
     var m = String(src).split("?")[0].split("/").pop();
@@ -412,7 +419,7 @@
     var imgs = document.images || [];
     for (var i = 0; i < imgs.length; i++) {
       var img = imgs[i];
-      if (AI_MID_RISK.indexOf(baseName(img.getAttribute("src") || "")) === -1) continue;
+      if (AI_IMAGE_FILES.indexOf(baseName(img.getAttribute("src") || "")) === -1) continue;
       var host = img.parentElement;
       if (!host) continue;
       if (getComputedStyle(host).position === "static") host.style.position = "relative";
