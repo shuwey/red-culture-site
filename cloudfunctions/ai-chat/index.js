@@ -188,6 +188,19 @@ function extractSources(answer, contexts) {
   return top && top.url ? [{ title: srcTitle(top), url: top.url }] : [];
 }
 
+/* 确定性补全出处：当检索史料带 book（文学作品名）而模型回答未点明该作品时，
+   在答案开头补一句「（出自《书名》）」，保证涉及文学人物/事件/地点的回答
+   始终标注出处，不依赖模型是否自愿遵守系统提示词（甫志高类问题根因修复）。
+   仅取最相关上下文的 book；若回答已含该书名则不重复。 */
+function ensureBookMentioned(answer, contexts) {
+  if (!contexts || !contexts.length) return answer;
+  const books = contexts.map((c) => c.book).filter((b) => b && typeof b === "string" && b.trim());
+  if (!books.length) return answer;
+  const book = books[0].trim();
+  if (answer.indexOf(book) !== -1) return answer; // 模型已点明，避免冗余
+  return "（出自" + book + "）" + answer;
+}
+
 /* 入口 */
 exports.main = async (event, context) => {
   const question = String((event && event.question) || "").trim();
@@ -256,11 +269,12 @@ exports.main = async (event, context) => {
         log.sensitive = true;
         log.answer = parsed.answer;
       } else {
-        const sources = extractSources(parsed.answer, contexts);
-        result = envelope(true, { answer: parsed.answer, sources: sources }, null, null);
+        const finalAnswer = ensureBookMentioned(parsed.answer, contexts);
+        const sources = extractSources(finalAnswer, contexts);
+        result = envelope(true, { answer: finalAnswer, sources: sources }, null, null);
         // 模型基于史料无法作答而返回合规引导语时，记为 refusal 而非 ok，便于审计追溯
-        log.status = parsed.answer.indexOf("暂未收录") !== -1 ? "refusal" : "ok";
-        log.answer = parsed.answer;
+        log.status = finalAnswer.indexOf("暂未收录") !== -1 ? "refusal" : "ok";
+        log.answer = finalAnswer;
       }
     } catch (e) {
       const code = e && e.message === "TIMEOUT" ? "TIMEOUT" : "UPSTREAM_ERROR";

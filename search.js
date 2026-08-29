@@ -88,6 +88,13 @@
     overlay.querySelector(".rcs-search-close").addEventListener("click", closeSearch);
     inputEl.addEventListener("input", function () { render(norm(inputEl.value)); });
     inputEl.addEventListener("keydown", onKey);
+    // 点击结果项跳转（事件委托，innerHTML 重渲染后依然有效）
+    listEl.addEventListener("click", function (e) {
+      var item = e.target.closest ? e.target.closest(".rcs-search-item") : null;
+      if (!item) return;
+      e.preventDefault();
+      go(parseInt(item.getAttribute("data-i"), 10));
+    });
   }
 
   function loadIndex() {

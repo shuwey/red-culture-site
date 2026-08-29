@@ -375,6 +375,35 @@
     });
   }
 
+  /* 确定性补全出处：检索上下文带 book（文学作品名）而回答未点明时，
+     在开头补「（出自《红岩》）」。前端兜底，确保涉及文学人物/事件/地点的
+     回答始终标注出处，不依赖云函数是否部署最新版（甫志高类问题根因修复）。 */
+  function ensureBookMentioned(answer, contexts) {
+    if (!contexts || !contexts.length) return answer;
+    var books = contexts
+      .map(function (c) {
+        return c.book;
+      })
+      .filter(function (b) {
+        return b && typeof b === "string" && b.trim();
+      });
+    if (!books.length) return answer;
+    var book = books[0].trim();
+    if (answer.indexOf(book) !== -1) return answer; // 已点明则不重复
+    return "（出自" + book + "）" + answer;
+  }
+
+  /* 来源链接兜底：云函数未返回 sources（旧版/空）时，用最相关上下文的 url 生成，
+     标题带书名（如「《红岩》· …」），保证成功回答始终有可核查来源。 */
+  function buildSources(answer, sources, contexts) {
+    if (sources && sources.length) return sources;
+    if (!contexts || !contexts.length) return [];
+    var top = contexts[0];
+    if (!top.url) return [];
+    var title = (top.book ? top.book + " · " : "") + (top.title || "原文");
+    return [{ title: title, url: top.url }];
+  }
+
   function ask(text) {
     injectRoot();
     if (el("rcs-ai-panel").hidden) openPanel();
@@ -518,9 +547,11 @@
       if (typing && typing.parentNode) typing.parentNode.removeChild(typing);
 
       if (result && result.success) {
-        addAssistantBubble(result.data.answer, result.data.sources || []);
+        var ans = ensureBookMentioned(result.data.answer, contexts);
+        var srcs = buildSources(ans, result.data.sources || [], contexts);
+        addAssistantBubble(ans, srcs);
         history.push({ role: "user", content: question });
-        history.push({ role: "assistant", content: result.data.answer });
+        history.push({ role: "assistant", content: ans });
         if (history.length > 8) history = history.slice(-8);
         return;
       }
