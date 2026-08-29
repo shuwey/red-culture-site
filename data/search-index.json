@@ -1,0 +1,314 @@
+[
+ {
+  "t": "中共一大",
+  "c": "历史事件",
+  "u": "event-yida.html",
+  "k": "中共一大 历史事件 event-yida 中共一大。"
+ },
+ {
+  "t": "五四运动",
+  "c": "历史事件",
+  "u": "event-wusi.html",
+  "k": "五四运动 历史事件 event-wusi 五四运动。"
+ },
+ {
+  "t": "井冈山会师",
+  "c": "历史事件",
+  "u": "event-jinggangshan-huish.html",
+  "k": "井冈山会师 历史事件 event-jinggangshan-huish 井冈山会师。"
+ },
+ {
+  "t": "全面抗战爆发",
+  "c": "历史事件",
+  "u": "event-quanmian-kangzhan.html",
+  "k": "全面抗战爆发 历史事件 event-quanmian-kangzhan 全面抗战爆发。"
+ },
+ {
+  "t": "南昌起义",
+  "c": "历史事件",
+  "u": "event-nanchang.html",
+  "k": "南昌起义 历史事件 event-nanchang 南昌起义。"
+ },
+ {
+  "t": "开国大典",
+  "c": "历史事件",
+  "u": "event-kaiquo.html",
+  "k": "开国大典 历史事件 event-kaiquo 开国大典。"
+ },
+ {
+  "t": "抗日战争胜利",
+  "c": "历史事件",
+  "u": "event-kangzhan.html",
+  "k": "抗日战争胜利 历史事件 event-kangzhan 抗日战争胜利。"
+ },
+ {
+  "t": "瓦窑堡会议",
+  "c": "历史事件",
+  "u": "event-wayaobao.html",
+  "k": "瓦窑堡会议 历史事件 event-wayaobao 瓦窑堡会议。"
+ },
+ {
+  "t": "秋收起义",
+  "c": "历史事件",
+  "u": "event-qiushou.html",
+  "k": "秋收起义 历史事件 event-qiushou 秋收起义。"
+ },
+ {
+  "t": "遵义会议",
+  "c": "历史事件",
+  "u": "event-zunyi.html",
+  "k": "遵义会议 历史事件 event-zunyi 遵义会议。"
+ },
+ {
+  "t": "长征",
+  "c": "历史事件",
+  "u": "event-changzheng.html",
+  "k": "长征 历史事件 event-changzheng 长征。"
+ },
+ {
+  "t": "《红岩》章节考点对照表",
+  "c": "站点",
+  "u": "chapter-map.html",
+  "k": "《红岩》章节考点对照表  chapter-map 《红岩》章节考点对照表"
+ },
+ {
+  "t": "《红岩》阅读题库",
+  "c": "站点",
+  "u": "hongyan-quiz.html",
+  "k": "《红岩》阅读题库  hongyan-quiz 《红岩》阅读题库"
+ },
+ {
+  "t": "《红星照耀中国》章节考点对照表",
+  "c": "站点",
+  "u": "hongxing-chapter-map.html",
+  "k": "《红星照耀中国》章节考点对照表  hongxing-chapter-map 《红星照耀中国》章节考点对照表"
+ },
+ {
+  "t": "《红星照耀中国》阅读题库",
+  "c": "站点",
+  "u": "hongxing-quiz.html",
+  "k": "《红星照耀中国》阅读题库  hongxing-quiz 《红星照耀中国》阅读题库"
+ },
+ {
+  "t": "关于本站",
+  "c": "站点",
+  "u": "about.html",
+  "k": "关于本站  about 关于本站。"
+ },
+ {
+  "t": "历史事件",
+  "c": "站点",
+  "u": "events.html",
+  "k": "历史事件  events 历史事件。"
+ },
+ {
+  "t": "常见问题",
+  "c": "站点",
+  "u": "faq.html",
+  "k": "常见问题  faq 常见问题。"
+ },
+ {
+  "t": "红色地点",
+  "c": "站点",
+  "u": "places.html",
+  "k": "红色地点  places 红色地点。"
+ },
+ {
+  "t": "红色文化传播网",
+  "c": "站点",
+  "u": "index.html",
+  "k": "红色文化传播网  index 星星之火，可以燎原。"
+ },
+ {
+  "t": "联系我们",
+  "c": "站点",
+  "u": "contact.html",
+  "k": "联系我们  contact 联系我们。"
+ },
+ {
+  "t": "英雄人物",
+  "c": "站点",
+  "u": "heroes.html",
+  "k": "英雄人物  heroes 英雄人物。"
+ },
+ {
+  "t": "上海中共一大会址",
+  "c": "红色地点",
+  "u": "place-shanghai-yida.html",
+  "k": "上海中共一大会址 红色地点 place-shanghai-yida 上海中共一大会址。"
+ },
+ {
+  "t": "井冈山",
+  "c": "红色地点",
+  "u": "place-jinggangshan.html",
+  "k": "井冈山 红色地点 place-jinggangshan 井冈山。"
+ },
+ {
+  "t": "古田",
+  "c": "红色地点",
+  "u": "place-gutian.html",
+  "k": "古田 红色地点 place-gutian 古田。"
+ },
+ {
+  "t": "嘉兴南湖",
+  "c": "红色地点",
+  "u": "place-nanhu.html",
+  "k": "嘉兴南湖 红色地点 place-nanhu 嘉兴南湖。"
+ },
+ {
+  "t": "天安门",
+  "c": "红色地点",
+  "u": "place-tiananmen.html",
+  "k": "天安门 红色地点 place-tiananmen 天安门。"
+ },
+ {
+  "t": "延安",
+  "c": "红色地点",
+  "u": "place-yanan.html",
+  "k": "延安 红色地点 place-yanan 延安。"
+ },
+ {
+  "t": "抗美援朝纪念馆",
+  "c": "红色地点",
+  "u": "place-kangmei-jinianguan.html",
+  "k": "抗美援朝纪念馆 红色地点 place-kangmei-jinianguan 抗美援朝纪念馆。"
+ },
+ {
+  "t": "泸定桥",
+  "c": "红色地点",
+  "u": "place-luding.html",
+  "k": "泸定桥 红色地点 place-luding 泸定桥。"
+ },
+ {
+  "t": "瑞金",
+  "c": "红色地点",
+  "u": "place-rujin.html",
+  "k": "瑞金 红色地点 place-rujin 瑞金。"
+ },
+ {
+  "t": "瓦窑堡",
+  "c": "红色地点",
+  "u": "place-wayaobao.html",
+  "k": "瓦窑堡 红色地点 place-wayaobao 瓦窑堡。"
+ },
+ {
+  "t": "西柏坡",
+  "c": "红色地点",
+  "u": "place-xibaipo.html",
+  "k": "西柏坡 红色地点 place-xibaipo 西柏坡。"
+ },
+ {
+  "t": "遵义",
+  "c": "红色地点",
+  "u": "place-zunyi.html",
+  "k": "遵义 红色地点 place-zunyi 遵义。"
+ },
+ {
+  "t": "重庆红岩村",
+  "c": "红色地点",
+  "u": "place-chongqing-hongyan.html",
+  "k": "重庆红岩村 红色地点 place-chongqing-hongyan 重庆红岩村。"
+ },
+ {
+  "t": "《红岩》整本书阅读",
+  "c": "红色文学",
+  "u": "hongyan-knowledge-base.html",
+  "k": "《红岩》整本书阅读 红色文学 hongyan-knowledge-base 《红岩》整本书阅读"
+ },
+ {
+  "t": "《红星照耀中国》整本书阅读",
+  "c": "红色文学",
+  "u": "hongxing-knowledge-base.html",
+  "k": "《红星照耀中国》整本书阅读 红色文学 hongxing-knowledge-base 《红星照耀中国》"
+ },
+ {
+  "t": "红色文学",
+  "c": "红色文学",
+  "u": "red-literature.html",
+  "k": "红色文学 红色文学 red-literature 红色文学"
+ },
+ {
+  "t": "刘胡兰",
+  "c": "英雄人物",
+  "u": "hero-liuhulan.html",
+  "k": "刘胡兰 英雄人物 hero-liuhulan 刘胡兰。"
+ },
+ {
+  "t": "左权",
+  "c": "英雄人物",
+  "u": "hero-zuo-quan.html",
+  "k": "左权 英雄人物 hero-zuo-quan 左权。"
+ },
+ {
+  "t": "张思德",
+  "c": "英雄人物",
+  "u": "hero-zhang-side.html",
+  "k": "张思德 英雄人物 hero-zhang-side 张思德。"
+ },
+ {
+  "t": "彭雪枫",
+  "c": "英雄人物",
+  "u": "hero-peng-xuefeng.html",
+  "k": "彭雪枫 英雄人物 hero-peng-xuefeng 彭雪枫。"
+ },
+ {
+  "t": "恽代英",
+  "c": "英雄人物",
+  "u": "hero-yun-daiying.html",
+  "k": "恽代英 英雄人物 hero-yun-daiying 恽代英。"
+ },
+ {
+  "t": "方志敏",
+  "c": "英雄人物",
+  "u": "hero-fangzhimin.html",
+  "k": "方志敏 英雄人物 hero-fangzhimin 方志敏。"
+ },
+ {
+  "t": "李大钊",
+  "c": "英雄人物",
+  "u": "hero-lidazhao.html",
+  "k": "李大钊 英雄人物 hero-lidazhao 李大钊。"
+ },
+ {
+  "t": "杨靖宇",
+  "c": "英雄人物",
+  "u": "hero-yangjingyu.html",
+  "k": "杨靖宇 英雄人物 hero-yangjingyu 杨靖宇。"
+ },
+ {
+  "t": "江竹筠",
+  "c": "英雄人物",
+  "u": "hero-jiangzhujun.html",
+  "k": "江竹筠 英雄人物 hero-jiangzhujun 江竹筠。"
+ },
+ {
+  "t": "瞿秋白",
+  "c": "英雄人物",
+  "u": "hero-qiu-qiubai.html",
+  "k": "瞿秋白 英雄人物 hero-qiu-qiubai 瞿秋白。"
+ },
+ {
+  "t": "董存瑞",
+  "c": "英雄人物",
+  "u": "hero-dongcunrui.html",
+  "k": "董存瑞 英雄人物 hero-dongcunrui 董存瑞。"
+ },
+ {
+  "t": "赵一曼",
+  "c": "英雄人物",
+  "u": "hero-zhaoyiman.html",
+  "k": "赵一曼 英雄人物 hero-zhaoyiman 赵一曼。"
+ },
+ {
+  "t": "邱少云",
+  "c": "英雄人物",
+  "u": "hero-qiushaoyun.html",
+  "k": "邱少云 英雄人物 hero-qiushaoyun 邱少云。"
+ },
+ {
+  "t": "黄继光",
+  "c": "英雄人物",
+  "u": "hero-huang-jiguang.html",
+  "k": "黄继光 英雄人物 hero-huang-jiguang 黄继光。"
+ }
+]

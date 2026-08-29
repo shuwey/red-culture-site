@@ -179,12 +179,13 @@ function lexicalUngrounded(answer, contexts) {
    否则兜底返回最相关的一条，保证成功回答始终有可核查来源（审计遗留③） */
 function extractSources(answer, contexts) {
   if (!contexts || !contexts.length) return [];
+  const srcTitle = (c) => (c.book ? c.book + " · " + (c.title || "") : c.title || "");
   const matched = contexts.filter((c) => c.url && answer.indexOf(c.url) !== -1);
   if (matched.length) {
-    return matched.map((c) => ({ title: c.title || "", url: c.url }));
+    return matched.map((c) => ({ title: srcTitle(c), url: c.url }));
   }
   const top = contexts[0];
-  return top && top.url ? [{ title: top.title || "", url: top.url }] : [];
+  return top && top.url ? [{ title: srcTitle(top), url: top.url }] : [];
 }
 
 /* 入口 */

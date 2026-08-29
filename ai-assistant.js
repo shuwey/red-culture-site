@@ -368,6 +368,9 @@
         title: x.it.name,
         url: x.it.url,
         text: x.it.text || x.it.summary || "",
+        // 出处信息透传给云函数：模型据此点明作品名（如《红岩》），来源标签也带书名
+        book: x.it.book || "",
+        type: x.it.type || "",
       };
     });
   }
