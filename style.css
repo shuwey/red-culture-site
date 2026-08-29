@@ -1200,6 +1200,44 @@ button.stat:focus-visible { outline: 2px solid rgba(255,255,255,.6); outline-off
   border-radius: 12px;
 }
 
+/* ---------- AI 生成图角标（红文学图片合规 P1） ----------
+   由 script.js 的 markAiImages() 注入到图片父容器；
+   父容器的 position:relative 也由 JS 兜底设置。 */
+.ai-badge {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  font-size: .72rem;
+  line-height: 1.4;
+  letter-spacing: .02em;
+  color: #fff;
+  background: rgba(18, 18, 22, .62);
+  border: 1px solid rgba(255, 255, 255, .35);
+  border-radius: 999px;
+  pointer-events: none;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+.ai-badge::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: #ffd34d;
+}
+.ai-foot-note {
+  width: 100%;
+  margin: 8px 0 0;
+  font-size: .74rem;
+  line-height: 1.5;
+  color: #9a8f84;
+}
+
 /* ============================================================
    新增组件：登录/注册、导航用户区、我的成绩、Toast、文档页
    （云接入与 AI 助手相关，统一追加，不改动既有样式）

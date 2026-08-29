@@ -396,9 +396,54 @@
     else { drawer.insertAdjacentHTML("beforeend", buildLink("drawer-redlit")); }
   }
 
+  /* ---------- 图片合规角标（红文学图片合规 P1） ----------
+     给中风险 AI 生成图加「AI 生成 · 艺术再现」角标。
+     白名单仅含中风险地标图；真实照片（detail-kaiquo.jpg /
+     detail-tiananmen.jpg）绝不加角标。角标纯展示，失败安全。 */
+  var AI_MID_RISK = [
+    "zunyi.jpg", "red-boat.jpg", "luding.jpg", "xibaipo.jpg",
+    "hero-jinggangshan.jpg", "card-places.jpg", "detail-yanan.png"
+  ];
+  function baseName(src) {
+    var m = String(src).split("?")[0].split("/").pop();
+    return m;
+  }
+  function markAiImages() {
+    var imgs = document.images || [];
+    for (var i = 0; i < imgs.length; i++) {
+      var img = imgs[i];
+      if (AI_MID_RISK.indexOf(baseName(img.getAttribute("src") || "")) === -1) continue;
+      var host = img.parentElement;
+      if (!host) continue;
+      if (getComputedStyle(host).position === "static") host.style.position = "relative";
+      if (host.querySelector(".ai-badge")) continue;
+      var badge = document.createElement("span");
+      badge.className = "ai-badge";
+      badge.textContent = "AI 生成 · 艺术再现";
+      host.appendChild(badge);
+    }
+  }
+
+  /* ---------- 页脚图片声明（红文学图片合规 P1） ----------
+     给每页页脚追加一行全站声明，覆盖站点级图片来源说明。
+     防重复：已注入则跳过。 */
+  function injectFooterNote() {
+    var note = "本站部分配图为 AI 生成的「艺术再现」图像，非真实历史照片，请以权威史料为准。";
+    var footers = document.querySelectorAll(".footer-bottom");
+    for (var i = 0; i < footers.length; i++) {
+      if (footers[i].querySelector(".ai-foot-note")) continue;
+      var p = document.createElement("p");
+      p.className = "ai-foot-note";
+      p.textContent = note;
+      footers[i].appendChild(p);
+    }
+  }
+
   function boot() {
     injectNav();
     renderLitIndex();
+    markAiImages();
+    injectFooterNote();
   }
 
   if (document.readyState === "loading") {
