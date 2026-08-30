@@ -1248,6 +1248,26 @@ button.stat:focus-visible { outline: 2px solid rgba(255,255,255,.6); outline-off
   aspect-ratio: 2 / 1;
   object-fit: cover;
 }
+/* 历史肖像双图：竖版人像按原比例完整显示，不裁切、不缓动，并排衬底 */
+.detail-figure--portrait-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  background: transparent;
+  overflow: visible;
+  border-radius: 0;
+}
+.detail-figure--portrait-pair img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: auto;
+  object-fit: initial;
+  border-radius: 16px;
+  animation: none;
+}
+.detail-figure--portrait-pair figcaption {
+  grid-column: 1 / -1;
+}
 @keyframes kenburns {
   from { transform: scale(1) translateX(0); }
   to { transform: scale(1.09) translateX(-1.5%); }
@@ -1259,6 +1279,7 @@ button.stat:focus-visible { outline: 2px solid rgba(255,255,255,.6); outline-off
   .detail-figure { margin-top: 32px; border-radius: 20px; }
   .detail-figure img { aspect-ratio: 16 / 10; }
   .detail-figure video { aspect-ratio: 16 / 10; }
+  .detail-figure--portrait-pair { grid-template-columns: 1fr; }
 }
 .detail-figure figcaption {
   margin-top: 10px;

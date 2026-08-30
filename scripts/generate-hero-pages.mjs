@@ -445,7 +445,10 @@ function footer() {
 
 // 每位人物的意境配图（不用人物肖像，用与其精神相关的场景意象）
 const IMGS = {
-  lidazhao: { src: "assets/images/detail-lidazhao.png", alt: "北大红楼红砖建筑与书桌上亮着的油灯" },
+  lidazhao: { pair: [
+    { src: "assets/images/lidazhao-young.jpg?v=20260830f", alt: "青年时期的李大钊" },
+    { src: "assets/images/lidazhao-execution.jpg?v=20260830f", alt: "就义前的李大钊（1927）" },
+  ], caption: "李大钊历史照片 · 左：青年时期；右：就义前（1927）· 公有领域 / Wikimedia Commons" },
   fangzhimin: { src: "assets/images/detail-fangzhimin.png", alt: "牢房小窗的光束照在桌上的手稿与怀表上" },
   zhaoyiman: { src: "assets/images/detail-zhaoyiman.png", alt: "白山黑水间的林海雪原与晨光" },
   yangjingyu: { src: "assets/images/detail-yangjingyu.png", alt: "大雪封山的密营木屋升起一缕炊烟" },
@@ -495,7 +498,7 @@ ${nav()}
     <!-- 生平导语 -->
     <section class="bio-section">
       <p class="bio-lead reveal">${h.lead}</p>
-${h.img ? `      <figure class="detail-figure reveal">\n        <img src="${h.img.src}" alt="${h.img.alt}" loading="lazy">\n      </figure>\n` : ""}    </section>
+${h.img ? (h.img.pair ? `      <figure class="detail-figure detail-figure--portrait-pair reveal">\n        <img src="${h.img.pair[0].src}" alt="${h.img.pair[0].alt}" loading="lazy">\n        <img src="${h.img.pair[1].src}" alt="${h.img.pair[1].alt}" loading="lazy">\n        <figcaption>${h.img.caption}</figcaption>\n      </figure>\n` : `      <figure class="detail-figure reveal">\n        <img src="${h.img.src}" alt="${h.img.alt}" loading="lazy">\n      </figure>\n`) : ""}    </section>
 
     <!-- 名言 -->
     <section class="quote-black">

@@ -405,7 +405,7 @@
 
     // P2 低风险：AI 生成的英雄场景 / 氛围图
     "detail-fangzhimin.png", "detail-jiangzhujun.png",
-    "detail-lidazhao.png", "detail-liuhulan.png", "detail-qiushaoyun.png",
+    "detail-liuhulan.png", "detail-qiushaoyun.png",
     "detail-yangjingyu.png", "detail-zhaoyiman.png",
     "card-heroes.jpg", "card-events.jpg", "long-march.jpg"
   ];
