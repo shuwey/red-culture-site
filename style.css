@@ -1218,7 +1218,7 @@ button.stat:focus-visible { outline: 2px solid rgba(255,255,255,.6); outline-off
 }
 
 /* 上海中共一大会址：石库门建筑主体居中偏上，避免 2:1 裁切掉门楣 */
-.figure-shanghai-yida img { object-position: 50% 42%; }
+.figure-shanghai-yida img { object-position: 50% 50%; }
 
 /* 瑞金沙洲坝红井：井与石碑居中 */
 .figure-rujin img { object-position: 50% 50%; }
@@ -1227,7 +1227,7 @@ button.stat:focus-visible { outline: 2px solid rgba(255,255,255,.6); outline-off
 .figure-gutian img { object-position: 50% 48%; }
 
 /* 重庆红岩革命纪念馆：馆舍与红岩碑石居中偏下，避免裁切主要建筑 */
-.figure-chongqing-hongyan img { object-position: 50% 58%; }
+.figure-chongqing-hongyan img { object-position: 50% 45%; }
 
 /* 抗美援朝纪念馆题词墙：金色题词居中 */
 .figure-kangmei-jinianguan img { object-position: 50% 45%; }
