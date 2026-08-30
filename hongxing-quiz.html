@@ -109,7 +109,7 @@ footer{text-align:center;color:var(--mut);font-size:12px;padding:18px}
     <button class="btn primary" id="rcs-save-score">保存成绩到云端</button>
   </div>
   <div id="list"></div>
-  <footer id="foot"></footer>
+  <footer id="foot" class="lit-footer"></footer>
 </div>
 <script>
 const META = {"title": "《红星照耀中国》整本书阅读题库", "desc": "面向初中整本书阅读与数字教学，覆盖人物/地点/事件/主题精神/常识/阅读鉴赏六维度，含单选、多选、填空、判断、简答五种题型，难度分基础/提高/拓展。每题回书指引精确到原书十二篇。数据依据人民网、光明日报、中国作家网及中央党史和文献研究院等权威来源核实。", "total": 291, "generated": "2026-08-28", "cat_name": {"people": "人物", "place": "地点", "event": "事件", "spirit": "主题精神", "basic": "常识", "art": "阅读鉴赏"}, "type_name": {"single": "单选题", "multiple": "多选题", "fill": "填空题", "judge": "判断题", "short": "简答题"}, "diff_name": {"1": "基础", "2": "提高", "3": "拓展"}};
@@ -128,7 +128,7 @@ function esc(s){return (s||"").replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":
 
 document.getElementById("title").textContent=META.title;
 document.getElementById("desc").textContent=META.desc;
-document.getElementById("foot").textContent="共 "+DATA.length+" 题 · 数据依据人民网党史频道、中央纪委国家监委网站、中央党史和文献研究院等权威来源核实 · 生成于 "+META.generated;
+document.getElementById("foot").textContent="共 "+DATA.length+" 题 · 数据依据人民网党史频道、中央纪委国家监委网站、中央党史和文献研究院等权威来源核实，供红色经典阅读参考";
 
 // 过滤器
 function fillSelect(el,obj,allLabel){el.innerHTML='<option value="all">'+allLabel+'</option>'+

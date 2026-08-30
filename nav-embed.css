@@ -364,3 +364,16 @@ button {
   color: var(--gray-2);
 }
 .note b { color: var(--ink); font-weight: 600; }
+
+/* 红色文学页底部元信息行（统一格式，与 .note 风格呼应） */
+.lit-footer {
+  margin-top: 32px;
+  padding-top: 18px;
+  border-top: 1px solid var(--hairline);
+  text-align: center;
+  font-size: 12.5px;
+  line-height: 1.9;
+  color: var(--gray-3);
+}
+.lit-footer a { color: var(--red); text-decoration: none; font-weight: 600; }
+.lit-footer a:hover { text-decoration: underline; }
