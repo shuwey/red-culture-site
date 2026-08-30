@@ -66,11 +66,11 @@
           <input type="email" id="rcs-c-email" name="email" placeholder="you@example.com" autocomplete="email">
         </div>
         <div class="form-field">
-          <label for="rcs-c-msg">留言</label>
+          <label for="rcs-c-msg">联系内容</label>
           <textarea id="rcs-c-msg" name="message" placeholder="请描述您要补充或纠错的内容……"></textarea>
         </div>
         <p class="form-error" id="rcs-c-error" aria-live="polite"></p>
-        <button type="submit" class="pill-btn rcs-submit" id="rcs-c-submit">发送留言</button>
+        <button type="submit" class="pill-btn rcs-submit" id="rcs-c-submit">发送</button>
         <p class="contact-note">提交即唤起邮件客户端发送至 <a href="mailto:red-culture-feedback@example.com">red-culture-feedback@example.com</a>（演示收件箱，可替换为真实地址）。</p>
       </form>
     </section>
@@ -114,7 +114,7 @@
   </footer>
 
   <!-- 云能力 + 公共组件 -->
-  <script src="script.js?v=20260829q"></script>
+  <script src="script.js?v=20260830k"></script>
   <script type="module" src="cloudbase-loader.js?v=20260829d"></script>
   <script src="cloudbase-config.js?v=20260829d"></script>
   <script src="auth-service.js?v=20260829aa"></script>
@@ -133,9 +133,9 @@
         var msg = document.getElementById("rcs-c-msg").value.trim();
         if (!name) { err.textContent = "请填写您的称呼。"; return; }
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { err.textContent = "请填写有效的邮箱地址。"; return; }
-        if (!msg) { err.textContent = "请填写留言内容。"; return; }
-        var subject = encodeURIComponent("红色文化传播网 · 访客留言（" + name + "）");
-        var body = encodeURIComponent("称呼：" + name + "\n邮箱：" + email + "\n\n留言：\n" + msg);
+        if (!msg) { err.textContent = "请填写联系内容。"; return; }
+        var subject = encodeURIComponent("红色文化传播网 · 访客联系（" + name + "）");
+        var body = encodeURIComponent("称呼：" + name + "\n邮箱：" + email + "\n\n联系内容：\n" + msg);
         window.location.href = "mailto:red-culture-feedback@example.com?subject=" + subject + "&body=" + body;
         err.style.color = "#1B7A3D";
         err.textContent = "已为您唤起邮件客户端，请发送邮件完成提交。感谢您的反馈！";

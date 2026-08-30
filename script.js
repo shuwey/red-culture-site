@@ -433,11 +433,19 @@
     var note = "本站部分配图为 AI 生成的「艺术再现」图像，非真实历史照片，请以权威史料为准。";
     var footers = document.querySelectorAll(".footer-bottom");
     for (var i = 0; i < footers.length; i++) {
-      if (footers[i].querySelector(".ai-foot-note")) continue;
-      var p = document.createElement("p");
-      p.className = "ai-foot-note";
-      p.textContent = note;
-      footers[i].appendChild(p);
+      var fb = footers[i];
+      if (!fb.querySelector(".ai-foot-note")) {
+        var p = document.createElement("p");
+        p.className = "ai-foot-note";
+        p.textContent = note;
+        fb.appendChild(p);
+      }
+      if (!fb.querySelector(".icp-beian-note")) {
+        var icp = document.createElement("p");
+        icp.className = "icp-beian-note";
+        icp.innerHTML = '<a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">ICP备案号：待填写</a> · <a href="https://www.beian.gov.cn/" target="_blank" rel="noopener">公网安备：待填写</a>';
+        fb.appendChild(icp);
+      }
     }
   }
 
