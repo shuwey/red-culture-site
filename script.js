@@ -370,10 +370,9 @@
     box.innerHTML = html;
   }
 
-  // 定位「关于本站」链接：兼容 href="index.html#footer"（子页）与 href="#footer"（首页）
+  // 定位「关于本站」链接：现统一指向 about.html（首页与子页一致）
   function findAbout(root) {
-    return root.querySelector('a[href="index.html#footer"]') ||
-           root.querySelector('a[href="#footer"]') ||
+    return root.querySelector('a[href="about.html"]') ||
            [].slice.call(root.querySelectorAll("a")).filter(function (a) {
              return a.textContent.replace(/\s/g, "") === "关于本站";
            })[0] || null;

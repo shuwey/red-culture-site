@@ -1354,7 +1354,7 @@ footer{text-align:center;color:var(--mut);font-size:12px;padding:18px}
     <a href="places.html">红色地点</a>
     <a href="events.html">历史事件</a>
     <a href="index.html#quiz">知识考核</a>
-    <a href="index.html#footer">关于本站</a>
+    <a href="about.html">关于本站</a>
   </nav>
   <div class="nav-right">
     <div id="user-area" class="nav-user-area"></div>
@@ -1371,7 +1371,7 @@ footer{text-align:center;color:var(--mut);font-size:12px;padding:18px}
   <a href="places.html">红色地点</a>
   <a href="events.html">历史事件</a>
   <a href="index.html#quiz">知识考核</a>
-  <a href="index.html#footer">关于本站</a>
+  <a href="about.html">关于本站</a>
 </div>
 <header class="page-head">
   <h1 id="title">《红星照耀中国》阅读题库</h1>

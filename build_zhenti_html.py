@@ -150,7 +150,7 @@ NAV = '''<header class="nav" id="nav">
     <a href="places.html">红色地点</a>
     <a href="events.html">历史事件</a>
     <a href="index.html#quiz">知识考核</a>
-    <a href="index.html#footer">关于本站</a>
+    <a href="about.html">关于本站</a>
   </nav>
   <div class="nav-right">
     <div id="user-area" class="nav-user-area"></div>
@@ -167,7 +167,7 @@ NAV = '''<header class="nav" id="nav">
   <a href="places.html">红色地点</a>
   <a href="events.html">历史事件</a>
   <a href="index.html#quiz">知识考核</a>
-  <a href="index.html#footer">关于本站</a>
+  <a href="about.html">关于本站</a>
 </div>'''
 
 

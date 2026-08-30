@@ -907,7 +907,7 @@ button.stat:focus-visible { outline: 2px solid rgba(255,255,255,.6); outline-off
 .place-meta .kicker { font-size: 13px; }
 .place-meta .dot-sep { width: 3px; height: 3px; border-radius: 50%; background: var(--gray-3); }
 .place-name { font-size: 40px; font-weight: 600; letter-spacing: -0.02em; }
-.place-desc { font-size: 16px; line-height: 28px; color: var(--gray-2); max-width: 460px; }
+.place-desc { font-size: 16px; line-height: 28px; color: var(--gray-2); }
 
 /* ---------- 历史事件：纵向时间轴 ---------- */
 .events-section { background: var(--white); padding: 0 24px 120px; }
@@ -1216,6 +1216,22 @@ button.stat:focus-visible { outline: 2px solid rgba(255,255,255,.6); outline-off
 .figure-xibaipo img {
   object-position: 50% 62%;
 }
+
+/* 上海中共一大会址：石库门建筑主体居中偏上，避免 2:1 裁切掉门楣 */
+.figure-shanghai-yida img { object-position: 50% 42%; }
+
+/* 瑞金沙洲坝红井：井与石碑居中 */
+.figure-rujin img { object-position: 50% 50%; }
+
+/* 古田会议会址：横幅构图接近 2:1，建筑主体居中 */
+.figure-gutian img { object-position: 50% 48%; }
+
+/* 重庆红岩革命纪念馆：馆舍与红岩碑石居中偏下，避免裁切主要建筑 */
+.figure-chongqing-hongyan img { object-position: 50% 58%; }
+
+/* 抗美援朝纪念馆题词墙：金色题词居中 */
+.figure-kangmei-jinianguan img { object-position: 50% 45%; }
+
 /* 历史文献照：按原比例完整显示，不裁切、不缓动，浅底衬出史料质感 */
 .detail-figure--doc {
   background: #f3f1ec;

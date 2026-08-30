@@ -355,6 +355,11 @@ const IMGS = {
   yanan: { src: "assets/images/detail-yanan.jpg", alt: "延安宝塔山与延河夜景" },
   xibaipo: { src: "assets/images/xibaipo.jpg", alt: "西柏坡毛泽东旧居院落" },
   tiananmen: { src: "assets/images/detail-tiananmen.jpg", alt: "天安门城楼（历史资料图）" },
+  "shanghai-yida": { src: "assets/images/shanghai-yida.jpg?v=20260830d", alt: "上海中共一大会址实景", figureClass: "figure-shanghai-yida", caption: `上海中共一大会址实景 · N509FZ / Wikimedia Commons（<a href="https://commons.wikimedia.org/wiki/File:Site_of_the_First_CPC_National_Congress_(20250610163439).jpg" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a>）` },
+  ruijin: { src: "assets/images/rujin.jpg?v=20260830d", alt: "瑞金沙洲坝红井实景", figureClass: "figure-rujin", caption: `瑞金沙洲坝红井实景 · Zhangzhugang / Wikimedia Commons（<a href="https://commons.wikimedia.org/wiki/File:Ruijin_Shazhouba_Geming_Jiuzhi_2014.05.30_16-41-43.jpg" target="_blank" rel="noopener noreferrer">CC BY-SA 3.0</a>）` },
+  gutian: { src: "assets/images/gutian.jpg?v=20260830d", alt: "古田会议会址实景", figureClass: "figure-gutian", caption: `古田会议会址实景 · Rolfmueller / Wikimedia Commons（<a href="https://commons.wikimedia.org/wiki/File:Gutian_compound.jpg" target="_blank" rel="noopener noreferrer">CC BY-SA 3.0</a>）` },
+  "chongqing-hongyan": { src: "assets/images/chongqing-hongyan.jpg?v=20260830d", alt: "重庆红岩革命纪念馆实景", figureClass: "figure-chongqing-hongyan", caption: `重庆红岩革命纪念馆实景 · Nyx Ning / Wikimedia Commons（<a href="https://commons.wikimedia.org/wiki/File:%E7%BA%A2%E5%B2%A9-%E7%BA%A2%E5%B2%A9%E6%9D%91-%E7%BA%AA%E5%BF%B5%E9%A6%86_-_panoramio.jpg" target="_blank" rel="noopener noreferrer">CC BY-SA 3.0</a>）` },
+  "kangmei-jinianguan": { src: "assets/images/kangmei-jinianguan.jpg?v=20260830d", alt: "抗美援朝纪念馆题词墙实景", figureClass: "figure-kangmei-jinianguan", caption: `抗美援朝纪念馆题词墙实景 · Azchael from Maichingen, Germany / Wikimedia Commons（<a href="https://commons.wikimedia.org/wiki/File:Korean_War_Museum_and_Memorial_of_Dandong_(14228137608).jpg" target="_blank" rel="noopener noreferrer">CC BY 2.0</a>）` },
 };
 
 function nav() {
@@ -369,7 +374,7 @@ function nav() {
       <a href="places.html">红色地点</a>
       <a href="events.html">历史事件</a>
       <a href="index.html#quiz">知识考核</a>
-      <a href="index.html#footer">关于本站</a>
+      <a href="about.html">关于本站</a>
     </nav>
     <div class="nav-right">
       <div id="user-area" class="nav-user-area"></div>
@@ -386,7 +391,7 @@ function nav() {
     <a href="places.html">红色地点</a>
     <a href="events.html">历史事件</a>
     <a href="index.html#quiz">知识考核</a>
-    <a href="index.html#footer">关于本站</a>
+    <a href="about.html">关于本站</a>
   </div>`;
 }
 
@@ -469,7 +474,7 @@ ${nav()}
     <!-- 导语 -->
     <section class="bio-section">
       <p class="bio-lead reveal">${p.lead}</p>
-${p.img ? `      <figure class="detail-figure reveal">\n        <img src="${p.img.src}" alt="${p.img.alt}" loading="lazy">\n      </figure>\n` : ""}    </section>
+${p.img ? `      <figure class="detail-figure reveal ${p.img.figureClass || ''}">\n        <img src="${p.img.src}" alt="${p.img.alt}" loading="lazy">\n${p.img.caption ? `        <figcaption>${p.img.caption}</figcaption>\n` : ''}      </figure>\n` : ""}    </section>
 
     <!-- 名句 -->
     <section class="quote-black">
