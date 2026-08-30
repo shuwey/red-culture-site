@@ -174,7 +174,11 @@ const EVENTS = [
     epithet: "近代以来反侵略第一次完全胜利",
     lead:
       "从九一八到日本投降，中华儿女进行了十四年浴血奋战。东北抗联、八路军、新四军与正面战场同仇敌忾，1945 年 8 月 15 日日本宣布无条件投降，9 月 3 日为抗战胜利纪念日。",
-    img: { src: "assets/images/card-events.jpg", alt: "黎明中的红旗海洋" },
+    img: {
+      src: "assets/images/kangzhan.jpg",
+      alt: "1937年秋，八路军战士在河北涞源插箭岭长城上（历史照片）",
+      caption: "图片来源：<a href=\"https://commons.wikimedia.org/wiki/File:Eighth_Route_Army_at_Chajianling_Great_Wall,_autumn_1937.jpg\" target=\"_blank\" rel=\"noopener\">Wikimedia Commons</a> · 摄影师 沙飞 · 公有领域（PD）"
+    },
     quote: "我们中华民族有同自己的敌人血战到底的气概。",
     quoteNote: "—— 毛泽东《论反对日本帝国主义的策略》",
     stories: [
@@ -237,7 +241,11 @@ const EVENTS = [
     epithet: "反帝反封建 · 新民主主义革命的开端",
     lead:
       "1919 年 5 月 4 日，北京青年学生发起反帝反封建的爱国运动，抗议巴黎和会上列强把德国在山东的权益转让给日本。运动迅速席卷全国，工人阶级开始以独立姿态登上政治舞台。五四运动是中国旧民主主义革命走向新民主主义革命的转折点，促进了马克思主义在中国的传播，为中国共产党的成立作了思想上干部上的准备。",
-    img: { src: "assets/images/card-events.jpg", alt: "黎明中的红旗海洋" },
+    img: {
+      src: "assets/images/wusi.jpg",
+      alt: "五四运动时期北京大学学生游行队伍（历史照片）",
+      caption: "图片来源：<a href=\"https://commons.wikimedia.org/wiki/File:May%20Fourth.jpg\" target=\"_blank\" rel=\"noopener\">Wikimedia Commons</a> · 公有领域（PD）"
+    },
     quote: "外争主权，内除国贼。",
     quoteNote: "—— 五四运动时期口号",
     stories: [
@@ -333,7 +341,11 @@ const EVENTS = [
     epithet: "七七事变 · 全民族抗战的开始",
     lead:
       "1937 年 7 月 7 日夜，日军在北平卢沟桥附近演习时借口士兵「失踪」，炮轰宛平城，发动七七事变（卢沟桥事变）。中国守军奋起抵抗，全面抗日战争由此爆发。9 月，以国共合作为基础的抗日民族统一战线正式形成，中国进入全民族抗战阶段。七七事变是中华民族由局部抗战走向全民族抗战的标志性事件。",
-    img: { src: "assets/images/card-events.jpg", alt: "黎明中的红旗海洋" },
+    img: {
+      src: "assets/images/lugouqiao.jpg",
+      alt: "卢沟桥航拍（历史照片）",
+      caption: "图片来源：<a href=\"https://commons.wikimedia.org/wiki/File:Marco%20Polo%20Bridge%20air%20view.PNG\" target=\"_blank\" rel=\"noopener\">Wikimedia Commons</a> · 作者 Sweeper tamonten · 公有领域（PD）"
+    },
     quote: "平津危急！华北危急！中华民族危急！",
     quoteNote: "—— 1937 年中共中央通电",
     stories: [
