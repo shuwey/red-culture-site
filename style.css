@@ -886,17 +886,23 @@ button.stat:focus-visible { outline: 2px solid rgba(255,255,255,.6); outline-off
 
 /* ---------- 红色地点：交替图文行 ---------- */
 .places-section { background: var(--white); padding: 0 24px 60px; }
-.places-list { max-width: 1120px; margin: 0 auto; }
-.place-row {
-  display: flex;
-  align-items: center;
-  gap: 80px;
-  padding: 72px 0;
-  border-bottom: 1px solid var(--hairline);
+.places-list {
+  max-width: 1120px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
 }
-.place-row:last-child { border-bottom: none; }
-.place-text { flex: 1; display: flex; flex-direction: column; gap: 12px; }
-.place-row:nth-child(even) .place-text { order: 2; }
+.place-row {
+  background: var(--surface);
+  border-radius: 28px;
+  padding: 40px 44px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.place-text { display: flex; flex-direction: column; gap: 12px; }
+.place-name { font-size: 32px; }
 .place-meta {
   display: flex;
   align-items: center;
@@ -960,8 +966,9 @@ button.stat:focus-visible { outline: 2px solid rgba(255,255,255,.6); outline-off
 @media (max-width: 1180px) {
   .page-hero { padding: 128px 24px 72px; }
   .page-title { font-size: 52px; }
-  .place-row { gap: 48px; }
-  .place-name { font-size: 34px; }
+  .places-list { gap: 20px; }
+  .place-row { padding: 34px 34px; }
+  .place-name { font-size: 28px; }
 }
 
 @media (max-width: 860px) {
@@ -974,14 +981,9 @@ button.stat:focus-visible { outline: 2px solid rgba(255,255,255,.6); outline-off
   .person-card { padding: 28px 26px; }
 
   .places-section { padding: 0 24px 32px; }
-  .place-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 20px;
-    padding: 48px 0;
-  }
-  .place-row:nth-child(even) .place-text { order: 0; }
-  .place-name { font-size: 30px; }
+  .places-list { grid-template-columns: 1fr; gap: 18px; }
+  .place-row { padding: 32px 28px; }
+  .place-name { font-size: 28px; }
 
   .events-section { padding: 0 24px 80px; }
   .vt-item { padding-bottom: 40px; }
