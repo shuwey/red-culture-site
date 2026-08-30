@@ -485,12 +485,18 @@ const IMGS = {
     { src: "assets/images/qiu-qiubai-portrait.jpg?v=20260830j", alt: "瞿秋白同志" },
     { src: "assets/images/qiu-qiubai-1935.jpg?v=20260830j", alt: "1935 年 6 月 18 日瞿秋白就义前留影" },
   ], caption: "瞿秋白历史照片 · 左：瞿秋白同志；右：1935 年 6 月 18 日就义前留影 · 公有领域 / Wikimedia Commons" },
-  "yun-daiying": { singlePortrait: { src: "assets/images/yun-daiying-portrait.jpg?v=20260830j", alt: "恽代英肖像", caption: "恽代英肖像 · 公有领域 / Wikimedia Commons" } },
+  "yun-daiying": { pair: [
+    { src: "assets/images/yun-daiying-portrait.jpg?v=20260830j", alt: "恽代英肖像" },
+    { src: "assets/images/yun-daiying-group.png?v=20260830j", alt: "1918 年互助社部分成员在武昌合影（前排右二为恽代英）" },
+  ], caption: "恽代英历史影像 · 左：恽代英肖像；右：1918 年互助社部分成员在武昌合影 · 公有领域 / Wikimedia Commons" },
   "zhang-side": { pair: [
     { src: "assets/images/zhang-side-room.jpg?v=20260830j", alt: "1967 年张思德同志纪念室" },
     { src: "assets/images/zhang-side-portrait.jpg?v=20260830j", alt: "纪念室内的张思德同志照片" },
   ], caption: "张思德历史影像 · 左：1967 年张思德同志纪念室；右：纪念室内的张思德同志照片（《人民画报》） · 公有领域 / Wikimedia Commons" },
-  "zuo-quan": { singlePortrait: { src: "assets/images/zuo-quan-portrait.jpg?v=20260830j", alt: "左权肖像", caption: "左权肖像 · 公有领域 / Wikimedia Commons" } },
+  "zuo-quan": { pair: [
+    { src: "assets/images/zuo-quan-portrait.jpg?v=20260830j", alt: "左权肖像" },
+    { src: "assets/images/zuo-quan-family.jpg?v=20260830j", alt: "左权与妻子刘志兰、女儿左太北合影" },
+  ], caption: "左权历史影像 · 左：左权肖像；右：与妻子刘志兰、女儿左太北合影 · 公有领域 / Wikimedia Commons" },
   "dong-cunrui": { pair: [
     { src: "assets/images/dong-cunrui-portrait.jpg?v=20260830j", alt: "董存瑞肖像" },
     { src: "assets/images/dong-cunrui-residence.jpg?v=20260830j", alt: "董存瑞故居" },
