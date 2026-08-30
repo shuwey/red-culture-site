@@ -1179,6 +1179,11 @@ button.stat:focus-visible { outline: 2px solid rgba(255,255,255,.6); outline-off
 .figure-luding img {
   object-position: 50% 58%;
 }
+
+/* 西柏坡旧址：土坯院落居中偏下，2:1 / 4:3 裁切均保留院落与参观场景 */
+.figure-xibaipo img {
+  object-position: 50% 62%;
+}
 /* 历史文献照：按原比例完整显示，不裁切、不缓动，浅底衬出史料质感 */
 .detail-figure--doc {
   background: #f3f1ec;
