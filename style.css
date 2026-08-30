@@ -1199,6 +1199,11 @@ button.stat:focus-visible { outline: 2px solid rgba(255,255,255,.6); outline-off
   object-position: 50% 58%;
 }
 
+/* 南昌八一起义纪念馆（江西大旅社旧址）：竖版建筑照，2:1 裁切时略上提保留主楼立面 */
+.figure-nanchang img {
+  object-position: 50% 45%;
+}
+
 /* 井冈山五指峰：主峰位于画面中上部，2:1 / 2.4:1 裁切时上提，保留主峰 */
 .figure-jinggangshan img {
   object-position: 50% 35%;

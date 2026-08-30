@@ -49,7 +49,11 @@ const EVENTS = [
     epithet: "枪杆子里出政权 · 武装反抗第一枪",
     lead:
       "1927 年 8 月 1 日，周恩来、贺龙、叶挺、朱德、刘伯承等领导南昌起义，打响了武装反抗国民党反动派的第一枪，标志着中国共产党独立领导革命战争、创建人民军队的开端。",
-    img: { src: "assets/images/card-events.jpg", alt: "黎明中的红旗海洋" },
+    img: {
+      src: "assets/images/nanchang.jpg",
+      alt: "南昌八一起义纪念馆（起义总指挥部旧址·江西大旅社）实景",
+      caption: "图片来源：<a href=\"https://commons.wikimedia.org/wiki/File:Nanchang_Bayi_Qiyi_Jinianguan_2018.01.20_16-03-09.jpg\" target=\"_blank\" rel=\"noopener\">Wikimedia Commons</a> · 摄影师 Zhangzhugang · CC BY-SA 4.0"
+    },
     quote: "枪杆子里面出政权。",
     quoteNote: "—— 毛泽东，1927 年八七会议",
     stories: [
