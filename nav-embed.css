@@ -377,3 +377,67 @@ button {
 }
 .lit-footer a { color: var(--red); text-decoration: none; font-weight: 600; }
 .lit-footer a:hover { text-decoration: underline; }
+
+/* ---------- 页脚（与全站统一，变量名与 style.css 一致） ---------- */
+.footer {
+  background: var(--surface);
+  padding: 48px 64px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+.footer-top {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 36px 56px;
+}
+.footer-brand {
+  flex: 1 1 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.footer-logo .star { width: 18px; height: 18px; }
+.footer-brand p {
+  margin: 0;
+  font-size: 12px;
+  color: var(--gray-3);
+}
+.footer-col {
+  flex: 0 1 140px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.footer-col h4 {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.footer-col a {
+  font-size: 12px;
+  color: var(--gray-nav);
+  transition: color .2s ease;
+}
+.footer-col a:hover { color: var(--ink); text-decoration: underline; }
+.footer-divider { height: 1px; background: var(--hairline); }
+.footer-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--gray-3);
+}
+.footer-meta { color: var(--gray-3); }
+.ai-foot-note { width: 100%; margin: 0; font-size: .74rem; line-height: 1.5; color: #9a8f84; }
+.icp-beian-note { width: 100%; margin: 0; font-size: .74rem; color: #9a8f84; }
+.icp-beian-note a { color: inherit; text-decoration: underline; }

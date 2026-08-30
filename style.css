@@ -422,32 +422,51 @@ button.stat:focus-visible { outline: 2px solid rgba(255,255,255,.6); outline-off
 .pill-btn:hover { background: #A80D27; transform: scale(1.02); }
 .pill-btn:active { transform: scale(.98); }
 
-/* ---------- 页脚 ---------- */
+/* ---------- 页脚（全站统一） ---------- */
 .footer {
   background: var(--surface);
   padding: 48px 120px 32px;
   display: flex;
   flex-direction: column;
-  gap: 36px;
+  gap: 28px;
 }
-.footer-top { display: flex; }
-.footer-brand { width: 420px; display: flex; flex-direction: column; gap: 12px; }
+.footer-top {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 36px 64px;
+}
+.footer-brand {
+  flex: 1 1 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 .footer-logo {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
+  color: var(--ink);
 }
-.footer-brand p { font-size: 12px; color: var(--gray-3); }
+.footer-logo .star { width: 18px; height: 18px; }
+.footer-brand p {
+  margin: 0;
+  font-size: 12px;
+  color: var(--gray-3);
+}
 .footer-col {
-  flex: 1;
+  flex: 0 1 140px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 10px;
 }
-.footer-col:last-child { width: 200px; flex: none; }
-.footer-col h4 { font-size: 12px; font-weight: 600; color: var(--ink); }
+.footer-col h4 {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+}
 .footer-col a {
   font-size: 12px;
   color: var(--gray-nav);
@@ -457,10 +476,12 @@ button.stat:focus-visible { outline: 2px solid rgba(255,255,255,.6); outline-off
 .footer-divider { height: 1px; background: var(--hairline); }
 .footer-bottom {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 6px;
   font-size: 11px;
   color: var(--gray-3);
 }
+.footer-meta { color: var(--gray-3); }
 
 /* ---------- 知识考核弹窗 ---------- */
 .quiz-modal {
@@ -815,9 +836,8 @@ button.stat:focus-visible { outline: 2px solid rgba(255,255,255,.6); outline-off
 
   .footer { padding: 40px 24px 24px; gap: 28px; }
   .footer-top { flex-wrap: wrap; gap: 32px; }
-  .footer-brand { width: 100%; }
+  .footer-brand { flex: 1 1 100%; }
   .footer-col { flex: 1 1 40%; }
-  .footer-col:last-child { width: auto; flex: 1 1 40%; }
   .footer-bottom { flex-direction: column; gap: 6px; }
 
   .quiz-card { padding: 36px 24px; border-radius: 20px; }
@@ -1343,7 +1363,7 @@ button.stat:focus-visible { outline: 2px solid rgba(255,255,255,.6); outline-off
 }
 .ai-foot-note {
   width: 100%;
-  margin: 8px 0 0;
+  margin: 0;
   font-size: .74rem;
   line-height: 1.5;
   color: #9a8f84;
@@ -1351,8 +1371,8 @@ button.stat:focus-visible { outline: 2px solid rgba(255,255,255,.6); outline-off
 
 .icp-beian-note {
   width: 100%;
-  margin: 4px 0 0;
-  text-align: center;
+  margin: 0;
+  text-align: left;
   font-size: .74rem;
   color: #9a8f84;
 }

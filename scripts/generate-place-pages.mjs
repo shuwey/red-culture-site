@@ -416,7 +416,7 @@ function footer() {
         <h4>学习更多</h4>
         <a href="index.html#quiz">知识考核</a>
         <a href="index.html#timeline">历史时间轴</a>
-        <a href="index.html#themes">主题导览</a>
+        <a href="red-literature.html">红色文学</a>
       </div>
       <div class="footer-col">
         <h4>关于本站</h4>
@@ -427,8 +427,9 @@ function footer() {
     </div>
     <div class="footer-divider"></div>
     <div class="footer-bottom">
-      <span>红色文化传播网 · 本站点为红色文化宣传演示作品</span>
-      <span>铭记历史 · 缅怀先烈</span>
+      <span class="footer-meta">本站点为红色文化宣传演示作品 · 铭记历史 · 缅怀先烈</span>
+      <p class="ai-foot-note">本站部分配图为 AI 生成的「艺术再现」图像，非真实历史照片，请以权威史料为准。</p>
+      <p class="icp-beian-note"><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">ICP备案号：待填写</a> · <a href="https://www.beian.gov.cn/" target="_blank" rel="noopener">公网安备：待填写</a></p>
     </div>
   </footer>`;
 }

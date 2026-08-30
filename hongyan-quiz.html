@@ -109,7 +109,6 @@ footer{text-align:center;color:var(--mut);font-size:12px;padding:18px}
     <button class="btn primary" id="rcs-save-score">保存成绩到云端</button>
   </div>
   <div id="list"></div>
-  <footer id="foot" class="lit-footer"></footer>
 </div>
 <script>
 const META = {"title": "《红岩》整本书阅读题库", "desc": "面向初中整本书阅读与数字教学，覆盖人物/地点/事件/主题精神/常识/阅读鉴赏六维度，含单选、多选、填空、判断、简答五种题型，难度分基础/提高/拓展。数据依据人民网党史频道、中央纪委国家监委网站、中央党史和文献研究院等权威来源核实。", "total": 229, "generated": "2026-08-28", "cat_name": {"people": "人物", "place": "地点", "event": "事件", "spirit": "主题精神", "basic": "常识", "art": "阅读鉴赏"}, "type_name": {"single": "单选题", "multiple": "多选题", "fill": "填空题", "judge": "判断题", "short": "简答题"}, "diff_name": {"1": "基础", "2": "提高", "3": "拓展"}};
@@ -128,7 +127,6 @@ function esc(s){return (s||"").replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":
 
 document.getElementById("title").textContent=META.title;
 document.getElementById("desc").textContent=META.desc;
-document.getElementById("foot").textContent="共 "+DATA.length+" 题 · 数据依据人民网党史频道、中央纪委国家监委网站、中央党史和文献研究院等权威来源核实，供红色经典阅读参考";
 
 // 过滤器
 function fillSelect(el,obj,allLabel){el.innerHTML='<option value="all">'+allLabel+'</option>'+
@@ -257,9 +255,6 @@ function updateCount(){
   const right=graded.filter(id=>answered[id]===true).length;
   const rate=graded.length?Math.round(right/graded.length*100):0;
   const wrongN=ids.filter(id=>isWrong(id)).length;
-  document.getElementById("foot").textContent=
-    "本页 "+ids.length+" 题 · 已作答(可判) "+graded.length+" · 正确 "+right+" · 正确率 "+rate+"% · 错题 "+wrongN+
-    " · 总题数 "+DATA.length;
 }
 
 document.getElementById("list").addEventListener("click",e=>{
@@ -305,6 +300,41 @@ document.getElementById("list").addEventListener("click",e=>{
   }
   topStats();render();
 </script>
+<footer class="footer" id="footer">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="footer-logo">
+        <svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.26 6.87.6-5.2 4.51 1.53 6.72L12 16.9l-6.1 3.19 1.53-6.72-5.2-4.51 6.87-.6L12 2z" fill="#C8102E"/></svg>
+        <span>红色文化传播网</span>
+      </div>
+      <p>铭记历史，缅怀先烈。</p>
+    </div>
+    <div class="footer-col">
+      <h4>走进历史</h4>
+      <a href="heroes.html">英雄人物</a>
+      <a href="places.html">红色地点</a>
+      <a href="events.html">历史事件</a>
+    </div>
+    <div class="footer-col">
+      <h4>学习更多</h4>
+      <a href="index.html#quiz">知识考核</a>
+      <a href="index.html#timeline">历史时间轴</a>
+      <a href="red-literature.html">红色文学</a>
+    </div>
+    <div class="footer-col">
+      <h4>关于本站</h4>
+      <a href="about.html">关于与史料来源</a>
+      <a href="contact.html">联系我们</a>
+      <a href="faq.html">常见问题</a>
+    </div>
+  </div>
+  <div class="footer-divider"></div>
+  <div class="footer-bottom">
+    <span class="footer-meta">本站点为红色文化宣传演示作品 · 铭记历史 · 缅怀先烈</span>
+    <p class="ai-foot-note">本站部分配图为 AI 生成的「艺术再现」图像，非真实历史照片，请以权威史料为准。</p>
+    <p class="icp-beian-note"><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">ICP备案号：待填写</a> · <a href="https://www.beian.gov.cn/" target="_blank" rel="noopener">公网安备：待填写</a></p>
+  </div>
+</footer>
 <script src="script.js?v=20260830k"></script>
 <!-- AI 助手：延迟加载云能力（首屏不加载，避免 786KB SDK 阻塞渲染） -->
 <script>
