@@ -352,7 +352,7 @@ const IMGS = {
   jinggangshan: { src: "assets/images/hero-jinggangshan.jpg", alt: "井冈山群峰云海" },
   zunyi: { src: "assets/images/zunyi.jpg", alt: "遵义会议会址，木构小楼前红旗招展" },
   luding: { src: "assets/images/luding.jpg", alt: "云雾中的泸定桥铁索横跨大渡河" },
-  yanan: { src: "assets/images/detail-yanan.png", alt: "延安宝塔山黄昏剪影与延河倒影" },
+  yanan: { src: "assets/images/detail-yanan.jpg", alt: "延安宝塔山与延河夜景" },
   xibaipo: { src: "assets/images/xibaipo.jpg", alt: "西柏坡中共中央旧址院落" },
   tiananmen: { src: "assets/images/detail-tiananmen.jpg", alt: "天安门城楼（历史资料图）" },
 };
