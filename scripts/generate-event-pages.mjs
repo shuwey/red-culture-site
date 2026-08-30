@@ -15,7 +15,10 @@ const EVENTS = [
     epithet: "开天辟地 · 中国共产党宣告成立",
     lead:
       "1921 年 7 月 23 日，中国共产党第一次全国代表大会在上海法租界石库门召开。会议最后一天遭巡捕袭扰，代表们转移至嘉兴南湖的画舫上闭幕，宣告中国共产党正式成立——中国革命的面貌从此焕然一新。",
-    img: { src: "assets/images/red-boat.jpg", alt: "晨雾中的嘉兴南湖红船" },
+    img: { pair: [
+      { src: "assets/images/shanghai-yida-courtyard.jpg", alt: "上海中共一大会址内院（石库门建筑）实景" },
+      { src: "assets/images/red-boat.jpg", alt: "嘉兴南湖红船（左前方视角）实景" },
+    ] },
     quote: "作始也简，将毕也巨。",
     quoteNote: "—— 董必武题南湖革命纪念馆",
     stories: [
@@ -511,7 +514,7 @@ ${nav()}
     <!-- 导语 -->
     <section class="bio-section">
       <p class="bio-lead reveal">${e.lead}</p>
-${e.img ? `      <figure class="detail-figure reveal${e.img.kaiquo ? ' detail-figure--kaiquo' : ''}">\n        <img src="${e.img.src}" alt="${e.img.alt}" loading="lazy">\n        ${e.img.caption ? `        <figcaption>${e.img.caption}</figcaption>\n` : ""}      </figure>\n` : ""}    </section>
+${e.img ? `      <figure class="detail-figure reveal${e.img.kaiquo ? ' detail-figure--kaiquo' : (e.img.pair ? ' detail-figure--portrait-pair' : '')}">\n        ${e.img.pair ? e.img.pair.map(p => `<img src="${p.src}" alt="${p.alt}" loading="lazy">`).join('\n') : `<img src="${e.img.src}" alt="${e.img.alt}" loading="lazy">`}\n        ${e.img.caption ? `        <figcaption>${e.img.caption}</figcaption>\n` : ""}      </figure>\n` : ""}    </section>
 
     <!-- 名句 -->
     <section class="quote-black">
