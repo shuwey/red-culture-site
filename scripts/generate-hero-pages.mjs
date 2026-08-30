@@ -481,7 +481,10 @@ const IMGS = {
     { src: "assets/images/peng-xuefeng-portrait.jpg?v=20260830j", alt: "彭雪枫肖像" },
     { src: "assets/images/peng-xuefeng-1940.jpg?v=20260830j", alt: "1940 年彭雪枫与张震合影" },
   ], caption: "彭雪枫历史照片 · 左：彭雪枫肖像；右：1940 年彭雪枫与张震合影 · 公有领域 / Wikimedia Commons" },
-  "qiu-qiubai": { singlePortrait: { src: "assets/images/qiu-qiubai-1935.jpg?v=20260830j", alt: "1935 年 6 月 18 日瞿秋白就义前留影", caption: "瞿秋白 · 1935 年 6 月 18 日就义前留影 · 公有领域 / Wikimedia Commons" } },
+  "qiu-qiubai": { pair: [
+    { src: "assets/images/qiu-qiubai-portrait.jpg?v=20260830j", alt: "瞿秋白同志" },
+    { src: "assets/images/qiu-qiubai-1935.jpg?v=20260830j", alt: "1935 年 6 月 18 日瞿秋白就义前留影" },
+  ], caption: "瞿秋白历史照片 · 左：瞿秋白同志；右：1935 年 6 月 18 日就义前留影 · 公有领域 / Wikimedia Commons" },
   "yun-daiying": { singlePortrait: { src: "assets/images/yun-daiying-portrait.jpg?v=20260830j", alt: "恽代英肖像", caption: "恽代英肖像 · 公有领域 / Wikimedia Commons" } },
   "zhang-side": { pair: [
     { src: "assets/images/zhang-side-room.jpg?v=20260830j", alt: "1967 年张思德同志纪念室" },
