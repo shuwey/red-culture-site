@@ -446,9 +446,9 @@ function footer() {
 // 每位人物的意境配图（不用人物肖像，用与其精神相关的场景意象）
 const IMGS = {
   lidazhao: { pair: [
-    { src: "assets/images/lidazhao-young.jpg?v=20260830f", alt: "青年时期的李大钊" },
-    { src: "assets/images/lidazhao-execution.jpg?v=20260830f", alt: "就义前的李大钊（1927）" },
-  ], caption: "李大钊历史照片 · 左：青年时期；右：就义前（1927）· 公有领域 / Wikimedia Commons" },
+    { src: "assets/images/lidazhao-portrait.jpg?v=20260830h", alt: "李大钊任北京大学图书馆主任时的肖像" },
+    { src: "assets/images/lidazhao-signed.png?v=20260830h", alt: "1920 年李大钊题赠同志的签名照" },
+  ], caption: "李大钊历史照片 · 左：北京大学图书馆主任任内肖像；右：1920 年题赠同志签名照 · 公有领域 / 历史照片" },
   fangzhimin: { pair: [
     { src: "assets/images/fangzhimin-portrait.jpg?v=20260830g", alt: "方志敏肖像" },
     { src: "assets/images/fangzhimin-manuscript.jpg?v=20260830g", alt: "《可爱的中国》手稿" },
