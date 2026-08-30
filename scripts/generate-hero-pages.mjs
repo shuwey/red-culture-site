@@ -450,7 +450,6 @@ const IMGS = {
   zhaoyiman: { src: "assets/images/detail-zhaoyiman.png", alt: "白山黑水间的林海雪原与晨光" },
   yangjingyu: { src: "assets/images/detail-yangjingyu.png", alt: "大雪封山的密营木屋升起一缕炊烟" },
   liuhulan: { src: "assets/images/detail-liuhulan.png", alt: "黄土高原村落清晨的云隙光" },
-  dongcunrui: { src: "assets/images/detail-dongcunrui.png", alt: "黄昏山峦剪影中飘扬的红旗与军号" },
   jiangzhujun: { src: "assets/images/detail-jiangzhujun.png", alt: "歌乐山红色峭壁与苍翠松柏间的晨雾" },
   qiushaoyun: { src: "assets/images/detail-qiushaoyun.png", alt: "清晨覆霜的潜伏草丛与薄雾" },
 };
