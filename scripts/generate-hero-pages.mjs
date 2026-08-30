@@ -449,12 +449,30 @@ const IMGS = {
     { src: "assets/images/lidazhao-young.jpg?v=20260830f", alt: "青年时期的李大钊" },
     { src: "assets/images/lidazhao-execution.jpg?v=20260830f", alt: "就义前的李大钊（1927）" },
   ], caption: "李大钊历史照片 · 左：青年时期；右：就义前（1927）· 公有领域 / Wikimedia Commons" },
-  fangzhimin: { src: "assets/images/detail-fangzhimin.png", alt: "牢房小窗的光束照在桌上的手稿与怀表上" },
-  zhaoyiman: { src: "assets/images/detail-zhaoyiman.png", alt: "白山黑水间的林海雪原与晨光" },
-  yangjingyu: { src: "assets/images/detail-yangjingyu.png", alt: "大雪封山的密营木屋升起一缕炊烟" },
-  liuhulan: { src: "assets/images/detail-liuhulan.png", alt: "黄土高原村落清晨的云隙光" },
-  jiangzhujun: { src: "assets/images/detail-jiangzhujun.png", alt: "歌乐山红色峭壁与苍翠松柏间的晨雾" },
-  qiushaoyun: { src: "assets/images/detail-qiushaoyun.png", alt: "清晨覆霜的潜伏草丛与薄雾" },
+  fangzhimin: { pair: [
+    { src: "assets/images/fangzhimin-portrait.jpg?v=20260830g", alt: "方志敏肖像" },
+    { src: "assets/images/fangzhimin-manuscript.jpg?v=20260830g", alt: "《可爱的中国》手稿" },
+  ], caption: "方志敏历史照片与手稿 · 左：肖像；右：《可爱的中国》手稿 · 公有领域 / Wikimedia Commons" },
+  zhaoyiman: { pair: [
+    { src: "assets/images/zhaoyiman-portrait.jpg?v=20260830g", alt: "赵一曼肖像" },
+    { src: "assets/images/zhaoyiman-letter.jpg?v=20260830g", alt: "赵一曼写给儿子的遗书" },
+  ], caption: "赵一曼历史照片与遗书 · 左：肖像；右：写给儿子的遗书 · 公有领域 / Wikimedia Commons" },
+  yangjingyu: { pair: [
+    { src: "assets/images/yangjingyu-portrait.jpg?v=20260830g", alt: "杨靖宇肖像" },
+    { src: "assets/images/yangjingyu-relic.jpg?v=20260830g", alt: "杨靖宇在哈尔滨做地下工作时用过的褥子" },
+  ], caption: "杨靖宇历史照片与遗物 · 左：肖像；右：哈尔滨地下工作时用过的褥子 · 左为公有领域 / 右为 Huanokinhejo / Wikimedia Commons（CC BY-SA 4.0）" },
+  liuhulan: { pair: [
+    { src: "assets/images/liuhulan-cemetery.jpg?v=20260830g", alt: "刘胡兰烈士陵园（1962）" },
+    { src: "assets/images/liuhulan-home.png?v=20260830g", alt: "刘胡兰家（1952）" },
+  ], caption: "刘胡兰历史影像 · 左：烈士陵园（1962）；右：刘胡兰家（1952）· 公有领域（《人民画报》） / Wikimedia Commons" },
+  jiangzhujun: { pair: [
+    { src: "assets/images/jiangzhujun-letter.jpg?v=20260830g", alt: "江竹筠狱中家书" },
+    { src: "assets/images/jiangzhujun-residence.jpg?v=20260830g", alt: "江竹筠故居" },
+  ], caption: "江竹筠（江姐）狱中家书与故居 · 左：狱中致亲友信；右：自贡江姐故居 · 左为公有领域 / 右为 N509FZ / Wikimedia Commons（CC BY-SA 4.0）" },
+  qiushaoyun: { pair: [
+    { src: "assets/images/qiushaoyun-portrait.png?v=20260830g", alt: "邱少云肖像" },
+    { src: "assets/images/qiushaoyun-clothes.jpg?v=20260830g", alt: "邱少云烈士牺牲后残存的棉衣" },
+  ], caption: "邱少云历史照片与遗物 · 左：肖像；右：牺牲后残存的棉衣 · 左为公有领域 / 右为 N509FZ / Wikimedia Commons（CC BY-SA 4.0）" },
 };
 
 function page(h, i) {
