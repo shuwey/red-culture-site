@@ -1212,7 +1212,7 @@ button.stat:focus-visible { outline: 2px solid rgba(255,255,255,.6); outline-off
   object-position: 55% 55%;
 }
 
-/* 西柏坡旧址：土坯院落居中偏下，2:1 / 4:3 裁切均保留院落与参观场景 */
+/* 西柏坡旧址：土坯院落居中偏下，2:1 / 4:3 裁切均保留院落场景 */
 .figure-xibaipo img {
   object-position: 50% 62%;
 }
