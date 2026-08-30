@@ -473,7 +473,39 @@ const IMGS = {
     { src: "assets/images/qiushaoyun-portrait.png?v=20260830g", alt: "邱少云肖像" },
     { src: "assets/images/qiushaoyun-clothes.jpg?v=20260830g", alt: "邱少云烈士牺牲后残存的棉衣" },
   ], caption: "邱少云历史照片与遗物 · 左：肖像；右：牺牲后残存的棉衣 · 左为公有领域 / 右为 N509FZ / Wikimedia Commons（CC BY-SA 4.0）" },
+  "huang-jiguang": { pair: [
+    { src: "assets/images/huang-jiguang-hall.jpg?v=20260830j", alt: "1963 年黄继光纪念馆" },
+    { src: "assets/images/huang-jiguang-medal.jpg?v=20260830j", alt: "黄继光荣获的一级国旗勋章" },
+  ], caption: "黄继光历史影像 · 左：1963 年黄继光纪念馆（《人民画报》）；右：黄继光荣获的一级国旗勋章 · 公有领域 / CC BY-SA 4.0 Wikimedia Commons" },
+  "peng-xuefeng": { pair: [
+    { src: "assets/images/peng-xuefeng-portrait.jpg?v=20260830j", alt: "彭雪枫肖像" },
+    { src: "assets/images/peng-xuefeng-1940.jpg?v=20260830j", alt: "1940 年彭雪枫与张震合影" },
+  ], caption: "彭雪枫历史照片 · 左：彭雪枫肖像；右：1940 年彭雪枫与张震合影 · 公有领域 / Wikimedia Commons" },
+  "qiu-qiubai": { singlePortrait: { src: "assets/images/qiu-qiubai-1935.jpg?v=20260830j", alt: "1935 年 6 月 18 日瞿秋白就义前留影", caption: "瞿秋白 · 1935 年 6 月 18 日就义前留影 · 公有领域 / Wikimedia Commons" } },
+  "yun-daiying": { singlePortrait: { src: "assets/images/yun-daiying-portrait.jpg?v=20260830j", alt: "恽代英肖像", caption: "恽代英肖像 · 公有领域 / Wikimedia Commons" } },
+  "zhang-side": { pair: [
+    { src: "assets/images/zhang-side-room.jpg?v=20260830j", alt: "1967 年张思德同志纪念室" },
+    { src: "assets/images/zhang-side-portrait.jpg?v=20260830j", alt: "纪念室内的张思德同志照片" },
+  ], caption: "张思德历史影像 · 左：1967 年张思德同志纪念室；右：纪念室内的张思德同志照片（《人民画报》） · 公有领域 / Wikimedia Commons" },
+  "zuo-quan": { singlePortrait: { src: "assets/images/zuo-quan-portrait.jpg?v=20260830j", alt: "左权肖像", caption: "左权肖像 · 公有领域 / Wikimedia Commons" } },
+  "dong-cunrui": { pair: [
+    { src: "assets/images/dong-cunrui-portrait.jpg?v=20260830j", alt: "董存瑞肖像" },
+    { src: "assets/images/dong-cunrui-residence.jpg?v=20260830j", alt: "董存瑞故居" },
+  ], caption: "董存瑞历史影像 · 左：董存瑞肖像；右：董存瑞故居 · 公有领域 / CC BY-SA 4.0 Wikimedia Commons" },
 };
+
+function figureHtml(h) {
+  if (!h.img) return "";
+  if (h.img.pair) {
+    const [a, b] = h.img.pair;
+    return `      <figure class="detail-figure detail-figure--portrait-pair reveal">\n        <img src="${a.src}" alt="${a.alt}" loading="lazy">\n        <img src="${b.src}" alt="${b.alt}" loading="lazy">\n        <figcaption>${h.img.caption}</figcaption>\n      </figure>\n`;
+  }
+  if (h.img.singlePortrait) {
+    const s = h.img.singlePortrait;
+    return `      <figure class="detail-figure detail-figure--single-portrait reveal">\n        <img src="${s.src}" alt="${s.alt}" loading="lazy">\n        <figcaption>${s.caption}</figcaption>\n      </figure>\n`;
+  }
+  return `      <figure class="detail-figure reveal">\n        <img src="${h.img.src}" alt="${h.img.alt}" loading="lazy">\n      </figure>\n`;
+}
 
 function page(h, i) {
   const n = String(i + 1).padStart(2, "0");
@@ -516,7 +548,7 @@ ${nav()}
     <!-- 生平导语 -->
     <section class="bio-section">
       <p class="bio-lead reveal">${h.lead}</p>
-${h.img ? (h.img.pair ? `      <figure class="detail-figure detail-figure--portrait-pair reveal">\n        <img src="${h.img.pair[0].src}" alt="${h.img.pair[0].alt}" loading="lazy">\n        <img src="${h.img.pair[1].src}" alt="${h.img.pair[1].alt}" loading="lazy">\n        <figcaption>${h.img.caption}</figcaption>\n      </figure>\n` : `      <figure class="detail-figure reveal">\n        <img src="${h.img.src}" alt="${h.img.alt}" loading="lazy">\n      </figure>\n`) : ""}    </section>
+${figureHtml(h)}    </section>
 
     <!-- 名言 -->
     <section class="quote-black">
