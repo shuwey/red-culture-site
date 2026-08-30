@@ -350,3 +350,17 @@ button {
   transition: opacity .25s ease, transform .25s ease;
 }
 .rcs-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ---------- 说明栏（统一：史料依据 / 真实性说明 / 版权提示） ---------- */
+.note {
+  margin: 28px 0 8px;
+  padding: 16px 18px;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-left: 4px solid var(--red);
+  border-radius: 10px;
+  font-size: 14px;
+  line-height: 1.85;
+  color: var(--gray-2);
+}
+.note b { color: var(--ink); font-weight: 600; }
