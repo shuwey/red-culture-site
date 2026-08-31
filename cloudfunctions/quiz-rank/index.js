@@ -10,6 +10,7 @@
 "use strict";
 
 const cloudbase = require("@cloudbase/node-sdk");
+const { scanSensitive } = require("./lib/sensitive-words");
 
 let _app = null;
 function getApp() {
@@ -41,10 +42,13 @@ exports.main = async (event, context) => {
       const cur = map[uid];
       const score = Number(r.score) || 0;
       const dur = Number(r.durationSec) || 0;
+      // 昵称公开展示前做敏感词过滤：命中则置空，前端/榜单回退为"匿名用户"
+      const rawNick = r.nickname || "";
+      const safeNick = scanSensitive(rawNick) ? "" : rawNick;
       if (!cur) {
         map[uid] = {
           userId: uid,
-          nickname: r.nickname || "",
+          nickname: safeNick,
           best: score,
           dur: dur,
           total: Number(r.total) || 0,
@@ -56,7 +60,7 @@ exports.main = async (event, context) => {
         if (better) {
           cur.best = score;
           cur.dur = dur;
-          cur.nickname = r.nickname || cur.nickname;
+          if (safeNick) cur.nickname = safeNick; // 仅在安全时才覆盖昵称
           cur.total = Number(r.total) || cur.total;
           cur.at = r.createdAt || cur.at;
         }

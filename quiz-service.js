@@ -6,6 +6,23 @@
 (function () {
   "use strict";
 
+  // 昵称轻量敏感词预检（与云函数 scanSensitive 同源 BASE 关键词，命中则回退匿名）
+  var NICK_BAD_WORDS = [
+    "反动", "颠覆国家", "分裂国家", "煽动分裂", "台独", "港独", "藏独", "疆独",
+    "法轮", "邪教", "暴乱", "历史虚无主义", "抹黑党史", "歪曲历史", "诋毁英雄",
+    "污蔑烈士", "色情", "裸聊", "卖淫", "淫秽", "赌博", "毒品", "冰毒", "摇头丸", "大麻",
+    "代办文凭", "代开发票", "招嫖", "办证", "出售个人信息", "代考",
+    "怎么骂", "去死", "自杀", "自残", "杀人", "报复社会"
+  ];
+  function isNickBad(nick) {
+    if (!nick) return false;
+    var t = String(nick).toLowerCase();
+    for (var i = 0; i < NICK_BAD_WORDS.length; i++) {
+      if (t.indexOf(NICK_BAD_WORDS[i].toLowerCase()) !== -1) return true;
+    }
+    return false;
+  }
+
   var COLLECTION = "quiz_scores";
   var pending = null;
 
@@ -20,9 +37,14 @@
       pending = { score: score, total: total, durationSec: durationSec, book: book };
       return { success: false, error: { code: "NO_AUTH" } };
     }
+    var nick = state.nick || "";
+    if (isNickBad(nick)) {
+      nick = "";
+      toast("昵称含不合规内容，将显示为匿名");
+    }
     var doc = {
       userId: state.uid,
-      nickname: state.nick || "",
+      nickname: nick,
       score: score,
       total: total,
       durationSec: durationSec,

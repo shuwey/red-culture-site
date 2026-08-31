@@ -30,6 +30,15 @@ button {
   appearance: none;
 }
 
+/* ---------- 链接基础重置（与全站 style.css 第 40 行保持一致）----------
+   缺失此段时，浏览器会给 <a> 默认 underline + 蓝色，
+   红文页的 footer 链接会渲染成原始的"蓝下划线"，与全站不一致。
+   由于本文件旧版 .footer-col a 的 specificity (0,1,1) 在 4 个红文页
+   裸 a{} 内联规则的 specificity (0,0,1) 配合 position 优先级
+   可能反被覆盖，故加 body 提升特异性到 (0,1,2)，并加显式
+   font-size / text-decoration 兜底，确保 footer 一定与全站一致。 */
+a { text-decoration: none; color: inherit; }
+
 /* ---------- 导航栏（毛玻璃吸顶，与全站一致） ---------- */
 .nav {
   position: fixed;
@@ -45,7 +54,7 @@ button {
   backdrop-filter: saturate(180%) blur(20px);
   transition: box-shadow .3s ease;
 }
-.nav.scrolled { box-shadow: 0 1px 0 rgba(0, 0, 0, .08); }
+/* .nav.scrolled { box-shadow: 0 1px 0 rgba(0, 0, 0, .08); } — 老大要求去掉这条硬横线，保留 transition 以便日后加回柔和阴影 */
 
 .nav-logo {
   display: flex; align-items: center; gap: 8px;
@@ -55,7 +64,8 @@ button {
 
 .nav-links { display: flex; gap: 34px; }
 .nav-links a {
-  font-size: 13px; color: var(--gray-nav); transition: color .2s ease;
+  font-size: 13px; font-family: var(--font); color: var(--gray-nav);
+  transition: color .2s ease;
 }
 .nav-links a:hover { color: var(--ink); }
 
@@ -145,7 +155,8 @@ button {
   box-shadow: 0 1px 0 rgba(0, 0, 0, .08);
 }
 .nav-drawer a {
-  padding: 12px 0; font-size: 15px; color: var(--ink);
+  padding: 12px 0; font-size: 15px; font-family: var(--font);
+  color: var(--ink);
   border-bottom: 1px solid rgba(0, 0, 0, .06);
 }
 .nav-drawer a:last-child { border-bottom: none; }
@@ -155,7 +166,8 @@ button {
 .nav-item { position: relative; display: flex; align-items: center; }
 .nav-trigger {
   display: inline-flex; align-items: center; gap: 3px; cursor: pointer;
-  font-size: 13px; color: var(--gray-nav); transition: color .2s ease;
+  font-size: 13px; font-family: var(--font);
+  color: var(--gray-nav); transition: color .2s ease;
 }
 .nav-trigger:hover { color: var(--ink); }
 .nav-caret { font-size: 9px; line-height: 1; transition: transform .2s ease; }
@@ -423,12 +435,13 @@ button {
   font-weight: 600;
   color: var(--ink);
 }
-.footer-col a {
+body .footer-col a {
   font-size: 12px;
   color: var(--gray-nav);
+  text-decoration: none;
   transition: color .2s ease;
 }
-.footer-col a:hover { color: var(--ink); text-decoration: underline; }
+body .footer-col a:hover { color: var(--ink); text-decoration: underline; }
 .footer-divider { height: 1px; background: var(--hairline); }
 .footer-bottom {
   display: flex;

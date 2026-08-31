@@ -1284,17 +1284,17 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="nav-embed.css?v=20260828d">
+<link rel="stylesheet" href="nav-embed.css?v=20260831h">
 <title>《红星照耀中国》阅读题库</title>
 <style>
 :root{
-  --red:#c0142c; --red-d:#9b0f22; --bg:#fbeee9; --card:#ffffff;
-  --ink:#2a2326; --mut:#8a7a7a; --line:#f0d9d2; --grn:#1f8a4c; --amb:#c9821a;
+  --red:#C8102E; --red-d:#A80D27; --bg:#FFFFFF; --card:#ffffff;
+  --ink:#1D1D1F; --mut:#6E6E73; --line:#D2D2D7; --grn:#1f8a4c; --amb:#c9821a;
 }
 *{box-sizing:border-box}
-body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+body{margin:0;font-family:"Noto Sans SC","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
   background:var(--bg);color:var(--ink);line-height:1.7;-webkit-text-size-adjust:100%}
-.page-head{background:linear-gradient(135deg,var(--red),var(--red-d));color:#fff;padding:22px 18px 18px}
+.page-head{background:var(--white);color:var(--ink);padding:96px 24px 32px;text-align:center}
 .page-head h1{margin:0 0 4px;font-size:22px;letter-spacing:1px}
 .page-head .sub{font-size:13px;opacity:.92;max-width:880px}
 .wrap{max-width:960px;margin:0 auto;padding:14px}
@@ -1312,7 +1312,7 @@ select,.btn{font:inherit;font-size:13px;padding:7px 10px;border:1px solid var(--
 .qcard{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 15px;margin-bottom:12px;
   box-shadow:0 1px 2px rgba(150,20,40,.04)}
 .qhead{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;align-items:center}
-.tag{font-size:11px;padding:2px 8px;border-radius:20px;background:#fbe3dc;color:var(--red-d);border:1px solid #f3c9bd}
+.tag{font-size:11px;padding:2px 8px;border-radius:20px;background:#FBE9EA;color:var(--red);border:1px solid #F0C9CF}
 .tag.t{background:#eef4ff;color:#2b5fb0;border-color:#cfe0ff}
 .tag.d1{background:#eafaf0;color:var(--grn);border-color:#c7ecd3}
 .tag.d2{background:#fff4e3;color:var(--amb);border-color:#f4dcb4}
@@ -1333,13 +1333,13 @@ select,.btn{font:inherit;font-size:13px;padding:7px 10px;border:1px solid var(--
 .fb{margin-top:10px;padding:10px 12px;border-radius:9px;background:#fbf3f0;border:1px solid #f1d8cf;font-size:13.5px;display:none}
 .fb.show{display:block}
 .fb .res{font-weight:700;margin-bottom:4px}
-.fb .ans{color:var(--red-d);margin:4px 0}
+.fb .ans{color:var(--red);margin:4px 0}
 .fb .an{color:var(--ink)}
 .fb.ok{border-color:#c7ecd3;background:#f1faf4}
 .fb.no{border-color:#f3c4c4;background:#fdeeee}
 .fb .ref{margin-top:8px;padding:8px 10px;background:#fff7e6;border:1px solid #f4dcb4;border-radius:8px;color:#8a5a00;font-size:13px;line-height:1.65}
 .empty{text-align:center;color:var(--mut);padding:40px 0}
-footer{text-align:center;color:var(--mut);font-size:12px;padding:18px}
+
 @media(max-width:560px){.page-head h1{font-size:19px}.stat{min-width:45%}}
 </style>
 </head>
@@ -1354,6 +1354,7 @@ footer{text-align:center;color:var(--mut);font-size:12px;padding:18px}
     <a href="places.html">红色地点</a>
     <a href="events.html">历史事件</a>
     <a href="index.html#quiz">知识考核</a>
+    <a id="nav-redlit" href="red-literature.html">红色文学</a>
     <a href="about.html">关于本站</a>
   </nav>
   <div class="nav-right">
@@ -1371,6 +1372,7 @@ footer{text-align:center;color:var(--mut);font-size:12px;padding:18px}
   <a href="places.html">红色地点</a>
   <a href="events.html">历史事件</a>
   <a href="index.html#quiz">知识考核</a>
+  <a id="drawer-redlit" href="red-literature.html">红色文学</a>
   <a href="about.html">关于本站</a>
 </div>
 <header class="page-head">

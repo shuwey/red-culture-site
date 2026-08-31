@@ -8,7 +8,7 @@
   
   
   <link href="https://fonts.loli.net/css2?family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=20260831c">
   <link rel="stylesheet" href="ai-assistant.css?v=20260829ae">
 </head>
 <body>
@@ -46,19 +46,21 @@
 
   <main id="top">
 
-    <!-- Hero -->
+    <!-- Hero（2026-08-31 全屏化 · A5） -->
     <section class="hero">
-      <p class="kicker reveal">铭记历史 · 缅怀先烈</p>
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="hero-scrim" aria-hidden="true"></div>
+      <p class="hero-kicker reveal">铭记历史 · 缅怀先烈</p>
       <h1 class="hero-title reveal">星星之火，可以燎原。</h1>
       <p class="hero-sub reveal">重走中国革命的来时路。</p>
-      <div class="hero-links reveal">
-        <a class="text-link lg" href="places.html">探索红色地点 ›</a>
-        <a class="text-link lg" href="#quiz">开始知识考核 ›</a>
+      <div class="hero-cta-row reveal">
+        <a class="hero-link-primary" href="#themes">开始走进红色历史 <span class="hero-cv" aria-hidden="true">›</span></a>
+        <a class="hero-link-secondary" href="places.html">探索红色地点 <span class="hero-cv" aria-hidden="true">›</span></a>
       </div>
-      <figure class="hero-figure figure-jinggangshan reveal">
-        <img src="assets/images/hero-jinggangshan.jpg?v=20260830b" alt="井冈山五指峰实景" loading="lazy">
-        <figcaption>井冈山五指峰实景 · N509FZ 摄 · CC BY-SA 4.0</figcaption>
-      </figure>
+      <a class="hero-scroll" href="#themes" aria-label="向下浏览">
+        <span class="hero-scroll-text">了解这段历史</span>
+        <span class="hero-scroll-arrow" aria-hidden="true"></span>
+      </a>
     </section>
 
     <!-- 南湖红船 -->
