@@ -8,7 +8,8 @@
     "deploy": "node scripts/deploy-static.js",
     "deploy:fn": "python3 scripts/deploy-fn-pty.py",
     "deploy:all": "npm run deploy && npm run deploy:fn",
-    "bump": "node scripts/bump-version.js"
+    "bump": "node scripts/bump-version.js",
+    "test": "node --test cloudfunctions/ai-chat/test/ai-chat.test.js"
   },
   "engines": {
     "node": ">=18"
