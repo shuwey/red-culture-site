@@ -1,12 +1,14 @@
 /* ============================================================
    红色文化传播网 · AI 问答助手（悬浮球 + 聊天面板）
    全局命名：window.RCAI
-   依赖：RCS.getApp().callFunction('ai-chat', ...)（CloudBase 云函数）、data/corpus.json（本地检索）
+   依赖：RCS.getApp().callFunction('ai-chat', ...)（CloudBase 云函数）、data/corpus-index.json + data/corpus-text.json（2.2 分片本地检索）
    ============================================================ */
 (function () {
   "use strict";
 
-  var CORPUS_URL = "data/corpus.json?v=20260829t";
+  // 2.2 corpus 分片：匹配数据(index) + 上下文(textMap) 分离，首开带宽低于全量
+  var CORPUS_INDEX_URL = "data/corpus-index.json?v=20260901b";
+  var CORPUS_TEXT_URL = "data/corpus-text.json?v=20260901b";
   var corpusCache = null;
   var corpusLoading = null;
   var history = []; // 最近 4 轮（8 条消息）
@@ -305,12 +307,27 @@
   async function ensureCorpus() {
     if (corpusCache) return corpusCache;
     if (corpusLoading) return corpusLoading;
-    corpusLoading = fetch(CORPUS_URL)
-      .then(function (r) {
-        return r.json();
-      })
-      .then(function (d) {
-        corpusCache = d && d.items ? d : { items: [] };
+    corpusLoading = Promise.all([
+      fetch(CORPUS_INDEX_URL).then(function (r) { return r.json(); }),
+      fetch(CORPUS_TEXT_URL).then(function (r) { return r.json(); }),
+    ])
+      .then(function (res) {
+        var index = res[0] && res[0].items ? res[0].items : [];
+        var textMap = res[1] || {};
+        // 还原完整条目：name/aliases/keywords/url/type/book 取自 index，text 取自 textMap
+        var items = index.map(function (it) {
+          return {
+            id: it.id,
+            type: it.type,
+            book: it.book,
+            name: it.name,
+            aliases: it.aliases || [],
+            keywords: it.keywords || [],
+            url: it.url,
+            text: textMap[it.id] != null ? textMap[it.id] : "",
+          };
+        });
+        corpusCache = { items: items };
         return corpusCache;
       })
       .catch(function () {
