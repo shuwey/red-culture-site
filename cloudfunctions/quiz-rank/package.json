@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "红色文化传播网 知识考核排行榜（聚合每位用户最佳成绩）",
   "main": "index.js",
+  "engines": {
+    "node": "18.15"
+  },
   "dependencies": {
     "@cloudbase/node-sdk": "^3.7.0"
   }

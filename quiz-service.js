@@ -38,7 +38,12 @@
       return { success: false, error: { code: "NO_AUTH" } };
     }
     var nick = state.nick || "";
-    if (isNickBad(nick)) {
+    // 手机号/邮箱不应作为昵称公开展示：检测为联系方式则置空（榜单回退「匿名用户」），
+    // 与 quiz-rank 云函数展示侧脱敏保持一致，双重防泄露。
+    if (/^1[3-9]\d{9}$/.test(nick) || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(nick)) {
+      nick = "";
+      toast("未设置昵称，排行榜将显示为匿名");
+    } else if (isNickBad(nick)) {
       nick = "";
       toast("昵称含不合规内容，将显示为匿名");
     }

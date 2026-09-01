@@ -1,6 +1,20 @@
+/* ============================================================================
+ * ⚠ 禁止运行 / DO NOT RUN
+ * 本生成器产出的 HTML 是“裸页”：不含已部署页的字体 CDN 链接(如 fonts.loli.net)、
+ * ?v= 资源版本号、页脚备案声明、AI 声明角标等。重跑会用残缺版本覆盖掉当前手工
+ * 维护、合规对齐的部署页，导致样式丢失与合规信息缺失（即“定时炸弹”）。
+ * 修改任何 place 页面，请直接手工编辑对应的 place-*.html，勿用本生成器。
+ * 本文件仅保留为内容数据源(PLACES 数组)的归档参考。
+ * ========================================================================== */
 // 红色地点详情页生成器：node generate-place-pages.mjs
 // 在 red-culture-site/ 根目录产出 13 个 place-<slug>.html
 import { writeFileSync } from "node:fs";
+
+// 运行拦截：本生成器已禁用，立即退出，避免用裸页覆盖手工维护的部署页。
+if (typeof process !== "undefined") {
+  console.error("✋ generate-place-pages.mjs 已被禁用：请手工编辑对应的 place-*.html，勿运行本生成器。");
+  process.exit(1);
+}
 
 const STAR =
   '<svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.26 6.87.6-5.2 4.51 1.53 6.72L12 16.9l-6.1 3.19 1.53-6.72-5.2-4.51 6.87-.6L12 2z" fill="#C8102E"/></svg>';

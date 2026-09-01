@@ -42,9 +42,12 @@ exports.main = async (event, context) => {
       const cur = map[uid];
       const score = Number(r.score) || 0;
       const dur = Number(r.durationSec) || 0;
-      // 昵称公开展示前做敏感词过滤：命中则置空，前端/榜单回退为"匿名用户"
+      // 昵称公开展示前做隐私/合规过滤：① 敏感词命中；② 形如手机号/邮箱的「昵称」
+      // （无昵称用户曾被回退存成手机号）一律置空，避免把联系方式公开展示在排行榜。
       const rawNick = r.nickname || "";
-      const safeNick = scanSensitive(rawNick) ? "" : rawNick;
+      const isContactLike =
+        /^1[3-9]\d{9}$/.test(rawNick) || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(rawNick);
+      const safeNick = scanSensitive(rawNick) || isContactLike ? "" : rawNick;
       if (!cur) {
         map[uid] = {
           userId: uid,

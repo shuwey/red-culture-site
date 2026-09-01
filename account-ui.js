@@ -54,6 +54,20 @@
     "  </div>" +
     "</div>";
 
+  // 成绩排行榜弹窗（复用 .quiz-modal / .quiz-card）。DOM 由 account-ui.js 统一注入，
+  // 排行榜脚本 quiz-rank.js 首次打开时再懒加载，规避在 55 个页面逐条改 <script> 标签，
+  // 也绕开红文页 cloud-lazy 的 VER 旁路（版本号只此一处，改 quiz-rank.js 时同步这里即可）。
+  var RANK_JS_VER = "20260901a";
+  var RANK_HTML =
+    '<div class="quiz-modal" id="rank-modal" role="dialog" aria-modal="true" aria-label="成绩排行榜" hidden>' +
+    '  <div class="quiz-card rcs-rank-card">' +
+    '    <button class="quiz-close" id="rank-close" aria-label="关闭">×</button>' +
+    '    <p class="kicker sm">知识考核</p>' +
+    '    <h2 class="rcs-auth-title">成绩排行榜</h2>' +
+    '    <div id="rank-body" class="rcs-scores-body"></div>' +
+    "  </div>" +
+    "</div>";
+
   var tab = "login";
   var smsMode = false; // 登录页是否处于「手机号 + 短信验证码」模式
   var resending = false;
@@ -405,6 +419,7 @@
       '<span class="nav-caret" id="rcs-caret">▾</span>' +
       '<div class="nav-dropdown" id="rcs-dropdown" hidden>' +
       '<button class="nav-dropdown-item" id="rcs-my-scores">我的成绩</button>' +
+      '<button class="nav-dropdown-item" id="rcs-rank-open">🏆 排行榜</button>' +
       '<button class="nav-dropdown-item" id="rcs-logout">退出登录</button>' +
       "</div>" +
       "</div>";
@@ -425,6 +440,10 @@
     el("rcs-my-scores").onclick = function () {
       dropdown.hidden = true;
       openScores();
+    };
+    el("rcs-rank-open").onclick = function () {
+      dropdown.hidden = true;
+      openRankModal();
     };
     el("rcs-logout").onclick = async function () {
       dropdown.hidden = true;
@@ -452,6 +471,47 @@
     var m = el("rcs-scores-modal");
     if (m) m.hidden = true;
     document.body.style.overflow = "";
+  }
+
+  // 排行榜脚本懒加载：首次打开才拉 quiz-rank.js，避免 55 页逐条加 script 标签。
+  // 版本号集中在 RANK_JS_VER，改 quiz-rank.js 时同步此处即可（不进红文页 VER 旁路）。
+  function ensureRankScript(cb) {
+    if (window.RCSRank) {
+      cb();
+      return;
+    }
+    if (ensureRankScript._loading) return; // 防重复注入
+    ensureRankScript._loading = true;
+    var s = document.createElement("script");
+    s.src = "quiz-rank.js?v=" + RANK_JS_VER;
+    s.onload = function () {
+      ensureRankScript._loading = false;
+      cb();
+    };
+    s.onerror = function () {
+      ensureRankScript._loading = false;
+      var b = el("rank-body");
+      if (b) b.innerHTML = '<p class="rcs-scores-empty">排行榜脚本加载失败，请稍后再试。</p>';
+    };
+    document.head.appendChild(s);
+  }
+
+  function buildRankModal() {
+    if (el("rank-modal")) return;
+    var wrap = document.createElement("div");
+    wrap.innerHTML = RANK_HTML;
+    document.body.appendChild(wrap.firstElementChild);
+  }
+
+  function openRankModal() {
+    buildRankModal();
+    var m = el("rank-modal");
+    if (!m) return;
+    m.hidden = false;
+    document.body.style.overflow = "hidden";
+    ensureRankScript(function () {
+      if (window.RCSRank) RCSRank.open(); // 内部 loadRank 填 #rank-body
+    });
   }
 
   async function renderScores() {
@@ -520,6 +580,7 @@
   function init() {
     buildModal();
     buildScoresModal();
+    buildRankModal();
     if (window.RCSAuth) {
       RCSAuth.onAuthChange(function (state) {
         renderUserArea(state);
