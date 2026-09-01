@@ -405,7 +405,7 @@
 
     // P2 低风险：AI 生成的英雄场景 / 氛围图
     "card-heroes.jpg", "card-events.jpg", "long-march.jpg",
-    "xiangjiang.png", "wuqi.png", "huining.png", "lazikou.png"
+    "xiangjiang.png", "wuqi.png", "lazikou.png"
   ];
   function baseName(src) {
     var m = String(src).split("?")[0].split("/").pop();
