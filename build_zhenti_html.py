@@ -23,7 +23,7 @@ SRC_NAME = [
 
 NAV_CSS = "nav-embed.css?v=20260831h"
 SCRIPT_JS = "script.js?v=20260829h"
-CLOUD_LAZY = "cloud-lazy.js?v=20260829ad"
+CLOUD_LAZY = "cloud-lazy.js?v=20260901a"
 
 
 def src_label(u):

@@ -6,7 +6,7 @@
  *       若未设置，回退为通用 5 件套。
  */
 (function () {
-  var VER = "20260829ad";
+  var VER = "20260901a";
   var DEFAULT = [
     "cloudbase.bundle.js",
     "cloudbase-config.js",
@@ -18,11 +18,15 @@
 
   function inject(i) {
     if (i >= list.length) return;
-    // 去掉清单里可能自带的 ?v=xxx，统一用本文件的 VER，
-    // 避免生成 auth-service.js?v=20260829d?v=20260829a 这类畸形双 ?v URL。
-    var name = String(list[i]).split("?")[0];
+    // 尊重清单里每个脚本自带的 ?v=xxx（如 auth-service.js?v=20260829aa），
+    // 不再强行套本文件的 VER——改单个云脚本只需在其本页 ?v= 处升版本，
+    // 不必再同步本文件的 VER（消除"三处同步"痛点）。清单未带 ?v= 时才回退到 VER。
+    var entry = String(list[i]);
+    var q = entry.indexOf("?");
+    var name = q === -1 ? entry : entry.slice(0, q);
+    var ver = q === -1 ? VER : entry.slice(q + 1);
     var s = document.createElement("script");
-    s.src = name + "?v=" + VER;
+    s.src = name + "?" + ver;
     // 顺序注入：前一个 onload 后再注入下一个，保证依赖（bundle→config→auth→ui→...）成立
     s.onload = function () { inject(i + 1); };
     // 单个脚本加载失败不阻断整条链
