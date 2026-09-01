@@ -1,171 +1,494 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="长征（1934 — 1936）—— 二万五千里 · 人类史上的英雄史诗。红色文化传播网历史事件志。">
+<html lang="zh-CN" data-page-node-id="TllGkP9z9ZqjBfL3c6E47C">
+<head data-page-node-id="pqocl3hBIucuLQutU8rCzB">
+  <meta charset="UTF-8" data-page-node-id="BxERGbRPK6KceySJwUZPQB">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="2aAZBKmwM6oI4Yo5AltD26">
+  <meta name="description" content="长征（1934 — 1936）—— 二万五千里 · 人类史上的英雄史诗。红色文化传播网历史事件志。" data-page-node-id="Dqo44FIKNfYaUIieXr6yn4">
   <title>长征 · 历史事件 · 红色文化传播网</title>
   
   
-  <link rel="stylesheet" href="style.css?v=20260831e">
-  <link rel="stylesheet" href="ai-assistant.css?v=20260829ae">
-  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/noto-sans-sc-400.woff2?v=20260901a" crossorigin>
-  <link rel="stylesheet" href="assets/fonts/fonts.css?v=20260901a">
+  <link rel="stylesheet" href="style.css?v=20260831e" data-page-node-id="KK31g2VfkgnHaIbhwsbnsW">
+  <link rel="stylesheet" href="ai-assistant.css?v=20260829ae" data-page-node-id="PvwYBbbFZ1jwrMMHOcNjPj">
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/noto-sans-sc-400.woff2?v=20260901a" crossorigin data-page-node-id="LJmGYCsIu3GPTa9O3pkpna">
+  <link rel="stylesheet" href="assets/fonts/fonts.css?v=20260901a" data-page-node-id="vOMbocHwO3wS76zYtUPD5N">
+  <style>
+    /* 长征路线图（借鉴手抄报） */
+    .cz-route{max-width:880px;margin:0 auto;padding:72px 24px 8px;}
+    .cz-route .cz-head{margin-bottom:8px;}
+    .cz-route h2{font-size:30px;font-weight:600;letter-spacing:-.01em;color:#1a1410;margin:6px 0 10px;line-height:1.25;}
+    .cz-route .cz-intro{font-size:15px;line-height:1.7;color:#5a5048;max-width:58ch;}
+    .cz-chips{display:flex;flex-wrap:wrap;gap:12px;margin:24px 0 4px;}
+    .cz-chip{flex:1 1 120px;border:1px solid #ece2da;border-radius:12px;padding:12px 14px;background:#fbf7f4;}
+    .cz-chip .k{display:block;font-size:12px;color:#a99e96;letter-spacing:.04em;margin-bottom:3px;}
+    .cz-chip .v{display:block;font-size:15px;font-weight:600;color:#1a1410;line-height:1.35;}
+    .cz-map-wrap{display:flex;justify-content:center;margin:28px 0 4px;}
+    .cz-map{width:100%;max-width:440px;height:auto;}
+    .cz-note{text-align:center;font-size:12.5px;color:#a99e96;margin-top:14px;line-height:1.6;}
+    /* SVG 路线交互 */
+    .wp .tip{opacity:0;transition:opacity .16s ease;pointer-events:none;}
+    .wp:hover .tip{opacity:1;}
+    .wp-link{cursor:pointer;}
+    .wp-link .ring{fill:none;stroke:#C8102E;stroke-width:2;opacity:.35;transition:opacity .16s ease;}
+    .wp-link:hover .ring{opacity:.75;}
+    /* 敌军封锁线标记 */
+    .blk .tip{opacity:0;transition:opacity .16s ease;pointer-events:none;}
+    .blk:hover .tip{opacity:1;}
+    .blk{cursor:help;}
+    @media (max-width:520px){.cz-route{padding:56px 18px 4px;}.cz-route h2{font-size:25px;}}
+      /* 七事件时间线（借鉴手抄报） */
+    .cz-tl{max-width:760px;margin:0 auto;padding:64px 24px 8px;}
+    .cz-tl .cz-tl-head{margin-bottom:8px;}
+    .cz-tl h2{font-size:30px;font-weight:600;letter-spacing:-.01em;color:#1a1410;margin:6px 0 10px;line-height:1.25;}
+    .cz-tl .cz-tl-intro{font-size:15px;line-height:1.7;color:#5a5048;max-width:58ch;}
+    .cz-timeline{position:relative;margin:34px 0 8px;padding-left:30px;}
+    .cz-timeline:before{content:"";position:absolute;left:9px;top:6px;bottom:6px;width:2px;background:linear-gradient(#C8102E,#e9b9b0);}
+    .cz-tl-item{position:relative;padding:0 0 26px 0;}
+    .cz-tl-item:last-child{padding-bottom:0;}
+    .cz-tl-dot{position:absolute;left:-30px;top:4px;width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid #C8102E;box-sizing:border-box;}
+    .cz-tl-time{font-size:12px;color:#a99e96;letter-spacing:.04em;font-weight:600;margin:0 0 2px;}
+    .cz-tl-title{font-size:17px;font-weight:600;color:#1a1410;margin:0 0 4px;line-height:1.4;}
+    .cz-tl-desc{font-size:14px;line-height:1.65;color:#5a5048;margin:0;}
+    /* 长征精神专题（借鉴手抄报） */
+    .cz-spirit{max-width:880px;margin:0 auto;padding:64px 24px 8px;}
+    .cz-spirit .cz-sp-head{text-align:center;margin-bottom:8px;}
+    .cz-spirit h2{font-size:30px;font-weight:600;letter-spacing:-.01em;color:#1a1410;margin:6px 0 10px;line-height:1.25;}
+    .cz-spirit .cz-sp-intro{font-size:15px;line-height:1.7;color:#5a5048;max-width:60ch;margin:0 auto;}
+    .cz-sp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin:32px 0 4px;}
+    .cz-sp-card{border:1px solid #ece2da;border-radius:12px;padding:18px 18px;background:#fbf7f4;}
+    .cz-sp-ic{font-size:12px;color:#C8102E;font-weight:700;letter-spacing:.06em;margin:0 0 8px;}
+    .cz-sp-card h3{font-size:17px;font-weight:600;color:#1a1410;margin:0 0 6px;line-height:1.35;}
+    .cz-sp-card p{font-size:13.5px;line-height:1.6;color:#5a5048;margin:0;}
+    .cz-sp-quote{margin-top:28px;text-align:center;font-size:16px;color:#1a1410;font-weight:600;letter-spacing:.02em;}
+    @media (max-width:520px){
+      .cz-tl{padding:52px 18px 4px;}.cz-tl h2{font-size:25px;}
+      .cz-spirit{padding:52px 18px 4px;}.cz-spirit h2{font-size:25px;}
+    }
+</style>
 </head>
-<body>
+<body data-page-node-id="GeP2boljb2eSX2eMXDigcW">
 
   <!-- 导航栏 -->
-  <header class="nav" id="nav">
-    <a class="nav-logo" href="index.html" aria-label="红色文化传播网">
-      <svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.26 6.87.6-5.2 4.51 1.53 6.72L12 16.9l-6.1 3.19 1.53-6.72-5.2-4.51 6.87-.6L12 2z" fill="#C8102E"/></svg>
-      <span>红色文化传播网</span>
+  <header class="nav" id="nav" data-page-node-id="M2jzKh4MOPFLePh3j87zxU">
+    <a class="nav-logo" href="index.html" aria-label="红色文化传播网" data-page-node-id="ElWEauidtqqnDF1S4zpzRg">
+      <svg class="star" viewBox="0 0 24 24" aria-hidden="true" data-page-node-id="KYBoLxw98beffrcaIw0K0n"><path d="M12 2l2.9 6.26 6.87.6-5.2 4.51 1.53 6.72L12 16.9l-6.1 3.19 1.53-6.72-5.2-4.51 6.87-.6L12 2z" fill="#C8102E" data-page-node-id="bMImiqk1icH8HXNE2SFIDe"/></svg>
+      <span data-page-node-id="7MbBCH4mkxaBwGviFCBNjG">红色文化传播网</span>
     </a>
-    <nav class="nav-links" aria-label="主导航">
-      <a href="heroes.html">英雄人物</a>
-      <a href="places.html">红色地点</a>
-      <a href="events.html">历史事件</a>
-      <a href="index.html#quiz">知识考核</a>
-      <a href="about.html">关于本站</a>
+    <nav class="nav-links" aria-label="主导航" data-page-node-id="X89KrQRd6iJeTipqg7Nv1R">
+      <a href="heroes.html" data-page-node-id="ulSwYdeud6orXBEvECHJEz">英雄人物</a>
+      <a href="places.html" data-page-node-id="9sMW2F0DPcu9IrGa8oZOIn">红色地点</a>
+      <a href="events.html" data-page-node-id="Ul9eFPWcpyaFy27fSalD3g">历史事件</a>
+      <a href="index.html#quiz" data-page-node-id="gDgxbeOGHJ1xCbaqLoOBBT">知识考核</a>
+      <a href="about.html" data-page-node-id="mZJeU6HgFNKRNSfJrwJJDt">关于本站</a>
     </nav>
-    <div class="nav-right">
-      <div id="user-area" class="nav-user-area"></div>
-      <button class="nav-search" aria-label="搜索">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M16.2 16.2L20.5 20.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    <div class="nav-right" data-page-node-id="KBQvpeI5eQAQrTzxOz6UcQ">
+      <div id="user-area" class="nav-user-area" data-page-node-id="CGn5SIFKeJj7pv3sVHyagD"></div>
+      <button class="nav-search" aria-label="搜索" data-page-node-id="acATrATvcHqFCl4yf5DLEq">
+        <svg viewBox="0 0 24 24" aria-hidden="true" data-page-node-id="iDRKYOBnUSfcPMe3x3nBu0"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8" fill="none" data-page-node-id="JrMJF4nyiZjmClQN1JfRLF"/><path d="M16.2 16.2L20.5 20.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" data-page-node-id="16I9XBEW2eXRIgLrBxu4yp"/></svg>
       </button>
-      <button class="nav-burger" id="burger" aria-label="菜单" aria-expanded="false">
-        <span></span><span></span><span></span>
+      <button class="nav-burger" id="burger" aria-label="菜单" aria-expanded="false" data-page-node-id="12jYBXSXcmlzWXvDmbw6FW">
+        <span data-page-node-id="dCS1hwgc4pyIuvko6hwicF"></span><span data-page-node-id="5PwpoiSHDuixuGuwFoOrFI"></span><span data-page-node-id="JqmzjIJuCTbCJN6YwpFQwj"></span>
       </button>
     </div>
   </header>
-  <div class="nav-drawer" id="drawer">
-    <a href="heroes.html">英雄人物</a>
-    <a href="places.html">红色地点</a>
-    <a href="events.html">历史事件</a>
-    <a href="index.html#quiz">知识考核</a>
-    <a href="about.html">关于本站</a>
+  <div class="nav-drawer" id="drawer" data-page-node-id="9jxrfcrrFJ1npLeDBhg6T3">
+    <a href="heroes.html" data-page-node-id="0W9XHaZJdfAp8wfwPrrQII">英雄人物</a>
+    <a href="places.html" data-page-node-id="qAvT3SJjbwqI91fs2VrwcP">红色地点</a>
+    <a href="events.html" data-page-node-id="LK91vvNrtOAV9F9KoJCEuB">历史事件</a>
+    <a href="index.html#quiz" data-page-node-id="JHlJew5XZEs1NK0V85t3jM">知识考核</a>
+    <a href="about.html" data-page-node-id="RTcPwDqs9QJNPaMGcDRrQT">关于本站</a>
   </div>
 
-  <main>
+  <main data-page-node-id="sqhNVRETUWjhQYEbxH39pj">
 
     <!-- 页头 -->
-    <section class="page-hero">
-      <p class="kicker reveal">历史事件 · 05 / 11</p>
-      <h1 class="page-title reveal">长征。</h1>
-      <p class="page-tag reveal">二万五千里 · 人类史上的英雄史诗</p>
-      <p class="page-sub reveal">1934 — 1936 · 横跨十一省</p>
+    <section class="page-hero" data-page-node-id="OHvDqyPl1EfEQMPshw5kQB">
+      <p class="kicker reveal" data-page-node-id="0kVJdzqOECHPlutGxz96UM">历史事件 · 05 / 11</p>
+      <h1 class="page-title reveal" data-page-node-id="GE38oCPc2KWiWS8O2CPRoo">长征。</h1>
+      <p class="page-tag reveal" data-page-node-id="1vPDERzsc7blu2CPv7BBPc">二万五千里 · 人类史上的英雄史诗</p>
+      <p class="page-sub reveal" data-page-node-id="62ACtEUAf9SUC3EINc6DZl">1934 — 1936 · 横跨十一省</p>
     </section>
 
     <!-- 导语 -->
-    <section class="bio-section">
-      <p class="bio-lead reveal">1934 年 10 月，中央红军从江西瑞金等地出发，开始战略大转移。血战湘江、四渡赤水、巧渡金沙江、强渡大渡河、飞夺泸定桥、翻雪山过草地，1936 年 10 月三大主力在甘肃会宁会师，长征胜利结束。</p>
-      <figure class="detail-figure reveal">
-        <img src="assets/images/long-march.jpg" alt="红军队伍在风雪夜沿雪山脊线行进" loading="lazy">
+    <section class="bio-section" data-page-node-id="KrU82CnZi9Dj30fh2U2FHI">
+      <p class="bio-lead reveal" data-page-node-id="GGhrwCnjCFeZRpnEPI8bMF">1934 年 10 月，中央红军从江西瑞金等地出发，开始战略大转移。血战湘江、四渡赤水、巧渡金沙江、强渡大渡河、飞夺泸定桥、翻雪山过草地，1936 年 10 月三大主力在甘肃会宁会师，长征胜利结束。</p>
+      <figure class="detail-figure reveal" data-page-node-id="2VnOTsOR2ZASk2iM9PsFFz">
+        <img src="assets/images/long-march.jpg" alt="红军队伍在风雪夜沿雪山脊线行进" loading="lazy" data-page-node-id="5bs6ZizAHVVYfYiw6VXmW1">
       </figure>
     </section>
 
+    <!-- 长征路线图（借鉴手抄报） -->
+    <section class="cz-route" data-page-node-id="XDxvCw6jspFdAtIUneFGKz">
+      <div class="cz-head" data-page-node-id="5RNeZZPm7DPCPaPEulWuv1">
+        <p class="kicker reveal" data-page-node-id="B0dloltSTPRWEk3iuGxaRZ">地理脉络</p>
+        <h2 class="reveal" data-page-node-id="CC9CZ97Zwdjc1DYYpEWl8u">一条线，读懂二万五千里。</h2>
+        <p class="cz-intro reveal" data-page-node-id="MncjyC2bd7gGrrAeHa3xpo">从江西瑞金到陕北会宁，中央红军横跨十一省、历时两年。沿红线自南向北，把鼠标放到红点上即可看说明，带光环的点可点开对应地点。</p>
+      </div>
+
+      <div class="cz-chips reveal" data-page-node-id="zPf4IP2DGsXEFUU2zQwVqH">
+        <div class="cz-chip" data-page-node-id="Rw8aUsAS1gjyzG3mnPY5vk"><span class="k" data-page-node-id="Le4oJ0uLZdKH3DhYzFFiEM">起点</span><span class="v" data-page-node-id="ohCa8h1odlVSDxGbfaFHvk">江西 · 瑞金</span></div>
+        <div class="cz-chip" data-page-node-id="yacxguLJFezuBFiPlJft0u"><span class="k" data-page-node-id="J1amKiUEH45xCfxJ9OvH0n">终点</span><span class="v" data-page-node-id="Ca6VgMVOV40thHL4lApVQ6">陕北 · 延安</span></div>
+        <div class="cz-chip" data-page-node-id="cBEfvX3g06UUoBfoWZ4l6p"><span class="k" data-page-node-id="q9XL6XotrC3HEFNyen9REn">行程</span><span class="v" data-page-node-id="youy8FNRmzQQaKUdHNqrHr">二万五千里</span></div>
+        <div class="cz-chip" data-page-node-id="l1B1XOuYo7Xi3CBs4Hyr8w"><span class="k" data-page-node-id="xGU95tVAf9NUO1GfMhmEFd">历时</span><span class="v" data-page-node-id="IhedD9lGVptA9thRTFl6Pd">两年（1934–1936）</span></div>
+        <div class="cz-chip" data-page-node-id="sV1k0jw1UnWHYtCBtqKPZE"><span class="k" data-page-node-id="dvgdfNhLzwcbzvxnUnnbtT">途经</span><span class="v" data-page-node-id="Z63mgCfrikRaCtiBuP6tvr">十一省</span></div>
+      </div>
+
+      <div class="cz-map-wrap reveal" data-page-node-id="jNN8Ua2XYdmxUULuy8pxWC">
+        <svg class="cz-map" viewBox="0 0 460 720" role="img" aria-label="长征路线图：瑞金经湘江、遵义、赤水、金沙江、大渡河、泸定桥、夹金山、草地、腊子口至吴起镇、会宁；红点为关键节点，红叉为敌军封锁线（红军突破处）" data-page-node-id="72PsMxa4Lo3oTzrZNXS7I9">
+          <defs data-page-node-id="EGq1xo7XpqCEmBGgWvOmli">
+            <marker id="cz-arrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse" data-page-node-id="DAFBqxGwOCPPk7g1xRbIQQ">
+              <path d="M0,0 L10,5 L0,10 z" fill="#C8102E" data-page-node-id="epnlbFdWDXgrUpfT3hoHdX"/>
+            </marker>
+          </defs>
+          <rect x="8" y="8" width="444" height="704" rx="18" fill="#fffdfb" stroke="#f0e6df" stroke-width="2" data-page-node-id="iDhihhGSkDhxG7rSCVPJJ9"/>
+          <polyline points="405,665 305,645 215,560 170,515 90,605 88,470 75,432 92,402 105,250 140,200 255,80 150,140" fill="none" stroke="#f3e2dd" stroke-width="9" stroke-linejoin="round" stroke-linecap="round" data-page-node-id="qIHUKPir3kVbi9DFKSk6UB"/>
+          <polyline points="405,665 305,645 215,560 170,515 90,605 88,470 75,432 92,402 105,250 140,200 255,80 150,140" fill="none" stroke="#C8102E" stroke-width="4.5" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#cz-arrow)" data-page-node-id="kHP0ok09RhWPTz9OgejJtR"/>
+
+          <!-- ① 瑞金 -->
+          <a class="wp-link" href="place-rujin.html" data-page-node-id="W195B2TIrwRHfYjMQbH6sL">
+            <g class="wp" data-page-node-id="E8cnnYnNPVfmAZSW3fgqnR">
+              <circle class="ring" cx="405" cy="665" r="16" data-page-node-id="2Wg9TGQCquQlLq7wp6zYlp"/>
+              <circle cx="405" cy="665" r="11" fill="#C8102E" stroke="#fff" stroke-width="2.5" data-page-node-id="JZ4GIoOL448Lh1P65twZM8"/>
+              <text x="405" y="665" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="700" data-page-node-id="UsWez1q9PdMRiK6NBKTLba">1</text>
+              <g class="tip" data-page-node-id="plS4K0OwxckruG457tw7iE">
+                <rect x="300" y="593" width="158" height="58" rx="9" fill="#1a1410" opacity=".94" data-page-node-id="VUSLTYl3GwvLx146c2rKYS"/>
+                <text x="312" y="615" fill="#fff" font-size="14" font-weight="700" data-page-node-id="RiF2r9EK2na3fmePC1t6dK">瑞金</text>
+                <text x="312" y="631" fill="#ffd2c9" font-size="11" data-page-node-id="4knqTvRISgCAAn4JBxCquh">1934.10 · 战略转移起点</text>
+                <text x="312" y="647" fill="#e9ded7" font-size="11" data-page-node-id="C6gNPPap5CRIfxPRiq2Tc9">中央红军由此出发</text>
+              </g>
+            </g>
+          </a>
+
+          <!-- ② 湘江 -->
+          <g class="wp" data-page-node-id="bQDb0DDHEL1IGvyhTXTadt">
+            <circle cx="305" cy="645" r="11" fill="#C8102E" stroke="#fff" stroke-width="2.5" data-page-node-id="1Af7yi4Tqjz3GZ3L7yvYE3"/>
+            <text x="305" y="645" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="700" data-page-node-id="wcA3YWRerWqBjNZJC9RCyC">2</text>
+            <g class="tip" data-page-node-id="CriaAa1mXC4uPQszHXSmtB">
+              <rect x="222" y="571" width="158" height="58" rx="9" fill="#1a1410" opacity=".94" data-page-node-id="IoeBAcq5AIhTdJmNosR3sp"/>
+              <text x="234" y="593" fill="#fff" font-size="14" font-weight="700" data-page-node-id="3IPDfpuWdjFG3yrhpctStj">湘江</text>
+              <text x="234" y="609" fill="#ffd2c9" font-size="11" data-page-node-id="sBe5YMDtsRTGADS0qwZzfG">1934.11 · 血战湘江</text>
+              <text x="234" y="625" fill="#e9ded7" font-size="11" data-page-node-id="yyLR0nWK4EWdixU1JDcb9r">突破第四道封锁线</text>
+            </g>
+          </g>
+
+          <!-- ③ 遵义 -->
+          <a class="wp-link" href="place-zunyi.html" data-page-node-id="1SVh8vMTxCZfu8lhCMJGX0">
+            <g class="wp" data-page-node-id="3rmgDdGjmdVmWpjAlxM0vz">
+              <circle class="ring" cx="215" cy="560" r="16" data-page-node-id="swo8SWmZQx47Ewy2BZZ9xN"/>
+              <circle cx="215" cy="560" r="11" fill="#C8102E" stroke="#fff" stroke-width="2.5" data-page-node-id="PjU9JmQNEwnMZQRPgXSvg2"/>
+              <text x="215" y="560" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="700" data-page-node-id="8SFAfN1YlbpU50RY7giAph">3</text>
+              <g class="tip" data-page-node-id="70TsGyVIb8pK5jTiy5egNu">
+                <rect x="136" y="488" width="158" height="58" rx="9" fill="#1a1410" opacity=".94" data-page-node-id="V6Jr9kVPB1YVEe6qGdm1Yx"/>
+                <text x="148" y="510" fill="#fff" font-size="14" font-weight="700" data-page-node-id="1OYN0Sc4YlLmz1WXQX4MCD">遵义</text>
+                <text x="148" y="526" fill="#ffd2c9" font-size="11" data-page-node-id="hjjAQdfONFOoBfFeCkS3Cu">1935.1 · 遵义会议</text>
+                <text x="148" y="542" fill="#e9ded7" font-size="11" data-page-node-id="bFg6chqBkXN4CP9eUuGVF2">确立正确军事路线</text>
+              </g>
+            </g>
+          </a>
+
+          <!-- ④ 赤水河 -->
+          <g class="wp" data-page-node-id="lN2IMRW5flCUOTitUlLD7o">
+            <circle cx="170" cy="515" r="11" fill="#C8102E" stroke="#fff" stroke-width="2.5" data-page-node-id="U6mdxAvhWAiDIXPuuDv46Y"/>
+            <text x="170" y="515" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="700" data-page-node-id="WvWsbZ1C3KcCboXNRSPz1S">4</text>
+            <g class="tip" data-page-node-id="4ZrsqHTHrDBNYT9EhU8vfe">
+              <rect x="86" y="443" width="158" height="58" rx="9" fill="#1a1410" opacity=".94" data-page-node-id="TiQAgUZ8mej6LC4MbCmN2P"/>
+              <text x="98" y="465" fill="#fff" font-size="14" font-weight="700" data-page-node-id="BGVhv60LRqRkcPqI8CzyOE">赤水河</text>
+              <text x="98" y="481" fill="#ffd2c9" font-size="11" data-page-node-id="ikLnq813lVz8LtfSfpf9lM">1935 · 四渡赤水</text>
+              <text x="98" y="497" fill="#e9ded7" font-size="11" data-page-node-id="dUDSnboWstIuwItJrxqEiT">声东击西摆脱追兵</text>
+            </g>
+          </g>
+
+          <!-- ⑤ 金沙江 -->
+          <g class="wp" data-page-node-id="tYGwkA8tS8nz4uyFMCZLzy">
+            <circle cx="90" cy="605" r="11" fill="#C8102E" stroke="#fff" stroke-width="2.5" data-page-node-id="ucrWHZgXkEbHw24iOTB8xV"/>
+            <text x="90" y="605" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="700" data-page-node-id="MO59lWXEbeQl91zcwimFEV">5</text>
+            <g class="tip" data-page-node-id="7tZV4MczhGSuh0CPqCwVTa">
+              <rect x="80" y="533" width="158" height="58" rx="9" fill="#1a1410" opacity=".94" data-page-node-id="w4i46rIiZqwQWmfFMexnaQ"/>
+              <text x="92" y="555" fill="#fff" font-size="14" font-weight="700" data-page-node-id="QMCvh36fzUB1Y4PDjgYRGE">金沙江</text>
+              <text x="92" y="571" fill="#ffd2c9" font-size="11" data-page-node-id="cW3fjXwD41GY6MBbZxUBhd">1935.5 · 巧渡金沙江</text>
+              <text x="92" y="587" fill="#e9ded7" font-size="11" data-page-node-id="LmhOo1KGaHDFwJNoZMeTLB">跳出数十万重围</text>
+            </g>
+          </g>
+
+          <!-- ⑥ 大渡河 -->
+          <g class="wp" data-page-node-id="eW4rrZrJBMIqoTVz50zkpb">
+            <circle cx="88" cy="470" r="11" fill="#C8102E" stroke="#fff" stroke-width="2.5" data-page-node-id="vU619RiwZHDMi9QBjCFQa7"/>
+            <text x="88" y="470" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="700" data-page-node-id="biIhEzjquGizySXWYVVStr">6</text>
+            <g class="tip" data-page-node-id="ZBErE1zHeROnRBIgbZqrOO">
+              <rect x="78" y="398" width="158" height="58" rx="9" fill="#1a1410" opacity=".94" data-page-node-id="Gij7N0MppCf8wYndt9FDia"/>
+              <text x="90" y="420" fill="#fff" font-size="14" font-weight="700" data-page-node-id="F8wHzcRbA0B8K5u4aS8amc">大渡河</text>
+              <text x="90" y="436" fill="#ffd2c9" font-size="11" data-page-node-id="WccUlo2sf2nq5WOHmw9wxp">1935.5 · 强渡大渡河</text>
+              <text x="90" y="452" fill="#e9ded7" font-size="11" data-page-node-id="ftWs3rwJTDHDPhYTrVDdPM">安顺场抢渡天险</text>
+            </g>
+          </g>
+
+          <!-- ⑦ 泸定桥 -->
+          <a class="wp-link" href="place-luding.html" data-page-node-id="BUjMpBLcuCXkTS1NL5R0SW">
+            <g class="wp" data-page-node-id="NFkIHM3BnbGpA30vYnNuhr">
+              <circle class="ring" cx="75" cy="432" r="16" data-page-node-id="UGDVlSzQDiPljTfMBl2GwF"/>
+              <circle cx="75" cy="432" r="11" fill="#C8102E" stroke="#fff" stroke-width="2.5" data-page-node-id="llSwPestUDRIhtATihJAsN"/>
+              <text x="75" y="432" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="700" data-page-node-id="wdIZLS6LIttKn2yBHTPNBn">7</text>
+              <g class="tip" data-page-node-id="pVuvzQyeAekLDNBOvVB9gC">
+                <rect x="66" y="360" width="158" height="58" rx="9" fill="#1a1410" opacity=".94" data-page-node-id="FyBWWhq4SC53K6IdWsd2JS"/>
+                <text x="78" y="382" fill="#fff" font-size="14" font-weight="700" data-page-node-id="xbhhhP9y6r0ylhi15hMJE9">泸定桥</text>
+                <text x="78" y="398" fill="#ffd2c9" font-size="11" data-page-node-id="IJiskdHv7MQQsfkoUAot0p">1935.5 · 飞夺泸定桥</text>
+                <text x="78" y="414" fill="#e9ded7" font-size="11" data-page-node-id="pjuEJUQPTGyeVzExV1KE23">铁索链上夺通道</text>
+              </g>
+            </g>
+          </a>
+
+          <!-- ⑧ 夹金山 -->
+          <g class="wp" data-page-node-id="kr3TyGZvN1I0E6Z8ACUm5c">
+            <circle cx="92" cy="402" r="11" fill="#C8102E" stroke="#fff" stroke-width="2.5" data-page-node-id="o5pabCDpssHcNtAp7QRupG"/>
+            <text x="92" y="402" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="700" data-page-node-id="JEV0d8S8EW2JfSlHu3R4Ls">8</text>
+            <g class="tip" data-page-node-id="vD3ClDojHu6zKr2evGRhuG">
+              <rect x="82" y="330" width="158" height="58" rx="9" fill="#1a1410" opacity=".94" data-page-node-id="bim0c86ACdEptPR6KFPjps"/>
+              <text x="94" y="352" fill="#fff" font-size="14" font-weight="700" data-page-node-id="FZCqeJYHyf6PgD59vVjX24">夹金山</text>
+              <text x="94" y="368" fill="#ffd2c9" font-size="11" data-page-node-id="BJvyw8qE17Z5eOuUOvRyXS">1935.6 · 翻越雪山</text>
+              <text x="94" y="384" fill="#e9ded7" font-size="11" data-page-node-id="7B60FDR3kHwauLuPB2VuVs">海拔四千米严寒</text>
+            </g>
+          </g>
+
+          <!-- ⑨ 松潘草地 -->
+          <g class="wp" data-page-node-id="hBLFWWF4HfH03RtoxQyGR0">
+            <circle cx="105" cy="250" r="11" fill="#C8102E" stroke="#fff" stroke-width="2.5" data-page-node-id="K7VMPrtZ6wySrFPIFvc6PE"/>
+            <text x="105" y="250" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="700" data-page-node-id="F2U9Wzw6CvGrsOEpuPFJXG">9</text>
+            <g class="tip" data-page-node-id="VTjt0xnUDwBejGFpGqAe4T">
+              <rect x="26" y="178" width="158" height="58" rx="9" fill="#1a1410" opacity=".94" data-page-node-id="XWu2eRGcIwGwmWEwYtqCRr"/>
+              <text x="38" y="200" fill="#fff" font-size="14" font-weight="700" data-page-node-id="DPnNd9OYJj9yzxCXRrIran">松潘草地</text>
+              <text x="38" y="216" fill="#ffd2c9" font-size="11" data-page-node-id="eGCL4XQGQ44ASJjwnvaIih">1935.8 · 穿越草地</text>
+              <text x="38" y="232" fill="#e9ded7" font-size="11" data-page-node-id="jyt05ru1HblwDHTETwG4OR">茫茫沼泽险阻</text>
+            </g>
+          </g>
+
+          <!-- ⑩ 吴起镇 -->
+          <g class="wp" data-page-node-id="SyeA29b4nsFOVgQY1vQcyt">
+            <circle cx="255" cy="80" r="11" fill="#C8102E" stroke="#fff" stroke-width="2.5" data-page-node-id="hPsrQn9MGRaTQeF3wKA6oc"/>
+            <text x="255" y="80" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="700" data-page-node-id="ugG0VEFtAz7yEVnJN8BIRB">10</text>
+            <g class="tip" data-page-node-id="BEfreMUsvXtqB2OZpNO3JD">
+              <rect x="176" y="98" width="158" height="58" rx="9" fill="#1a1410" opacity=".94" data-page-node-id="ncHc2lMupM5x1vDRwT7RV9"/>
+              <text x="188" y="120" fill="#fff" font-size="14" font-weight="700" data-page-node-id="qCIyeSjHo5u5WTnHHtKVyD">吴起镇</text>
+              <text x="188" y="136" fill="#ffd2c9" font-size="11" data-page-node-id="36rNRTx5r6QWyNSpOsaKR0">1935.10 · 陕北会师</text>
+              <text x="188" y="152" fill="#e9ded7" font-size="11" data-page-node-id="APkqTh0MnKEMwZcu5ANfdi">红一方面军落脚点</text>
+            </g>
+          </g>
+
+          <!-- ⑪ 会宁 -->
+          <g class="wp" data-page-node-id="tMm0VVYYcXPA5Dpajlpp7h">
+            <circle cx="150" cy="140" r="11" fill="#C8102E" stroke="#fff" stroke-width="2.5" data-page-node-id="pbF7AAP59sWfUkt2uHv1Zc"/>
+            <text x="150" y="140" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="700" data-page-node-id="zCGN1SKckDSjmAODkLcIWO">11</text>
+            <g class="tip" data-page-node-id="37hV84cTE0PCi2BE7csiGO">
+              <rect x="69" y="158" width="158" height="58" rx="9" fill="#1a1410" opacity=".94" data-page-node-id="B8ed20zmOcKqwjASUgkKGO"/>
+              <text x="81" y="180" fill="#fff" font-size="14" font-weight="700" data-page-node-id="KrwbT0a5pw328XtgDFBWFw">会宁</text>
+              <text x="81" y="196" fill="#ffd2c9" font-size="11" data-page-node-id="UoPepKnkTunNAHhksWFt4N">1936.10 · 三大主力会师</text>
+              <text x="81" y="212" fill="#e9ded7" font-size="11" data-page-node-id="TFyaWcpAuMeM3JixGlXoZK">长征胜利结束</text>
+            </g>
+          </g>
+        
+          <!-- ⑫ 腊子口（新增节点） -->
+          <g class="wp">
+            <circle cx="140" cy="200" r="11" fill="#C8102E" stroke="#fff" stroke-width="2.5"/>
+            <text x="140" y="200" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="700">12</text>
+            <g class="tip">
+              <rect x="61" y="128" width="158" height="58" rx="9" fill="#1a1410" opacity=".94"/>
+              <text x="73" y="150" fill="#fff" font-size="14" font-weight="700">腊子口</text>
+              <text x="73" y="166" fill="#ffd2c9" font-size="11">1935.9 · 突破天险</text>
+              <text x="73" y="182" fill="#e9ded7" font-size="11">打开北上陕甘门户</text>
+            </g>
+          </g>
+
+          <!-- 敌军封锁线标记（被拦截处，红军突破） -->
+          <g class="blk">
+            <line x1="305" y1="645" x2="250" y2="678" stroke="#C8102E" stroke-width="1.5" stroke-dasharray="4 3" opacity=".7"/>
+            <circle cx="248" cy="680" r="8" fill="#fff" stroke="#C8102E" stroke-width="2"/>
+            <path d="M244,676 L252,684 M244,684 L252,676" stroke="#C8102E" stroke-width="2" stroke-linecap="round"/>
+            <text x="260" y="684" fill="#C8102E" font-size="11" font-weight="700">封锁线</text>
+            <g class="tip">
+              <rect x="248" y="596" width="176" height="58" rx="9" fill="#1a1410" opacity=".94"/>
+              <text x="260" y="618" fill="#fff" font-size="14" font-weight="700">敌·第四道封锁线</text>
+              <text x="260" y="634" fill="#ffd2c9" font-size="11">1934.11 · 湘江</text>
+              <text x="260" y="650" fill="#e9ded7" font-size="11">红军血战突破，伤亡惨重</text>
+            </g>
+          </g>
+
+          <g class="blk">
+            <line x1="88" y1="470" x2="40" y2="505" stroke="#C8102E" stroke-width="1.5" stroke-dasharray="4 3" opacity=".7"/>
+            <circle cx="38" cy="507" r="8" fill="#fff" stroke="#C8102E" stroke-width="2"/>
+            <path d="M34,503 L42,511 M34,511 L42,503" stroke="#C8102E" stroke-width="2" stroke-linecap="round"/>
+            <text x="50" y="511" fill="#C8102E" font-size="11" font-weight="700">封锁线</text>
+            <g class="tip">
+              <rect x="40" y="416" width="176" height="58" rx="9" fill="#1a1410" opacity=".94"/>
+              <text x="52" y="438" fill="#fff" font-size="14" font-weight="700">敌·毁桥阻渡</text>
+              <text x="52" y="454" fill="#ffd2c9" font-size="11">1935.5 · 大渡河</text>
+              <text x="52" y="470" fill="#e9ded7" font-size="11">守敌拆桥板，飞夺泸定突破</text>
+            </g>
+          </g>
+
+          <g class="blk">
+            <line x1="140" y1="200" x2="205" y2="216" stroke="#C8102E" stroke-width="1.5" stroke-dasharray="4 3" opacity=".7"/>
+            <circle cx="207" cy="218" r="8" fill="#fff" stroke="#C8102E" stroke-width="2"/>
+            <path d="M203,214 L211,222 M203,222 L211,214" stroke="#C8102E" stroke-width="2" stroke-linecap="round"/>
+            <text x="219" y="222" fill="#C8102E" font-size="11" font-weight="700">封锁线</text>
+            <g class="tip">
+              <rect x="219" y="116" width="176" height="58" rx="9" fill="#1a1410" opacity=".94"/>
+              <text x="231" y="138" fill="#fff" font-size="14" font-weight="700">敌·天险封锁线</text>
+              <text x="231" y="154" fill="#ffd2c9" font-size="11">1935.9 · 腊子口</text>
+              <text x="231" y="170" fill="#e9ded7" font-size="11">峡谷险关，红军奇袭突破</text>
+            </g>
+          </g>
+
+          <!-- 图例 -->
+          <g class="cz-legend">
+            <circle cx="30" cy="692" r="6" fill="#C8102E"/>
+            <text x="42" y="696" fill="#5a5048" font-size="12">关键节点</text>
+            <circle cx="170" cy="692" r="7" fill="#fff" stroke="#C8102E" stroke-width="2"/>
+            <path d="M166,688 L174,696 M166,696 L174,688" stroke="#C8102E" stroke-width="2"/>
+            <text x="184" y="696" fill="#5a5048" font-size="12">敌军封锁线（红军突破处）</text>
+          </g>
+</svg>
+      </div>
+      <p class="cz-note" data-page-node-id="Tj9FEY5XDv70X1ImlbA7Xj">红点（●）为长征关键节点，鼠标悬停看说明；带光环的红点可点开对应地点。红叉（✕）为敌军封锁线，是红军被拦截、最终突破的险关。<br>路线为示意走向，非精确地理坐标。</p>
+    </section>
+
+    <!-- 七事件时间线（借鉴手抄报） -->
+    <section class="cz-tl">
+      <div class="cz-tl-head">
+        <p class="kicker reveal">时间脉络</p>
+        <h2 class="reveal">两年，十个关键时刻。</h2>
+        <p class="cz-tl-intro reveal">从赣南出发到陕北会师，红军两年间跨越十一省、经历大小战斗六百余次。沿时间轴看，长征是一步步走出来的。</p>
+      </div>
+      <div class="cz-timeline reveal">
+        <div class="cz-tl-item"><span class="cz-tl-dot"></span><p class="cz-tl-time">1934.10</p><h3 class="cz-tl-title">瑞金出发 · 战略转移</h3><p class="cz-tl-desc">第五次反「围剿」失败，中央红军主力 8.6 万余人撤离中央苏区，开始漫漫征途。</p></div>
+        <div class="cz-tl-item"><span class="cz-tl-dot"></span><p class="cz-tl-time">1934.11</p><h3 class="cz-tl-title">血战湘江</h3><p class="cz-tl-desc">突破第四道封锁线，红军付出惨重代价，人员由 8.6 万锐减至 3 万余人。</p></div>
+        <div class="cz-tl-item"><span class="cz-tl-dot"></span><p class="cz-tl-time">1935.1</p><h3 class="cz-tl-title">遵义会议</h3><p class="cz-tl-desc">确立正确军事路线，中国革命迎来生死攸关的伟大转折。</p></div>
+        <div class="cz-tl-item"><span class="cz-tl-dot"></span><p class="cz-tl-time">1935.1–3</p><h3 class="cz-tl-title">四渡赤水</h3><p class="cz-tl-desc">声东击西、机动灵活，跳出数十万敌军的围追堵截。</p></div>
+        <div class="cz-tl-item"><span class="cz-tl-dot"></span><p class="cz-tl-time">1935.5</p><h3 class="cz-tl-title">巧渡金沙江</h3><p class="cz-tl-desc">红军从容渡江，彻底摆脱追兵，取得战略主动。</p></div>
+        <div class="cz-tl-item"><span class="cz-tl-dot"></span><p class="cz-tl-time">1935.5</p><h3 class="cz-tl-title">强渡大渡河 · 飞夺泸定桥</h3><p class="cz-tl-desc">安顺场抢渡、泸定桥铁索夺关，打开北上通道。</p></div>
+        <div class="cz-tl-item"><span class="cz-tl-dot"></span><p class="cz-tl-time">1935.6–8</p><h3 class="cz-tl-title">翻雪山过草地</h3><p class="cz-tl-desc">征服海拔四千米的夹金山，穿越茫茫松潘沼泽，挑战人类生存极限。</p></div>
+        <div class="cz-tl-item"><span class="cz-tl-dot"></span><p class="cz-tl-time">1935.9</p><h3 class="cz-tl-title">突破腊子口</h3><p class="cz-tl-desc">奇袭天险封锁线，打开北上陕甘的门户。</p></div>
+        <div class="cz-tl-item"><span class="cz-tl-dot"></span><p class="cz-tl-time">1935.10 / 1936.10</p><h3 class="cz-tl-title">吴起镇会师 · 会宁会师</h3><p class="cz-tl-desc">红一方面军落脚陕北；1936 年 10 月三大主力会宁会师，长征胜利结束。</p></div>
+      </div>
+    </section>
+
     <!-- 名句 -->
-    <section class="quote-black">
-      <blockquote class="quote-text reveal">「红军不怕远征难，万水千山只等闲。」</blockquote>
-      <p class="quote-note reveal">—— 毛泽东《七律·长征》</p>
+    <section class="quote-black" data-page-node-id="RgIR4QcLdonHXsNpuNxovU">
+      <blockquote class="quote-text reveal" data-page-node-id="hO0zqTjJ4vQjBT0vjhZS5M">「红军不怕远征难，万水千山只等闲。」</blockquote>
+      <p class="quote-note reveal" data-page-node-id="H6ChUQ1EbIZ54lAljfeDsU">—— 毛泽东《七律·长征》</p>
     </section>
 
     <!-- 事件经过 -->
-    <section class="stories">
-        <article class="story reveal">
-          <h3>战略转移</h3>
-          <p>第五次反「围剿」失败后，中央红军主力被迫撤离中央苏区，踏上漫漫征途。出发时 8.6 万余人，一路突破四道封锁线，付出了巨大牺牲。</p>
+    <section class="stories" data-page-node-id="5pmfFrXYEe5G5lXiNftA4d">
+        <article class="story reveal" data-page-node-id="tczuCS7snJGIAOsxXpiiDN">
+          <h3 data-page-node-id="EpZGJIH4cd4bhxPH6WEEMs">战略转移</h3>
+          <p data-page-node-id="J4c7jNsem0tzpu3I0A7RP7">第五次反「围剿」失败后，中央红军主力被迫撤离中央苏区，踏上漫漫征途。出发时 8.6 万余人，一路突破四道封锁线，付出了巨大牺牲。</p>
         </article>
 
-        <article class="story reveal">
-          <h3>遵义转折</h3>
-          <p>1935 年 1 月遵义会议实现伟大转折，确立了正确的军事路线。此后红军声东击西、机动灵活，四渡赤水、巧渡金沙江，彻底摆脱数十万追兵。</p>
+        <article class="story reveal" data-page-node-id="G0W0SHPAZVbEmR4K3XU1uD">
+          <h3 data-page-node-id="Q8pYrSkrz1cNYvTJSIzQQr">遵义转折</h3>
+          <p data-page-node-id="uwULs7tslGc12CYteUrXDs">1935 年 1 月遵义会议实现伟大转折，确立了正确的军事路线。此后红军声东击西、机动灵活，四渡赤水、巧渡金沙江，彻底摆脱数十万追兵。</p>
         </article>
 
-        <article class="story reveal">
-          <h3>飞夺泸定桥</h3>
-          <p>1935 年 5 月 29 日，红四团昼夜奔袭二百四十里赶到桥头，二十二名突击队员冒着枪林弹雨攀着铁索冲向对岸，一举夺下<a href="place-luding.html">泸定桥</a>，打开北上通道。</p>
+        <article class="story reveal" data-page-node-id="x7hqnt8RvLXjAuxKv5XRbj">
+          <h3 data-page-node-id="7ajp2GTphujSxoUtzRmQeH">飞夺泸定桥</h3>
+          <p data-page-node-id="EMUO3F4lHUCA8YdbwYQMXn">1935 年 5 月 29 日，红四团昼夜奔袭二百四十里赶到桥头，二十二名突击队员冒着枪林弹雨攀着铁索冲向对岸，一举夺下<a href="place-luding.html" data-page-node-id="7XuAfn2gd8gqgMC2NF5uoz">泸定桥</a>，打开北上通道。</p>
         </article>
 
-        <article class="story reveal">
-          <h3>会师会宁</h3>
-          <p>1936 年 10 月，红一、二、四方面军在甘肃会宁胜利会师，历时两年、行程二万五千余里的长征宣告结束，保存了党和红军的基干力量。</p>
+        <article class="story reveal" data-page-node-id="6HkcudwG5iHhqBbe2h06Su">
+          <h3 data-page-node-id="eFn8hNeEvexUdNtGlp7A7z">会师会宁</h3>
+          <p data-page-node-id="hwG6besE1361Sn1OuPuHW4">1936 年 10 月，红一、二、四方面军在甘肃会宁胜利会师，历时两年、行程二万五千余里的长征宣告结束，保存了党和红军的基干力量。</p>
         </article>
 
-        <article class="story story-legacy reveal">
-          <p class="kicker sm">历史意义</p>
-          <p class="story-legacy-text">长征是宣言书，是宣传队，是播种机。</p>
+        <article class="story story-legacy reveal" data-page-node-id="xb10YACb2y84ceZHax0Ykv">
+          <p class="kicker sm" data-page-node-id="8HAU1YcDScftSg1dR4NZWX">历史意义</p>
+          <p class="story-legacy-text" data-page-node-id="kWCD5HYfCGc68YFJ67TTCQ">长征是宣言书，是宣传队，是播种机。</p>
         </article>
     </section>
 
+    <!-- 长征精神专题（借鉴手抄报） -->
+    <section class="cz-spirit">
+      <div class="cz-sp-head">
+        <p class="kicker reveal">长征精神</p>
+        <h2 class="reveal">革命理想高于天。</h2>
+        <p class="cz-sp-intro reveal">长征不仅是一次军事上的战略转移，更铸就了穿越时空的精神丰碑，至今激励着后来者。</p>
+      </div>
+      <div class="cz-sp-grid reveal">
+        <div class="cz-sp-card"><p class="cz-sp-ic">信仰</p><h3>革命理想高于天</h3><p>红军将士坚信正义事业必胜，以坚定的信仰支撑万里征途。</p></div>
+        <div class="cz-sp-card"><p class="cz-sp-ic">斗争</p><h3>不怕牺牲 英勇斗争</h3><p>面对围追堵截与极端环境，前仆后继、百折不挠。</p></div>
+        <div class="cz-sp-card"><p class="cz-sp-ic">求实</p><h3>独立自主 实事求是</h3><p>遵义会议开启独立自主解决中国革命问题的先河。</p></div>
+        <div class="cz-sp-card"><p class="cz-sp-ic">团结</p><h3>顾全大局 严守纪律</h3><p>各路红军紧密配合、服从大局，凝聚成钢铁整体。</p></div>
+        <div class="cz-sp-card"><p class="cz-sp-ic">为民</p><h3>紧紧依靠人民</h3><p>纪律严明、秋毫无犯，赢得沿途群众的支持与拥护。</p></div>
+      </div>
+      <p class="cz-sp-quote reveal">每一代人有每一代人的长征路。</p>
+    </section>
+
     <!-- 相关阅读 -->
-    <section class="rcs-related">
-      <p class="kicker sm reveal">相关阅读</p>
-      <h2 class="h2 reveal">沿着线索，继续探寻。</h2>
-      <div class="rcs-related-grid">
-        <a class="rcs-related-card reveal" href="place-luding.html">
-          <span class="kicker sm">红色地点</span>
-          <h3 class="rcs-related-name">泸定桥</h3>
-          <p class="rcs-related-desc">飞夺泸定桥，打开北上通道</p>
-          <span class="text-link sm">进一步了解 ›</span>
+    <section class="rcs-related" data-page-node-id="91JP2HUq9EWUWCLrB96mYk">
+      <p class="kicker sm reveal" data-page-node-id="mmth2FV9d08YTRBl2nUbwM">相关阅读</p>
+      <h2 class="h2 reveal" data-page-node-id="GwWjVvShDk4jLGXEiRseL4">沿着线索，继续探寻。</h2>
+      <div class="rcs-related-grid" data-page-node-id="g8R4GaIsDCN7meXFsvSGTJ">
+        <a class="rcs-related-card reveal" href="place-luding.html" data-page-node-id="X5r6imcQLkzcWT11SynfPz">
+          <span class="kicker sm" data-page-node-id="mDZDwX4twc7yW4CLdKxMUv">红色地点</span>
+          <h3 class="rcs-related-name" data-page-node-id="YSpbZUzB9ra7eWtddTev1h">泸定桥</h3>
+          <p class="rcs-related-desc" data-page-node-id="rVmgbZyYWqtfhWAOvzvNlz">飞夺泸定桥，打开北上通道</p>
+          <span class="text-link sm" data-page-node-id="yG90l611HiTIEHWvzQfDTf">进一步了解 ›</span>
         </a>
-        <a class="rcs-related-card reveal" href="place-zunyi.html">
-          <span class="kicker sm">红色地点</span>
-          <h3 class="rcs-related-name">遵义</h3>
-          <p class="rcs-related-desc">转折之城</p>
-          <span class="text-link sm">进一步了解 ›</span>
+        <a class="rcs-related-card reveal" href="place-zunyi.html" data-page-node-id="q1w5kEQOfEj0OPqnk77shj">
+          <span class="kicker sm" data-page-node-id="qY7A1peWGf1FFKKwx3otic">红色地点</span>
+          <h3 class="rcs-related-name" data-page-node-id="KvwNWAzVu4JkDOQaxEVAI2">遵义</h3>
+          <p class="rcs-related-desc" data-page-node-id="FB28jMqBnUnvoqv5QifIi2">转折之城</p>
+          <span class="text-link sm" data-page-node-id="XTRpBT7uG6q6kS5GvHQOYX">进一步了解 ›</span>
         </a>
       </div>
     </section>
 
     <!-- 上一个 / 下一个 -->
-    <nav class="person-nav" aria-label="事件切换">
-      <a class="pn-link pn-prev" href="event-zunyi.html">
-        <span class="pn-kicker">← 上一个事件</span>
-        <span class="pn-name">遵义会议</span>
+    <nav class="person-nav" aria-label="事件切换" data-page-node-id="uHrz4DHK7nYW3fqMSCR4fd">
+      <a class="pn-link pn-prev" href="event-zunyi.html" data-page-node-id="hneA3AEz9dAT4Joof42JJy">
+        <span class="pn-kicker" data-page-node-id="J1oL7EpmFuzmnJEEX39v6s">← 上一个事件</span>
+        <span class="pn-name" data-page-node-id="Nm8uoutHGgtMtbuikaLkxE">遵义会议</span>
       </a>
-      <a class="pn-mid" href="events.html">返回全部历史事件</a>
-      <a class="pn-link pn-next" href="event-kangzhan.html">
-        <span class="pn-kicker">下一个事件 →</span>
-        <span class="pn-name">抗日战争胜利</span>
+      <a class="pn-mid" href="events.html" data-page-node-id="SCO9VWoUeXLlnuzH0WvcqD">返回全部历史事件</a>
+      <a class="pn-link pn-next" href="event-kangzhan.html" data-page-node-id="sBdWN56Zt1LOsFGI4Hi04P">
+        <span class="pn-kicker" data-page-node-id="Hn7MlPdeC9Ua1ioYNGkVP3">下一个事件 →</span>
+        <span class="pn-name" data-page-node-id="YvatEqka9dV24jUE4qROeV">抗日战争胜利</span>
       </a>
     </nav>
 
   </main>
 
   <!-- 页脚 -->
-  <footer class="footer" id="footer">
-  <div class="footer-top">
-    <div class="footer-brand">
-      <div class="footer-logo">
-        <svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.26 6.87.6-5.2 4.51 1.53 6.72L12 16.9l-6.1 3.19 1.53-6.72-5.2-4.51 6.87-.6L12 2z" fill="#C8102E"/></svg>
-        <span>红色文化传播网</span>
+  <footer class="footer" id="footer" data-page-node-id="EHu1egE9GMqKvtqWno4Q5l">
+  <div class="footer-top" data-page-node-id="V9WCLTv4zjo8fRU8S3A5ze">
+    <div class="footer-brand" data-page-node-id="Nfxvy40rsjUrdauaC0XMMz">
+      <div class="footer-logo" data-page-node-id="xUZjFxtt4nK3F1ZEJUYG1u">
+        <svg class="star" viewBox="0 0 24 24" aria-hidden="true" data-page-node-id="6qHCOncRFPCjLA3q3Q5sZ7"><path d="M12 2l2.9 6.26 6.87.6-5.2 4.51 1.53 6.72L12 16.9l-6.1 3.19 1.53-6.72-5.2-4.51 6.87-.6L12 2z" fill="#C8102E" data-page-node-id="NHpkGBE5d15PQHzF2uotkZ"/></svg>
+        <span data-page-node-id="Bbsu9H9A60aeZo8iiJeblZ">红色文化传播网</span>
       </div>
-      <p>铭记历史，缅怀先烈。</p>
+      <p data-page-node-id="VEZ8jAM4aZQGcZMWcGKFdd">铭记历史，缅怀先烈。</p>
     </div>
-    <div class="footer-col">
-      <h4>走进历史</h4>
-      <a href="heroes.html">英雄人物</a>
-      <a href="places.html">红色地点</a>
-      <a href="events.html">历史事件</a>
+    <div class="footer-col" data-page-node-id="HY6cIpyPBc0JY6LJcQG13L">
+      <h4 data-page-node-id="1hOBAxIKlDXDS8BGuew2Ol">走进历史</h4>
+      <a href="heroes.html" data-page-node-id="aFmt5rR9Vh7fIEGTpXbcoN">英雄人物</a>
+      <a href="places.html" data-page-node-id="YIxoqvvXmuj4AXkoe2grpO">红色地点</a>
+      <a href="events.html" data-page-node-id="5TjfvuKt1FdpOQzNoDWbPE">历史事件</a>
     </div>
-    <div class="footer-col">
-      <h4>学习更多</h4>
-      <a href="index.html#quiz">知识考核</a>
-      <a href="index.html#timeline">历史时间轴</a>
-      <a href="red-literature.html">红色文学</a>
+    <div class="footer-col" data-page-node-id="btI0nO3ewOUE73xbq4YgtE">
+      <h4 data-page-node-id="ZzEywzitnT01fw2CCEdA6K">学习更多</h4>
+      <a href="index.html#quiz" data-page-node-id="AvqAEQYYwuGyXLdwLHBZFP">知识考核</a>
+      <a href="index.html#timeline" data-page-node-id="Ei4OYCmo2ICgvo6qZkfhE9">历史时间轴</a>
+      <a href="red-literature.html" data-page-node-id="tYveoVkUbqDIBxEbzxYRrG">红色文学</a>
     </div>
-    <div class="footer-col">
-      <h4>关于本站</h4>
-      <a href="about.html">关于与史料来源</a>
-      <a href="contact.html">联系我们</a>
-      <a href="faq.html">常见问题</a>
+    <div class="footer-col" data-page-node-id="WP41YV8YZ1zaFjTdozZG3H">
+      <h4 data-page-node-id="qnNkbM2P8xHIN2BwWeNqVy">关于本站</h4>
+      <a href="about.html" data-page-node-id="gENSkEm27Jfg5tUSd1s17E">关于与史料来源</a>
+      <a href="contact.html" data-page-node-id="bB3X5r679u89UXh9c1u3Ha">联系我们</a>
+      <a href="faq.html" data-page-node-id="omdLqjIroa0KZXuDcFzFMx">常见问题</a>
     </div>
   </div>
-  <div class="footer-divider"></div>
-  <div class="footer-bottom">
-    <span class="footer-meta">本站点为红色文化宣传演示作品 · 铭记历史 · 缅怀先烈</span>
-    <p class="ai-foot-note">本站部分配图为 AI 生成的「艺术再现」图像，非真实历史照片，请以权威史料为准。</p>
-    <p class="icp-beian-note"><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">ICP备案号：待填写</a> · <a href="https://www.beian.gov.cn/" target="_blank" rel="noopener">公网安备：待填写</a></p>
+  <div class="footer-divider" data-page-node-id="rQsGBV4fE2zufHBgiDCfLB"></div>
+  <div class="footer-bottom" data-page-node-id="LlybTyaM5Hlv6u13pul32V">
+    <span class="footer-meta" data-page-node-id="ydDg0GDYDL0zDk1oTxFf44">本站点为红色文化宣传演示作品 · 铭记历史 · 缅怀先烈</span>
+    <p class="ai-foot-note" data-page-node-id="JENRFMVlNuZBKAoSf7wFJb">本站部分配图为 AI 生成的「艺术再现」图像，非真实历史照片，请以权威史料为准。</p>
+    <p class="icp-beian-note" data-page-node-id="ah20tNmMB0qkKZD7oUzAW1"><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener" data-page-node-id="oFFWahm6KAb8am0ibLWUeG">ICP备案号：待填写</a> · <a href="https://www.beian.gov.cn/" target="_blank" rel="noopener" data-page-node-id="DgqET27btmAeF8Refi9jlH">公网安备：待填写</a></p>
   </div>
 </footer>
 
