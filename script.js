@@ -404,7 +404,8 @@
     // P1 中风险：AI 生成的党史地标图
 
     // P2 低风险：AI 生成的英雄场景 / 氛围图
-    "card-heroes.jpg", "card-events.jpg", "long-march.jpg"
+    "card-heroes.jpg", "card-events.jpg", "long-march.jpg",
+    "xiangjiang.png", "wuqi.png", "huining.png"
   ];
   function baseName(src) {
     var m = String(src).split("?")[0].split("/").pop();
