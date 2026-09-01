@@ -1,0 +1,17 @@
+{
+  "name": "red-culture-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "红色文化教学站 · 部署与版本编排",
+  "scripts": {
+    "sync-shared": "node scripts/sync-shared.js",
+    "deploy": "node scripts/deploy-static.js",
+    "deploy:fn": "python3 scripts/deploy-fn-pty.py",
+    "deploy:all": "npm run deploy && npm run deploy:fn",
+    "bump": "node scripts/bump-version.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "UNLICENSED"
+}
