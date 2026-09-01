@@ -103,7 +103,7 @@
   }
 
   function getMode() {
-    return (window.RCS && RCS.config && RCS.config.authMode) || "email";
+    return (window.RCS && RCS.config && RCS.config.authMode) || "phone";
   }
 
   function auth() {

@@ -1,0 +1,23 @@
+/* 自托管 Noto Sans SC（子集化，去外部 CDN 依赖） 由 scripts/wire-fonts.py 生成，勿手工改 ?v= */
+
+@font-face {
+  font-family: "Noto Sans SC";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("noto-sans-sc-400.woff2?v=20260901a") format("woff2");
+}
+@font-face {
+  font-family: "Noto Sans SC";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("noto-sans-sc-500.woff2?v=20260901a") format("woff2");
+}
+@font-face {
+  font-family: "Noto Sans SC";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("noto-sans-sc-600.woff2?v=20260901a") format("woff2");
+}

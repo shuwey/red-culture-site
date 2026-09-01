@@ -87,7 +87,7 @@
   }
 
   function getAuthMode() {
-    return (window.RCS && RCS.config && RCS.config.authMode) || "email";
+    return (window.RCS && RCS.config && RCS.config.authMode) || "phone";
   }
 
   function escapeHtml(s) {
