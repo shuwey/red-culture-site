@@ -49,7 +49,7 @@
  <div class="bar">章节覆盖：<b>第 1—30 章 全覆盖</b>（含专题区 6 题指向全书/跨媒介/史实）</div>
  <div class="bar" class="s-628941f8">>说明：章内“题量”按<b>章节相关性</b>统计，一道跨章题（如江姐相关）会在多个章节重复出现，故各章相加会大于 229；题库总题数仍为 229。</div>
 </div>
-<div class="btns"><button onclick="document.querySelectorAll('.qlist').forEach(t=>t.style.display=t.style.display==='none'?'':'none')">折叠/展开全部题目</button></div>
+<div class="btns"><button id="toggleAll" type="button">折叠/展开全部题目</button></div>
 <section class='chap'>
 <h2><span class='cn'>第 1 章</span></h2>
 <p class='summary'>重庆地下斗争序幕——甫志高擅自开设沙坪书店、陈松林任店员；余新江目睹特务纵火；红岩村与集中营背景。</p>
@@ -239,12 +239,7 @@
   <b>版权提示：</b>《红岩》作者罗广斌（1967 年逝世）、杨益言（2017 年逝世），合作作品著作权保护期至 2067 年 12 月 31 日，请勿将全书原文搬入任何平台或小程序。
 </div>
 </div>
-<script>
-document.querySelectorAll('.chap h2').forEach(h=>{
- h.style.cursor='pointer';
- h.onclick=()=>{const t=h.parentElement.querySelector('.qlist');if(t)t.style.display=t.style.display==='none'?'':'none';};
-});
-</script>
+<script src="assets/js/chapter-map.inline1.js?v=20260901d"></script>
 <footer class="footer" id="footer">
   <div class="footer-top">
     <div class="footer-brand">
@@ -282,15 +277,6 @@ document.querySelectorAll('.chap h2').forEach(h=>{
 </footer>
 <script src="script.js?v=20260830k"></script>
 <!-- AI 助手：延迟加载云能力（首屏不加载，避免 786KB SDK 阻塞渲染） -->
-<script>
-  window.RCS_CLOUD_SCRIPTS = [
-    "cloudbase.bundle.js",
-    "cloudbase-config.js",
-    "auth-service.js?v=20260829aa",
-    "account-ui.js?v=20260829ac",
-    "ai-assistant.js?v=20260829x",
-    "search.js?v=20260829w"
-  ];
-</script>
+<script src="assets/js/chapter-map.inline2.js?v=20260901d"></script>
 <script src="cloud-lazy.js?v=20260901a"></script>
 </body></html>

@@ -340,59 +340,10 @@
   </div>
 </footer>
 
-<script>
-const PERSONS=[
- {n:"毛泽东",r:"leader",rl:"中国共产党领袖",id:"真实人物（第四篇整篇为其自述）",ev:"1893年生于湖南湘潭农民家庭；1920年读《共产党宣言》《阶级斗争》《社会主义史》确立马克思主义信仰；在保安与斯诺多次长谈，阐述基本政策与抗日主张。",sp:"质朴纯真、博览群书、精力过人，天才的军事和政治战略家"},
- {n:"周恩来",r:"leader",rl:"红军指挥员",id:"真实人物（第二篇“造反者”）",ev:"在安塞用英语向斯诺打招呼；亲自为其起草九十二天采访旅程；回顾求学、留学、组织罢工与广州公社、九死一生到达陕北的经历。",sp:"头脑冷静、善于分析推理、讲究实际经验、态度温和、细心热情"},
- {n:"朱德",r:"leader",rl:"中国工农红军总司令",id:"真实人物（第十篇“关于朱德”）",ev:"第十篇专节介绍其生平与领导才能；长征中与毛泽东、周恩来、彭德怀共同决策占领泸定桥。",sp:"杰出的领导才能与个人魅力，与战士同甘共苦"},
- {n:"彭德怀",r:"general",rl:"红军将领",id:"真实人物（第八篇重点介绍）",ev:"第八篇先述其性格，再述其促使他走上革命道路的悲惨童年；与部下同甘共苦，关爱“红小鬼”。",sp:"率直爽朗、乐观豁达、生活简朴、爱兵如子"},
- {n:"贺龙",r:"general",rl:"红军将领",id:"真实人物（第二篇，由李长林转述）",ev:"在哥老会中名声遍及全国；1927年南昌起义后参加共产党；用一把菜刀在湖南建立苏区；率部长征过雪山与朱德会师。",sp:"威望高、口才好，英勇善战、急躁而又谦虚"},
- {n:"徐海东",r:"general",rl:"红军将领",id:"真实人物（第九篇“红色窑工徐海东”）",ev:"出身窑工，成长为红军将领；第九篇由其经历展开对中国残酷阶级战争的记述。",sp:"出身贫苦、意志坚强、作战勇猛"},
- {n:"刘志丹",r:"general",rl:"西北苏区开创者",id:"真实人物（第六篇）",ev:"第六篇开篇介绍其革命生涯及开创陕西苏区的历程；今志丹县即为纪念他而命名。",sp:"扎根群众、开创根据地的卓越领导人"},
- {n:"徐特立",r:"leader",rl:"教育家",id:"真实人物（第六篇“人生五十始”）",ev:"五十岁投身革命，第六篇以“人生五十始”记述其经历与共产党的教育政策。",sp:"老当益壮、终身学习、献身教育"},
- {n:"林彪",r:"general",rl:"红军大学校长",id:"真实人物（第三篇）",ev:"任红军大学校长时年仅28岁，据说从未打过败仗；学员首级赏格合计超过两百万元。",sp:"年轻有为的军事指挥员"},
- {n:"邓发",r:"witness",rl:"共产党人",id:"真实人物（第一篇）",ev:"斯诺在汉代古城遗址等车时遇见他，当时其首级被悬赏五万元。",sp:"热情活泼、勇敢大胆"},
- {n:"刘龙火",r:"witness",rl:"贫民会主席",id:"真实人物（第一篇）",ev:"斯诺进入红区后受到他热情款待，他为其安排年轻向导与骡夫，并给苏区纸币使用。",sp:"质朴热情、支持革命的根据地群众"},
- {n:"李长林",r:"witness",rl:"红军指挥员",id:"真实人物（第二篇）",ev:"在前往保安的路上向斯诺介绍贺龙的革命经历，是“贺龙二三事”的信息来源。",sp:"健谈、熟悉红军历史"},
- {n:"危拱之",r:"witness",rl:"人民抗日剧社社长",id:"真实人物（第三篇）",ev:"斯诺观看红军剧社演出后访问她，她介绍了红军剧社的历史。",sp:"投身革命文艺宣传"},
- {n:"红小鬼",r:"witness",rl:"红军中的少年先锋队员",id:"真实群体（第十篇）",ev:"第十篇专节记述红色中国的少年们耐心、勤劳、聪明、努力学习。",sp:"乐观向上、勤奋好学，代表中国的希望"},
- {n:"李德",r:"foreign",rl:"德国军事顾问",id:"真实人物（第十一篇“那个外国智囊”）",ev:"第十一篇记述其指挥作战时出现的失误及其原因。",sp:"（作为反面经验被记述）脱离实际的教条指挥"},
- {n:"鲍罗廷",r:"foreign",rl:"俄国首席政治顾问",id:"真实人物（第四篇）",ev:"毛泽东认为其对1927年革命失败负有仅次于陈独秀的责任。",sp:"（历史评价见第四篇毛泽东自述）"},
- {n:"埃德加·斯诺",r:"foreign",rl:"美国记者·本书作者",id:"真实人物（全书叙述者）",ev:"1905—1972；1928年来华，1933—1935年兼任燕京大学新闻系讲师；1936年6—10月深入西北革命根据地采访，为第一个深入红区的西方记者。",sp:"求真务实、勇敢无畏，以客观见证打破新闻封锁"}
-];
-const RL_MAP={leader:"领袖",general:"将领",witness:"亲历者/群众",foreign:"外国人物"};
-const CLS={leader:"red",general:"green",witness:"blue",foreign:"gold"};
-function render(f){
-  const box=document.getElementById('pbox');
-  box.innerHTML='';
-  PERSONS.filter(p=>f==='all'||p.r===f).forEach(p=>{
-    const d=document.createElement('div');
-    d.className='pcard';
-    d.innerHTML='<div class="top '+CLS[p.r]+'"><div class="nm">'+p.n+'</div><div class="rl">'+p.rl+'　·　'+RL_MAP[p.r]+'</div></div>'+
-      '<div class="body"><p><span class="k">真实性：</span>'+p.id+'</p><p><span class="k">关键事迹：</span>'+p.ev+'</p><p><span class="k">精神品质：</span>'+p.sp+'</p></div>';
-    box.appendChild(d);
-  });
-}
-render('all');
-document.getElementById('pfilters').addEventListener('click',e=>{
-  if(e.target.tagName!=='BUTTON')return;
-  document.querySelectorAll('#pfilters button').forEach(b=>b.classList.remove('on'));
-  e.target.classList.add('on');
-  render(e.target.dataset.f);
-});
-</script>
+<script src="assets/js/hongxing-knowledge-base.inline1.js?v=20260901d"></script>
 <script src="script.js?v=20260830k"></script>
 <!-- AI 助手：延迟加载云能力（首屏不加载，避免 786KB SDK 阻塞渲染） -->
-<script>
-  window.RCS_CLOUD_SCRIPTS = [
-    "cloudbase.bundle.js",
-    "cloudbase-config.js",
-    "auth-service.js?v=20260829aa",
-    "account-ui.js?v=20260829ac",
-    "ai-assistant.js?v=20260829x",
-    "search.js?v=20260829w"
-  ];
-</script>
+<script src="assets/js/hongxing-knowledge-base.inline2.js?v=20260901d"></script>
 <script src="cloud-lazy.js?v=20260901a"></script>
 </body>
 </html>

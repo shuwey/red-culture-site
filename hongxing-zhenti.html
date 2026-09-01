@@ -821,51 +821,9 @@
     <p class="icp-beian-note"><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">ICP备案号：待填写</a> · <a href="https://www.beian.gov.cn/" target="_blank" rel="noopener">公网安备：待填写</a></p>
   </div>
 </footer>
-<script>
-(function(){
-  var cards = [].slice.call(document.querySelectorAll('.zt-card'));
-  var fy = document.getElementById('f-year'),
-      ft = document.getElementById('f-type'),
-      fp = document.getElementById('f-prov'),
-      fk = document.getElementById('f-key'),
-      cnt = document.getElementById('zt-count'),
-      empty = document.getElementById('zt-empty');
-  if(!fy || !cards.length) return;
-  function apply(){
-    var y = fy.value, t = ft.value, p = fp.value,
-        k = (fk.value || '').trim().toLowerCase(), n = 0;
-    cards.forEach(function(c){
-      var ok = (!y || c.getAttribute('data-year') === y)
-            && (!t || c.getAttribute('data-type') === t)
-            && (!p || c.getAttribute('data-prov') === p)
-            && (!k || c.textContent.toLowerCase().indexOf(k) >= 0);
-      c.style.display = ok ? '' : 'none';
-      if(ok) n++;
-    });
-    if(cnt) cnt.innerHTML = '共 <b>' + n + '</b> / ' + cards.length + ' 题';
-    if(empty) empty.style.display = n ? 'none' : '';
-  }
-  [fy, ft, fp].forEach(function(el){ el.addEventListener('change', apply); });
-  if(fk) fk.addEventListener('input', apply);
-  var rs = document.getElementById('f-reset');
-  if(rs) rs.addEventListener('click', function(){
-    fy.value = ''; ft.value = ''; fp.value = ''; fk.value = ''; apply();
-  });
-  apply();
-})();
-</script>
+<script src="assets/js/hongxing-zhenti.inline1.js?v=20260901d"></script>
 <script src="script.js?v=20260830k"></script>
-<script>
-  window.RCS_CLOUD_SCRIPTS = [
-    "cloudbase.bundle.js",
-    "cloudbase-config.js",
-    "auth-service.js?v=20260829aa",
-    "account-ui.js?v=20260829ac",
-    "quiz-service.js?v=20260829r",
-    "ai-assistant.js?v=20260829x",
-    "search.js?v=20260829w"
-  ];
-</script>
+<script src="assets/js/hongxing-zhenti.inline2.js?v=20260901d"></script>
 <script src="cloud-lazy.js?v=20260901a"></script>
   <div class="note">
     <b>说明：</b>本页为《红星照耀中国》中考真题专区，题目均来自公开可访问来源，仅作考点指引，<b>不提供原书全文</b>；引用限于教学所需的少量适当引用并注明出处。<br>
