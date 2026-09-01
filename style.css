@@ -485,14 +485,14 @@ button.stat:focus-visible { outline: 2px solid rgba(255,255,255,.6); outline-off
   color: var(--gray-2);
 }
 
-/* ---------- 历史时间轴 ---------- */
-.timeline { padding: 120px; gap: 72px; }
+/* ---------- 历史时间轴（3.3 Apple 式留白） ---------- */
+.timeline { padding: 120px; gap: 84px; }
 .tl {
   position: relative;
   display: flex;
   justify-content: space-between;
   width: 100%;
-  padding: 0 30px;
+  padding: 0 40px;
 }
 .tl::before {
   content: "";
@@ -508,7 +508,7 @@ button.stat:focus-visible { outline: 2px solid rgba(255,255,255,.6); outline-off
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   width: 200px;
   text-align: center;
 }
@@ -517,9 +517,9 @@ button.stat:focus-visible { outline: 2px solid rgba(255,255,255,.6); outline-off
   border-radius: 50%;
   background: var(--red);
 }
-.tl-year { font-size: 28px; font-weight: 600; }
-.tl-event { font-size: 16px; font-weight: 600; }
-.tl-desc { font-size: 13px; color: var(--gray-2); }
+.tl-year { font-size: 28px; font-weight: 600; letter-spacing: -.01em; line-height: 1.1; }
+.tl-event { font-size: 16px; font-weight: 600; color: var(--ink); line-height: 1.35; }
+.tl-desc { font-size: 13px; color: var(--gray-2); line-height: 1.5; }
 
 /* ---------- 知识考核 ---------- */
 .quiz { padding: 130px 120px; gap: 20px; }
@@ -538,17 +538,18 @@ button.stat:focus-visible { outline: 2px solid rgba(255,255,255,.6); outline-off
 .pill-btn:active { transform: scale(.98); }
 
 /* ---------- 页脚（全站统一） ---------- */
+/* Apple 式 mega-footer：更宽松内边距 + 标题字距 + 链接仅变色（无下划线）+ 底部细排精致化 */
 .footer {
   background: var(--surface);
-  padding: 48px 120px 32px;
+  padding: 56px 120px 36px;
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 32px;
 }
 .footer-top {
   display: flex;
   flex-wrap: wrap;
-  gap: 36px 64px;
+  gap: 40px 72px;
 }
 .footer-brand {
   flex: 1 1 220px;
@@ -574,27 +575,29 @@ button.stat:focus-visible { outline: 2px solid rgba(255,255,255,.6); outline-off
   flex: 0 1 140px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 14px;
 }
 .footer-col h4 {
-  margin: 0;
+  margin: 0 0 2px;
   font-size: 12px;
   font-weight: 600;
   color: var(--ink);
+  letter-spacing: .06em;
 }
 .footer-col a {
   font-size: 12px;
   color: var(--gray-nav);
   transition: color .2s ease;
 }
-.footer-col a:hover { color: var(--ink); text-decoration: underline; }
+.footer-col a:hover { color: var(--red); }
 .footer-divider { height: 1px; background: var(--hairline); }
 .footer-bottom {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
   font-size: 11px;
   color: var(--gray-3);
+  letter-spacing: .02em;
 }
 .footer-meta { color: var(--gray-3); }
 
@@ -893,9 +896,9 @@ button.stat:focus-visible { outline: 2px solid rgba(255,255,255,.6); outline-off
   .landmark { padding: 90px 64px; }
   .march-inner { padding: 0 64px 48px; }
   .stats { gap: 64px; }
-  .timeline { padding: 96px 64px; }
+  .timeline { padding: 104px 64px; }
   .quiz { padding: 100px 64px; }
-  .footer { padding: 44px 64px 28px; }
+  .footer { padding: 48px 64px 28px; }
   .tl { padding: 0; }
   .tl::before { left: 100px; right: 100px; }
 }
@@ -926,11 +929,11 @@ button.stat:focus-visible { outline: 2px solid rgba(255,255,255,.6); outline-off
   .themes { padding: 80px 24px; gap: 40px; }
   .cards { grid-template-columns: 1fr; max-width: 560px; }
 
-  .timeline { padding: 80px 24px; gap: 48px; }
+  .timeline { padding: 88px 24px; gap: 56px; }
   /* 时间轴转纵向 */
   .tl {
     flex-direction: column;
-    gap: 40px;
+    gap: 48px;
     padding-left: 28px;
     align-items: flex-start;
   }
@@ -949,7 +952,7 @@ button.stat:focus-visible { outline: 2px solid rgba(255,255,255,.6); outline-off
 
   .quiz { padding: 88px 24px; }
 
-  .footer { padding: 40px 24px 24px; gap: 28px; }
+  .footer { padding: 48px 24px 28px; gap: 28px; }
   .footer-top { flex-wrap: wrap; gap: 32px; }
   .footer-brand { flex: 1 1 100%; }
   .footer-col { flex: 1 1 40%; }
