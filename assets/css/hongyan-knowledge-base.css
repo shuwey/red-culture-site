@@ -1,0 +1,91 @@
+/* 自动抽取自 hongyan-knowledge-base.html — 勿手改，由 scripts/extract-inline-styles.py 生成 */
+:root{
+    --red:#C8102E;        /* 中国红 */
+    --red-deep:#8c1620;   /* 深红 */
+    --red-soft:#fbe9ea;   /* 浅红底 */
+    --gold:#86868B;       /* 暖金 */
+    --ink:#1D1D1F;        /* 正文 */
+    --gray:#6E6E73;       /* 次要 */
+    --line:#D2D2D7;
+    --bg:#FFFFFF;
+    --card:#ffffff;
+    --blue:#2f6f9f;       /* 敌人/对立色 */
+    --green:#3f7a4f;      /* 游击队/希望 */
+    --shadow:0 1px 3px rgba(0,0,0,.06);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:"Noto Sans SC","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--ink);line-height:1.75;font-size:16px}
+  .page-head{background:var(--white);color:var(--ink);padding:120px 24px 44px;text-align:center}
+  .page-head h1{margin:0 0 8px;font-size:clamp(22px,5vw,34px);letter-spacing:2px}
+  .page-head p{margin:4px 0;opacity:.92;font-size:14px}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px 84px}
+  .pagenav{position:sticky;top:48px;z-index:30;background:rgba(255,255,255,.92);backdrop-filter:blur(6px);padding:8px 12px;display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+  .pagenav a{font-size:13px;color:var(--gray-nav);text-decoration:none;padding:5px 10px;border-radius:20px;white-space:nowrap}
+  nav a:hover{background:var(--red-soft)}
+  section{margin:54px 0;scroll-margin-top:54px}
+  h2{font-size:30px;font-weight:600;color:var(--ink);letter-spacing:-0.02em;line-height:1.3;margin:40px 0 16px}
+  h3{font-size:18px;color:var(--ink);margin:22px 0 8px;font-weight:600}
+  .sub{color:var(--gray);font-size:14px;margin:0 0 20px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px 24px;box-shadow:var(--shadow)}
+  .grid{display:grid;gap:20px}
+  .g2{grid-template-columns:repeat(2,1fr)}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .g4{grid-template-columns:repeat(4,1fr)}
+  @media(max-width:860px){.g2,.g3,.g4{grid-template-columns:1fr}}
+  .pill{display:inline-block;font-size:12px;padding:2px 10px;border-radius:12px;background:var(--red-soft);color:var(--red-deep);margin:2px}
+  .hero{display:flex;gap:18px;flex-wrap:wrap;align-items:center}
+  .hero .meta{flex:1;min-width:240px}
+  .kv{display:grid;grid-template-columns:96px 1fr;gap:4px 12px;font-size:14.5px}
+  .kv b{color:var(--red-deep)}
+  /* 目标卡片 */
+  .obj{border-top:4px solid var(--red);border-radius:10px}
+  .obj h4{margin:6px 0 4px;color:var(--red)}
+  .obj .tag{font-size:12px;color:#fff;background:var(--red);border-radius:6px;padding:1px 8px}
+  /* 课时时间轴 */
+  .lesson{display:flex;gap:14px;padding:10px 0;border-bottom:1px dashed var(--line)}
+  .lesson .no{background:var(--red);color:#fff;border-radius:50%;width:34px;height:34px;flex:0 0 34px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px}
+  .lesson .lt{flex:1}
+  .lesson .lt b{color:var(--red-deep)}
+  /* 钻石链 */
+  .chain{display:flex;flex-direction:column;gap:0}
+  .lvl{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;border-radius:10px;margin:6px 0;background:#fff;border:1px solid var(--line)}
+  .lvl .badge{flex:0 0 64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;text-align:center;font-size:13px;line-height:1.2}
+  .lvl .body{flex:1}
+  .lvl .body .q{font-weight:600;color:var(--ink)}
+  .lvl .body .meta{font-size:13px;color:var(--gray)}
+  /* 人物筛选 */
+  .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+  .filters button{border:1px solid var(--red);background:#fff;color:var(--red-deep);padding:6px 14px;border-radius:20px;cursor:pointer;font-size:13px}
+  .filters button.on{background:var(--red);color:#fff}
+  .pcard{border-radius:12px;border:1px solid var(--line);overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column}
+  .pcard .top{padding:12px 14px;color:#fff}
+  .pcard .top .nm{font-size:18px;font-weight:700}
+  .pcard .top .rl{font-size:12px;opacity:.92}
+  .pcard .body{padding:12px 14px;font-size:13.5px;flex:1}
+  .pcard .body p{margin:5px 0}
+  .pcard .body .k{color:var(--red-deep);font-weight:600}
+  .c-hero{background:var(--red)}
+  .c-trait{background:#7a4a8c}
+  .c-enemy{background:var(--blue)}
+  .c-youth{background:var(--green)}
+  .c-history{background:#9a6b2f}
+  /* 关系图/地图 SVG */
+  .svgbox{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px;box-shadow:var(--shadow);overflow-x:auto}
+  .svgbox svg{max-width:100%;height:auto;display:block;margin:0 auto}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--gray);margin:8px 0 0}
+  .legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:middle}
+  /* 地点 */
+  .place{border-left:4px solid var(--red)}
+  .place h4{margin:0 0 4px;color:var(--red-deep)}
+  /* 引用 */
+  blockquote{margin:10px 0;padding:10px 16px;background:var(--red-soft);border-left:4px solid var(--red);border-radius:0 8px 8px 0;font-size:14.5px;color:var(--red-deep)}
+  
+  
+  
+  ul.tight{margin:6px 0;padding-left:20px}
+  ul.tight li{margin:4px 0}
+  .twocol{columns:2;column-gap:22px}
+  @media(max-width:720px){.twocol{columns:1}}
+  details{margin:8px 0;background:#fff;border:1px solid var(--line);border-radius:10px;padding:6px 14px}
+  summary{cursor:pointer;font-weight:600;color:var(--red-deep);padding:6px 0}

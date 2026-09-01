@@ -1,0 +1,4 @@
+/* quiz 结果行动态注入（innerHTML）所用样式 — 非自动生成，手工维护
+   对应原 <script> 模板串中的 style="color:..."，为 CSP style-src 'self' 抽出为 class */
+.s-grn{color:var(--grn)}
+.s-err{color:#b3243a}

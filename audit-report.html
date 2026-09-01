@@ -4,30 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>红色文化网站 · 代码审计报告</title>
-<style>
-  :root{--bg:#f5f6f8;--card:#fff;--ink:#1f2329;--muted:#5b6470;--line:#e6e8ec;--red:#d4380d;--orange:#d46b08;--green:#237804;--blue:#0958d9;}
-  *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;}
-  .wrap{max-width:920px;margin:0 auto;padding:32px 20px 64px;}
-  h1{font-size:24px;margin:0 0 4px}
-  .sub{color:var(--muted);margin:0 0 24px;font-size:13px}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin:16px 0;box-shadow:0 1px 2px rgba(0,0,0,.03)}
-  h2{font-size:17px;margin:0 0 12px;display:flex;align-items:center;gap:8px}
-  .tag{font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px;color:#fff}
-  .t-red{background:var(--red)} .t-orange{background:var(--orange)} .t-green{background:var(--green)} .t-blue{background:var(--blue)}
-  table{width:100%;border-collapse:collapse;font-size:13.5px}
-  th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
-  th{color:var(--muted);font-weight:600;background:#fafbfc}
-  code{background:#f0f2f5;padding:1px 5px;border-radius:4px;font-size:12.5px}
-  .sev{font-weight:700}
-  .sev-crit{color:var(--red)} .sev-high{color:var(--orange)} .sev-mid{color:var(--blue)} .sev-low{color:var(--muted)}
-  ul{margin:8px 0;padding-left:20px} li{margin:4px 0}
-  .ok{color:var(--green);font-weight:600}
-  .meta{display:flex;gap:18px;flex-wrap:wrap;color:var(--muted);font-size:12.5px;margin-top:8px}
-</style>
+
   <link rel="preload" as="font" type="font/woff2" href="assets/fonts/noto-sans-sc-400.woff2?v=20260901a" crossorigin>
   <link rel="stylesheet" href="assets/fonts/fonts.css?v=20260901a">
-</head>
+<link rel="stylesheet" href="assets/css/audit-report.css?v=20260901c"><link rel="stylesheet" href="assets/css/inline-attrs.css?v=20260901c"></head>
 <body>
 <div class="wrap">
   <h1>红色文化网站 · 代码审计报告</h1>
@@ -45,7 +25,7 @@
   <div class="card">
     <h2>✅ 本次已修复（3 项）</h2>
     <table>
-      <tr><th style="width:8%">级别</th><th style="width:20%">问题</th><th>修复</th></tr>
+      <tr><th class="s-22f61117">>级别</th><th class="s-10082952">>问题</th><th>修复</th></tr>
       <tr>
         <td><span class="sev sev-high">高</span></td>
         <td>account-ui.js 监听泄漏</td>
@@ -67,7 +47,7 @@
   <div class="card">
     <h2>🟡 待处理（非阻断，4 项）</h2>
     <table>
-      <tr><th style="width:8%">级别</th><th style="width:22%">问题</th><th>说明与建议</th></tr>
+      <tr><th class="s-22f61117">>级别</th><th class="s-b94aef74">>问题</th><th>说明与建议</th></tr>
       <tr>
         <td><span class="sev sev-mid">中</span></td>
         <td>quiz-bank.js 孤儿文件</td>
@@ -102,7 +82,7 @@
       <tr><td>子页（hongxing-quiz.html）经 cloud-lazy 加载</td><td class="ok">✓ 零报错，登录态延续</td></tr>
       <tr><td>AI 助手（遵义会议意义）→ 接地回答</td><td class="ok">✓ 返回正确史实答案</td></tr>
     </table>
-    <p style="color:var(--muted);font-size:12.5px;margin-bottom:0">注：RCAI.ask 为"渲染型"接口（结果写入聊天 DOM，本身返回 undefined），验证时读取渲染后的答案文本，<b>非接口回归</b>。</p>
+    <p class="s-4f22d0f5">>注：RCAI.ask 为"渲染型"接口（结果写入聊天 DOM，本身返回 undefined），验证时读取渲染后的答案文本，<b>非接口回归</b>。</p>
   </div>
 
   <div class="card">

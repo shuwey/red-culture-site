@@ -3,64 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="nav-embed.css?v=20260831h">
+<link rel="stylesheet" href="nav-embed.css?v=20260831h"><link rel="stylesheet" href="assets/css/hongyan-quiz.css?v=20260901c"><link rel="stylesheet" href="assets/css/quiz-result.css?v=20260901c">
 <title>《红岩》阅读题库</title>
-<style>
-:root{
-  --red:#C8102E; --red-d:#A80D27; --bg:#FFFFFF; --card:#ffffff;
-  --ink:#1D1D1F; --mut:#6E6E73; --line:#D2D2D7; --grn:#1f8a4c; --amb:#c9821a;
-}
-*{box-sizing:border-box}
-body{margin:0;font-family:"Noto Sans SC","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
-  background:var(--bg);color:var(--ink);line-height:1.7;-webkit-text-size-adjust:100%}
-.page-head{background:var(--white);color:var(--ink);padding:96px 24px 32px;text-align:center}
-.page-head h1{margin:0 0 4px;font-size:22px;letter-spacing:1px}
-.page-head .sub{font-size:13px;opacity:.92;max-width:880px}
-.wrap{max-width:960px;margin:0 auto;padding:14px}
-.stats{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}
-.stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;flex:1;min-width:120px}
-.stat b{display:block;font-size:20px;color:var(--red)}
-.stat span{font-size:12px;color:var(--mut)}
-.toolbar{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:14px;
-  display:flex;flex-wrap:wrap;gap:10px;align-items:center}
-.toolbar label{font-size:13px;color:var(--mut);margin-right:2px}
-select,.btn{font:inherit;font-size:13px;padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);cursor:pointer}
-.btn.primary{background:var(--red);color:#fff;border-color:var(--red)}
-.btn.ghost{background:#fff}
-.chk{display:inline-flex;align-items:center;gap:5px;font-size:13px;color:var(--mut);cursor:pointer;user-select:none}
-.qcard{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 15px;margin-bottom:12px;
-  box-shadow:0 1px 2px rgba(150,20,40,.04)}
-.qhead{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;align-items:center}
-.tag{font-size:11px;padding:2px 8px;border-radius:20px;background:#FBE9EA;color:var(--red);border:1px solid #F0C9CF}
-.tag.t{background:#eef4ff;color:#2b5fb0;border-color:#cfe0ff}
-.tag.d1{background:#eafaf0;color:var(--grn);border-color:#c7ecd3}
-.tag.d2{background:#fff4e3;color:var(--amb);border-color:#f4dcb4}
-.tag.d3{background:#fdeaea;color:#b3243a;border-color:#f3c4c4}
-.qno{font-size:12px;color:var(--mut);margin-left:auto}
-.stem{font-size:15px;margin:4px 0 10px;font-weight:600}
-.stem .blank{display:inline-block;min-width:70px;border-bottom:2px dotted var(--red);color:var(--red)}
-.opts{display:flex;flex-direction:column;gap:7px;margin:6px 0}
-.opt{text-align:left;font:inherit;font-size:14px;padding:9px 12px;border:1px solid var(--line);border-radius:9px;background:#fffdfc;cursor:pointer;transition:.12s}
-.opt:hover{border-color:#e7a99c}
-.opt.sel{border-color:var(--red);background:#fff2ef}
-.opt.right{background:#eafaf0;border-color:var(--grn);color:#15633a}
-.opt.wrong{background:#fdeaea;border-color:#d9534f;color:#9b1c1c}
-.opt.miss{background:#fff7e6;border-color:var(--amb);color:#8a5a00}
-.fillin{width:100%;max-width:420px;font:inherit;font-size:14px;padding:9px 12px;border:1px solid var(--line);border-radius:9px;margin:4px 0}
-.submit,.reveal{margin-top:6px;font:inherit;font-size:13px;padding:8px 16px;border-radius:9px;border:1px solid var(--red);background:var(--red);color:#fff;cursor:pointer}
-.reveal{background:#fff;color:var(--red)}
-.fb{margin-top:10px;padding:10px 12px;border-radius:9px;background:#fbf3f0;border:1px solid #f1d8cf;font-size:13.5px;display:none}
-.fb.show{display:block}
-.fb .res{font-weight:700;margin-bottom:4px}
-.fb .ans{color:var(--red);margin:4px 0}
-.fb .an{color:var(--ink)}
-.fb.ok{border-color:#c7ecd3;background:#f1faf4}
-.fb.no{border-color:#f3c4c4;background:#fdeeee}
-.fb .ref{margin-top:8px;padding:8px 10px;background:#fff7e6;border:1px solid #f4dcb4;border-radius:8px;color:#8a5a00;font-size:13px;line-height:1.65}
-.empty{text-align:center;color:var(--mut);padding:40px 0}
 
-@media(max-width:560px){.page-head h1{font-size:19px}.stat{min-width:45%}}
-</style>
 <link rel="stylesheet" href="ai-assistant.css?v=20260829ae">
   <link rel="preload" as="font" type="font/woff2" href="assets/fonts/noto-sans-sc-400.woff2?v=20260901a" crossorigin>
   <link rel="stylesheet" href="assets/fonts/fonts.css?v=20260901a">
@@ -238,7 +183,7 @@ function grade(q,cardEl){
     ansText="正确答案："+(q.answer?"正确":"错误");
   }
   answered[q.id]=ok;saveStore();
-  const res=ok?'<div class="res" style="color:var(--grn)">✓ 回答正确</div>':'<div class="res" style="color:#b3243a">✗ 回答错误</div>';
+  const res=ok?'<div class="res s-grn">✓ 回答正确</div>':'<div class="res s-err">✗ 回答错误</div>';
   fb.innerHTML=res+'<div class="ans">'+ansText+'</div><div class="an"><b>解析：</b>'+esc(q.analysis)+'</div>'+(q.ref?'<div class="ref"><b>回书指引：</b>'+esc(q.ref)+'</div>':'');
   fb.className="fb show "+(ok?"ok":"no");
   cardEl.dataset.done="1";

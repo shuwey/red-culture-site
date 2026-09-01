@@ -3,100 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="nav-embed.css?v=20260831h">
+<link rel="stylesheet" href="nav-embed.css?v=20260831h"><link rel="stylesheet" href="assets/css/inline-attrs.css?v=20260901c"><link rel="stylesheet" href="assets/css/hongyan-knowledge-base.css?v=20260901c">
 <title>《红岩》整本书阅读 · 知识库与学习资源</title>
-<style>
-  :root{
-    --red:#C8102E;        /* 中国红 */
-    --red-deep:#8c1620;   /* 深红 */
-    --red-soft:#fbe9ea;   /* 浅红底 */
-    --gold:#86868B;       /* 暖金 */
-    --ink:#1D1D1F;        /* 正文 */
-    --gray:#6E6E73;       /* 次要 */
-    --line:#D2D2D7;
-    --bg:#FFFFFF;
-    --card:#ffffff;
-    --blue:#2f6f9f;       /* 敌人/对立色 */
-    --green:#3f7a4f;      /* 游击队/希望 */
-    --shadow:0 1px 3px rgba(0,0,0,.06);
-  }
-  *{box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  body{margin:0;font-family:"Noto Sans SC","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--ink);line-height:1.75;font-size:16px}
-  .page-head{background:var(--white);color:var(--ink);padding:120px 24px 44px;text-align:center}
-  .page-head h1{margin:0 0 8px;font-size:clamp(22px,5vw,34px);letter-spacing:2px}
-  .page-head p{margin:4px 0;opacity:.92;font-size:14px}
-  .wrap{max-width:1080px;margin:0 auto;padding:0 24px 84px}
-  .pagenav{position:sticky;top:48px;z-index:30;background:rgba(255,255,255,.92);backdrop-filter:blur(6px);padding:8px 12px;display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
-  .pagenav a{font-size:13px;color:var(--gray-nav);text-decoration:none;padding:5px 10px;border-radius:20px;white-space:nowrap}
-  nav a:hover{background:var(--red-soft)}
-  section{margin:54px 0;scroll-margin-top:54px}
-  h2{font-size:30px;font-weight:600;color:var(--ink);letter-spacing:-0.02em;line-height:1.3;margin:40px 0 16px}
-  h3{font-size:18px;color:var(--ink);margin:22px 0 8px;font-weight:600}
-  .sub{color:var(--gray);font-size:14px;margin:0 0 20px}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px 24px;box-shadow:var(--shadow)}
-  .grid{display:grid;gap:20px}
-  .g2{grid-template-columns:repeat(2,1fr)}
-  .g3{grid-template-columns:repeat(3,1fr)}
-  .g4{grid-template-columns:repeat(4,1fr)}
-  @media(max-width:860px){.g2,.g3,.g4{grid-template-columns:1fr}}
-  .pill{display:inline-block;font-size:12px;padding:2px 10px;border-radius:12px;background:var(--red-soft);color:var(--red-deep);margin:2px}
-  .hero{display:flex;gap:18px;flex-wrap:wrap;align-items:center}
-  .hero .meta{flex:1;min-width:240px}
-  .kv{display:grid;grid-template-columns:96px 1fr;gap:4px 12px;font-size:14.5px}
-  .kv b{color:var(--red-deep)}
-  /* 目标卡片 */
-  .obj{border-top:4px solid var(--red);border-radius:10px}
-  .obj h4{margin:6px 0 4px;color:var(--red)}
-  .obj .tag{font-size:12px;color:#fff;background:var(--red);border-radius:6px;padding:1px 8px}
-  /* 课时时间轴 */
-  .lesson{display:flex;gap:14px;padding:10px 0;border-bottom:1px dashed var(--line)}
-  .lesson .no{background:var(--red);color:#fff;border-radius:50%;width:34px;height:34px;flex:0 0 34px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px}
-  .lesson .lt{flex:1}
-  .lesson .lt b{color:var(--red-deep)}
-  /* 钻石链 */
-  .chain{display:flex;flex-direction:column;gap:0}
-  .lvl{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;border-radius:10px;margin:6px 0;background:#fff;border:1px solid var(--line)}
-  .lvl .badge{flex:0 0 64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;text-align:center;font-size:13px;line-height:1.2}
-  .lvl .body{flex:1}
-  .lvl .body .q{font-weight:600;color:var(--ink)}
-  .lvl .body .meta{font-size:13px;color:var(--gray)}
-  /* 人物筛选 */
-  .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
-  .filters button{border:1px solid var(--red);background:#fff;color:var(--red-deep);padding:6px 14px;border-radius:20px;cursor:pointer;font-size:13px}
-  .filters button.on{background:var(--red);color:#fff}
-  .pcard{border-radius:12px;border:1px solid var(--line);overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column}
-  .pcard .top{padding:12px 14px;color:#fff}
-  .pcard .top .nm{font-size:18px;font-weight:700}
-  .pcard .top .rl{font-size:12px;opacity:.92}
-  .pcard .body{padding:12px 14px;font-size:13.5px;flex:1}
-  .pcard .body p{margin:5px 0}
-  .pcard .body .k{color:var(--red-deep);font-weight:600}
-  .c-hero{background:var(--red)}
-  .c-trait{background:#7a4a8c}
-  .c-enemy{background:var(--blue)}
-  .c-youth{background:var(--green)}
-  .c-history{background:#9a6b2f}
-  /* 关系图/地图 SVG */
-  .svgbox{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px;box-shadow:var(--shadow);overflow-x:auto}
-  .svgbox svg{max-width:100%;height:auto;display:block;margin:0 auto}
-  .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--gray);margin:8px 0 0}
-  .legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:middle}
-  /* 地点 */
-  .place{border-left:4px solid var(--red)}
-  .place h4{margin:0 0 4px;color:var(--red-deep)}
-  /* 引用 */
-  blockquote{margin:10px 0;padding:10px 16px;background:var(--red-soft);border-left:4px solid var(--red);border-radius:0 8px 8px 0;font-size:14.5px;color:var(--red-deep)}
-  
-  
-  
-  ul.tight{margin:6px 0;padding-left:20px}
-  ul.tight li{margin:4px 0}
-  .twocol{columns:2;column-gap:22px}
-  @media(max-width:720px){.twocol{columns:1}}
-  details{margin:8px 0;background:#fff;border:1px solid var(--line);border-radius:10px;padding:6px 14px}
-  summary{cursor:pointer;font-weight:600;color:var(--red-deep);padding:6px 0}
-</style>
+
 <link rel="stylesheet" href="ai-assistant.css?v=20260829ae">
   <link rel="preload" as="font" type="font/woff2" href="assets/fonts/noto-sans-sc-400.woff2?v=20260901a" crossorigin>
   <link rel="stylesheet" href="assets/fonts/fonts.css?v=20260901a">
@@ -170,8 +79,8 @@
       </div>
     </div>
   </div>
-  <div class="card" style="margin-top:14px">
-    <h3 style="margin-top:4px">成书脉络（从亲历到经典）</h3>
+  <div class="card" class="s-553a645f">>
+    <h3 class="s-a18ac805">>成书脉络（从亲历到经典）</h3>
     <ul class="tight">
       <li>作者罗广斌、杨益言均为重庆集中营（渣滓洞、白公馆）幸存者：1948年先后被捕，重庆解放前夕罗广斌成功越狱、杨益言被营救出狱。</li>
       <li>1950年报告体文章《圣洁的血花》→ 1959年革命回忆录《在烈火中永生》→ 长篇小说《红岩》（1961年1月定名）。</li>
@@ -189,25 +98,25 @@
     <div class="card obj">
       <span class="tag">语言</span>
       <h4>语言建构与运用</h4>
-      <p style="font-size:14px">梳理全书情节与人物关系，积累革命历史题材语汇；运用思维导图、人物卡片等方法整理全书；<b>撰写</b>人物小传与读后感。</p>
+      <p class="s-0cf08eb5">>梳理全书情节与人物关系，积累革命历史题材语汇；运用思维导图、人物卡片等方法整理全书；<b>撰写</b>人物小传与读后感。</p>
     </div>
     <div class="card obj">
       <span class="tag">思维</span>
       <h4>思维发展与提升</h4>
-      <p style="font-size:14px">以"人物—地点—事件"三维梳理把握复杂叙事结构；<b>比较</b>文学形象与历史原型，<b>辨析</b>"文学真实"与"历史真实"，发展批判性思维。</p>
+      <p class="s-0cf08eb5">>以"人物—地点—事件"三维梳理把握复杂叙事结构；<b>比较</b>文学形象与历史原型，<b>辨析</b>"文学真实"与"历史真实"，发展批判性思维。</p>
     </div>
     <div class="card obj">
       <span class="tag">审美</span>
       <h4>审美鉴赏与创造</h4>
-      <p style="font-size:14px"><b>赏析</b>江姐、许云峰等英雄群像的塑造手法（细节、对比、象征）；品味"红岩""红梅"意象；<b>朗诵</b>精彩片段、尝试改编。</p>
+      <p class="s-0cf08eb5">><b>赏析</b>江姐、许云峰等英雄群像的塑造手法（细节、对比、象征）；品味"红岩""红梅"意象；<b>朗诵</b>精彩片段、尝试改编。</p>
     </div>
     <div class="card obj">
       <span class="tag">文化</span>
       <h4>文化传承与理解</h4>
-      <p style="font-size:14px">理解"红岩精神"（崇高理想、坚定信念、浩然正气、英勇无畏、团结奋斗）；认识革命传统，增强文化自信与家国情怀。</p>
+      <p class="s-0cf08eb5">>理解"红岩精神"（崇高理想、坚定信念、浩然正气、英勇无畏、团结奋斗）；认识革命传统，增强文化自信与家国情怀。</p>
     </div>
   </div>
-  <div class="note" style="margin-top:14px">
+  <div class="note" class="s-553a645f">>
     <b>教—学—评一致性：</b>目标→活动→评价对应。人物卡片 / 关系图（评价"梳理与概括"）；"文学 vs 历史"辨析讨论（评价"思维发展"）；片段朗诵与读后感（评价"审美与文化"）；专题探究报告与课堂理答表现（过程性评价）。行为动词（梳理·概括·比较·辨析·撰写·赏析·朗诵）均可观察、可测量。
   </div>
 </section>
@@ -217,15 +126,15 @@
   <h2>三、教学环节设计（域①③·整本书阅读 7 课时）</h2>
   <p class="sub">采用"读前导读—读中专题—读后展示"的整本书阅读结构。重点：人物群像与红岩精神；难点：文学虚构与历史真实的关系辨析。</p>
   <div class="card">
-    <div class="lesson"><div class="no">1</div><div class="lt"><b>读前·导读激趣（1课时）</b><br>观看红岩革命历史博物馆影像、江姐事迹；抛出核心问题"什么是红岩精神"；共同制定阅读计划（按30章分周，明确精读/略读篇目）。<br><span class="meta" style="color:var(--gray);font-size:13px">意图：激发动机，建立阅读共同体，落实"制订阅读计划"。</span></div></div>
-    <div class="lesson"><div class="no">2</div><div class="lt"><b>读中·人物图谱（2课时）</b><br>按"英雄群像 / 叛徒 / 敌人 / 少年"分类，制作人物卡片（姓名·原型·身份·关键事件·精神品质）；绘制人物关系图（见"关系图"模块）。<br><span class="meta" style="color:var(--gray);font-size:13px">意图：突破人物众多难点，建立系统认知。</span></div></div>
-    <div class="lesson"><div class="no">3</div><div class="lt"><b>读中·空间与事件（2课时）</b><br>梳理地点（渣滓洞/白公馆/华蓥山/磁器口）的空间意义；梳理事件时间轴（1948地下斗争→1949.10开国→11·27大屠杀→11.30解放）。<br><span class="meta" style="color:var(--gray);font-size:13px">意图：把握叙事结构，理解"黎明前黑暗"的历史背景。</span></div></div>
-    <div class="lesson"><div class="no">4</div><div class="lt"><b>读中·主题探究（1课时）</b><br>聚焦江姐受刑、许云峰挖地道、小萝卜头、越狱等核心片段，讨论"信仰的力量"与"红岩精神"的当代意义。<br><span class="meta" style="color:var(--gray);font-size:13px">意图：深化主题，落实审美与文化素养。</span></div></div>
-    <div class="lesson"><div class="no">5</div><div class="lt"><b>读后·展示评价（1课时）</b><br>人物小传展、红色故事会、读后感分享、跨媒介展示（本知识库网页）；开展专题探究评价。<br><span class="meta" style="color:var(--gray);font-size:13px">意图：分享交流，多元评价，迁移运用。</span></div></div>
+    <div class="lesson"><div class="no">1</div><div class="lt"><b>读前·导读激趣（1课时）</b><br>观看红岩革命历史博物馆影像、江姐事迹；抛出核心问题"什么是红岩精神"；共同制定阅读计划（按30章分周，明确精读/略读篇目）。<br><span class="meta" class="s-3ff05674">>意图：激发动机，建立阅读共同体，落实"制订阅读计划"。</span></div></div>
+    <div class="lesson"><div class="no">2</div><div class="lt"><b>读中·人物图谱（2课时）</b><br>按"英雄群像 / 叛徒 / 敌人 / 少年"分类，制作人物卡片（姓名·原型·身份·关键事件·精神品质）；绘制人物关系图（见"关系图"模块）。<br><span class="meta" class="s-3ff05674">>意图：突破人物众多难点，建立系统认知。</span></div></div>
+    <div class="lesson"><div class="no">3</div><div class="lt"><b>读中·空间与事件（2课时）</b><br>梳理地点（渣滓洞/白公馆/华蓥山/磁器口）的空间意义；梳理事件时间轴（1948地下斗争→1949.10开国→11·27大屠杀→11.30解放）。<br><span class="meta" class="s-3ff05674">>意图：把握叙事结构，理解"黎明前黑暗"的历史背景。</span></div></div>
+    <div class="lesson"><div class="no">4</div><div class="lt"><b>读中·主题探究（1课时）</b><br>聚焦江姐受刑、许云峰挖地道、小萝卜头、越狱等核心片段，讨论"信仰的力量"与"红岩精神"的当代意义。<br><span class="meta" class="s-3ff05674">>意图：深化主题，落实审美与文化素养。</span></div></div>
+    <div class="lesson"><div class="no">5</div><div class="lt"><b>读后·展示评价（1课时）</b><br>人物小传展、红色故事会、读后感分享、跨媒介展示（本知识库网页）；开展专题探究评价。<br><span class="meta" class="s-3ff05674">>意图：分享交流，多元评价，迁移运用。</span></div></div>
   </div>
-  <div class="card" style="margin-top:14px">
-    <h3 style="margin-top:4px">板书设计（提纲式）</h3>
-    <p style="font-size:15px"><b>《红岩》</b> = 人物（英雄群像）× 空间（牢狱集中营）× 事件（狱中斗争） → 红岩精神（信仰·气节·团结·牺牲）</p>
+  <div class="card" class="s-553a645f">>
+    <h3 class="s-a18ac805">>板书设计（提纲式）</h3>
+    <p class="s-3dd9b4c5">><b>《红岩》</b> = 人物（英雄群像）× 空间（牢狱集中营）× 事件（狱中斗争） → 红岩精神（信仰·气节·团结·牺牲）</p>
   </div>
 </section>
 
@@ -234,13 +143,13 @@
   <h2>四、课堂提问设计（域⑦·钻石链五级问题链）</h2>
   <p class="sub">"一课一魂"核心问题：<b>在"黎明前最黑暗"的牢狱里，是什么支撑着革命者面对酷刑与死亡仍坚守信仰？</b></p>
   <div class="chain">
-    <div class="lvl"><div class="badge" style="background:var(--red)">L1<br>记忆</div><div class="body"><div class="q">《红岩》的作者是谁？故事发生在什么时间、什么地点背景下？</div><div class="meta">定位基本信息，为深入阅读奠基。</div></div></div>
-    <div class="lvl"><div class="badge" style="background:#d2453f">L2<br>理解</div><div class="body"><div class="q">江姐面对"竹签钉十指"的酷刑，为什么能"脸不变色，心不跳"？</div><div class="meta">追问：她在城头看到丈夫头颅时内心经历了什么？怎样把"小家"融入"大家"？</div></div></div>
-    <div class="lvl"><div class="badge" style="background:#e07a2f">L3<br>分析</div><div class="body"><div class="q">比较许云峰、成岗、刘思扬的出身与性格差异——作者为何塑造不同出身的革命者？</div><div class="meta">引导发现"英雄群像"的多元性与代表性。</div></div></div>
-    <div class="lvl"><div class="badge" style="background:#caa24a">L4<br>评价</div><div class="body"><div class="q">小说把甫志高写成叛徒、把徐鹏飞写得复杂而非脸谱化，这样写有什么好处？</div><div class="meta">评价人物塑造艺术与"反衬"手法。</div></div></div>
-    <div class="lvl"><div class="badge" style="background:var(--green)">L5<br>创造</div><div class="body"><div class="q">今天不再有酷刑与战争，"红岩精神"对当代青少年成长有何现实意义？你会如何用行动传承？</div><div class="meta">迁移到生活与价值选择，落实文化自信。</div></div></div>
+    <div class="lvl"><div class="badge" class="s-3fb6847d">>L1<br>记忆</div><div class="body"><div class="q">《红岩》的作者是谁？故事发生在什么时间、什么地点背景下？</div><div class="meta">定位基本信息，为深入阅读奠基。</div></div></div>
+    <div class="lvl"><div class="badge" class="s-cce56888">>L2<br>理解</div><div class="body"><div class="q">江姐面对"竹签钉十指"的酷刑，为什么能"脸不变色，心不跳"？</div><div class="meta">追问：她在城头看到丈夫头颅时内心经历了什么？怎样把"小家"融入"大家"？</div></div></div>
+    <div class="lvl"><div class="badge" class="s-62f901c5">>L3<br>分析</div><div class="body"><div class="q">比较许云峰、成岗、刘思扬的出身与性格差异——作者为何塑造不同出身的革命者？</div><div class="meta">引导发现"英雄群像"的多元性与代表性。</div></div></div>
+    <div class="lvl"><div class="badge" class="s-c8052b7c">>L4<br>评价</div><div class="body"><div class="q">小说把甫志高写成叛徒、把徐鹏飞写得复杂而非脸谱化，这样写有什么好处？</div><div class="meta">评价人物塑造艺术与"反衬"手法。</div></div></div>
+    <div class="lvl"><div class="badge" class="s-39392e54">>L5<br>创造</div><div class="body"><div class="q">今天不再有酷刑与战争，"红岩精神"对当代青少年成长有何现实意义？你会如何用行动传承？</div><div class="meta">迁移到生活与价值选择，落实文化自信。</div></div></div>
   </div>
-  <div class="note" style="margin-top:14px">
+  <div class="note" class="s-553a645f">>
     <b>理答策略（四象限）：</b>回答正确→追问深化；部分正确→补充纠偏；错误→引导归因而非否定；沉默→降维追问（先问"江姐做了什么"再问"为什么"）。<b>六型追问</b>可围绕"行为—动机—矛盾—对比—后果—价值"展开，避免"是不是""对不对"式封闭提问。
   </div>
 </section>
@@ -311,11 +220,11 @@
     </svg>
   </div>
   <div class="legend">
-    <span><i style="background:#C8102E"></i>革命者</span>
-    <span><i style="background:#7a4a8c"></i>叛徒</span>
-    <span><i style="background:#2f6f9f"></i>敌特</span>
-    <span><i style="background:#3f7a4f"></i>游击队</span>
-    <span><i style="background:#caa24a"></i>解放</span>
+    <span><i class="s-057d5b61">></i>革命者</span>
+    <span><i class="s-16e810db">></i>叛徒</span>
+    <span><i class="s-a71b269e">></i>敌特</span>
+    <span><i class="s-59f1a1c7">></i>游击队</span>
+    <span><i class="s-c8052b7c">></i>解放</span>
   </div>
 </section>
 
@@ -324,14 +233,14 @@
   <h2>七、地点空间（文字 + 示意图）</h2>
   <p class="sub">空间即叙事：集中营是禁锢与斗争的舞台，华蓥山是自由与希望的根据地，城市节点串联起地下斗争的暗线。</p>
   <div class="grid g2">
-    <div class="card place"><h4>渣滓洞</h4><p style="font-size:14px">原为人工小煤窑（渣多煤少得名）。1943年被军统强占设看守所，分内外两院（男牢16间、女牢2间），最多关押近300人。江竹筠、李青林、杨汉秀、蔡梦慰等曾关押于此。<b>1949.11.27</b>夜遭大屠杀，180余人殉难，仅15人脱险。</p></div>
-    <div class="card place"><h4>白公馆（香山别墅）</h4><p style="font-size:14px">原为四川军阀白驹别墅。1939年军统改为看守所。关押过小萝卜头宋振中、陈然、刘国鋕、许晓轩等。<b>1949.11.27</b>近30人殉难，20人脱险（罗广斌即在其中）。华子良在此长期装疯。</p></div>
-    <div class="card place"><h4>华蓥山</h4><p style="font-size:14px">川北/川东游击根据地，双枪老太婆率领的华蓥山游击队活动地，是小说中"山外自由世界"与武装斗争的象征，与狱内外线呼应。</p></div>
-    <div class="card place"><h4>磁器口</h4><p style="font-size:14px">沙坪坝古镇。小说中特务让装疯的华子良到此"买菜"，成为他与外界联络、传递情报的节点。</p></div>
-    <div class="card place"><h4>歌乐山</h4><p style="font-size:14px">重庆西北郊，集中营所在地。今为歌乐山烈士陵园、红岩魂广场，纪念"11·27"殉难烈士。</p></div>
-    <div class="card place"><h4>沙坪书店 / 朝天门</h4><p style="font-size:14px">沙坪书店是甫志高擅自设立的地下联络站（虚构情节关键）。朝天门为江姐赴华蓥山乘船处（小说描写；史实考据指出当时嘉陵江轮船多在千厮门上下）。</p></div>
+    <div class="card place"><h4>渣滓洞</h4><p class="s-0cf08eb5">>原为人工小煤窑（渣多煤少得名）。1943年被军统强占设看守所，分内外两院（男牢16间、女牢2间），最多关押近300人。江竹筠、李青林、杨汉秀、蔡梦慰等曾关押于此。<b>1949.11.27</b>夜遭大屠杀，180余人殉难，仅15人脱险。</p></div>
+    <div class="card place"><h4>白公馆（香山别墅）</h4><p class="s-0cf08eb5">>原为四川军阀白驹别墅。1939年军统改为看守所。关押过小萝卜头宋振中、陈然、刘国鋕、许晓轩等。<b>1949.11.27</b>近30人殉难，20人脱险（罗广斌即在其中）。华子良在此长期装疯。</p></div>
+    <div class="card place"><h4>华蓥山</h4><p class="s-0cf08eb5">>川北/川东游击根据地，双枪老太婆率领的华蓥山游击队活动地，是小说中"山外自由世界"与武装斗争的象征，与狱内外线呼应。</p></div>
+    <div class="card place"><h4>磁器口</h4><p class="s-0cf08eb5">>沙坪坝古镇。小说中特务让装疯的华子良到此"买菜"，成为他与外界联络、传递情报的节点。</p></div>
+    <div class="card place"><h4>歌乐山</h4><p class="s-0cf08eb5">>重庆西北郊，集中营所在地。今为歌乐山烈士陵园、红岩魂广场，纪念"11·27"殉难烈士。</p></div>
+    <div class="card place"><h4>沙坪书店 / 朝天门</h4><p class="s-0cf08eb5">>沙坪书店是甫志高擅自设立的地下联络站（虚构情节关键）。朝天门为江姐赴华蓥山乘船处（小说描写；史实考据指出当时嘉陵江轮船多在千厮门上下）。</p></div>
   </div>
-  <div class="svgbox" style="margin-top:14px">
+  <div class="svgbox" class="s-553a645f">>
     <svg viewBox="0 0 720 320" role="img" aria-label="红岩地点空间示意图">
       <!-- 嘉陵江 -->
       <rect x="0" y="250" width="720" height="70" fill="#eaf3f8"/>
@@ -352,7 +261,7 @@
       <text x="330" y="210" font-size="11" fill="#9a6b2f">华子良联络</text>
     </svg>
   </div>
-  <div class="legend"><span><i style="background:#C8102E"></i>集中营</span><span><i style="background:#3f7a4f"></i>根据地</span><span><i style="background:#7a4a8c"></i>城市暗线</span><span><i style="background:#2f6f9f"></i>码头</span><span>（示意图，非地理精确）</span></div>
+  <div class="legend"><span><i class="s-057d5b61">></i>集中营</span><span><i class="s-59f1a1c7">></i>根据地</span><span><i class="s-16e810db">></i>城市暗线</span><span><i class="s-a71b269e">></i>码头</span><span>（示意图，非地理精确）</span></div>
 </section>
 
 <!-- ============ 事件时间轴 ============ -->
@@ -393,19 +302,19 @@
       </g>
     </svg>
   </div>
-  <p class="sub" style="margin-top:6px">小说结局：许云峰、成岗等牺牲，齐晓轩血染岩石掩护突围，华子良带解放军赶到——"隆隆炮声迎接着黎明的曙光"。</p>
+  <p class="sub" class="s-9e3c4ccb">>小说结局：许云峰、成岗等牺牲，齐晓轩血染岩石掩护突围，华子良带解放军赶到——"隆隆炮声迎接着黎明的曙光"。</p>
 </section>
 
 <!-- ============ 红岩精神 ============ -->
 <section id="spirit">
   <h2>九、红岩精神与主题</h2>
   <div class="grid g3">
-    <div class="card" style="border-top:4px solid var(--red)"><h4 style="color:var(--red);margin:2px 0">崇高理想</h4><p style="font-size:14px">"如果需要为共产主义理想而牺牲，我们每个人，都应该，也可以做到脸不变色，心不跳。"</p></div>
-    <div class="card" style="border-top:4px solid var(--red)"><h4 style="color:var(--red);margin:2px 0">坚定信念</h4><p style="font-size:14px">在酷刑与死亡面前不改其志，把个人命运融入民族解放的历史潮流。</p></div>
-    <div class="card" style="border-top:4px solid var(--red)"><h4 style="color:var(--red);margin:2px 0">浩然正气</h4><p style="font-size:14px">江姐竹签钉指、许云峰挖洞留战友、小萝卜头狱中求学——气节照亮黑暗。</p></div>
-    <div class="card" style="border-top:4px solid var(--red)"><h4 style="color:var(--red);margin:2px 0">团结奋斗</h4><p style="font-size:14px">狱中难友以歌声、绝食、越狱相互支撑，里应外合彰显集体力量。</p></div>
-    <div class="card" style="border-top:4px solid var(--red)"><h4 style="color:var(--red);margin:2px 0">无私奉献</h4><p style="font-size:14px">"为了免除下一代的苦难，我们愿把这牢底坐穿。"（何敬平《把牢底坐穿》）</p></div>
-    <div class="card" style="border-top:4px solid var(--red)"><h4 style="color:var(--red);margin:2px 0">当代意义</h4><p style="font-size:14px">从"酷刑考验"到"成长考验"，信仰、气节与责任仍是青少年精神底色。</p></div>
+    <div class="card" class="s-3a32afd2">><h4 class="s-e4cc4e06">>崇高理想</h4><p class="s-0cf08eb5">>"如果需要为共产主义理想而牺牲，我们每个人，都应该，也可以做到脸不变色，心不跳。"</p></div>
+    <div class="card" class="s-3a32afd2">><h4 class="s-e4cc4e06">>坚定信念</h4><p class="s-0cf08eb5">>在酷刑与死亡面前不改其志，把个人命运融入民族解放的历史潮流。</p></div>
+    <div class="card" class="s-3a32afd2">><h4 class="s-e4cc4e06">>浩然正气</h4><p class="s-0cf08eb5">>江姐竹签钉指、许云峰挖洞留战友、小萝卜头狱中求学——气节照亮黑暗。</p></div>
+    <div class="card" class="s-3a32afd2">><h4 class="s-e4cc4e06">>团结奋斗</h4><p class="s-0cf08eb5">>狱中难友以歌声、绝食、越狱相互支撑，里应外合彰显集体力量。</p></div>
+    <div class="card" class="s-3a32afd2">><h4 class="s-e4cc4e06">>无私奉献</h4><p class="s-0cf08eb5">>"为了免除下一代的苦难，我们愿把这牢底坐穿。"（何敬平《把牢底坐穿》）</p></div>
+    <div class="card" class="s-3a32afd2">><h4 class="s-e4cc4e06">>当代意义</h4><p class="s-0cf08eb5">>从"酷刑考验"到"成长考验"，信仰、气节与责任仍是青少年精神底色。</p></div>
   </div>
 </section>
 

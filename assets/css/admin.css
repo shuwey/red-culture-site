@@ -1,0 +1,33 @@
+/* 自动抽取自 admin.html — 勿手改，由 scripts/extract-inline-styles.py 生成 */
+* { box-sizing: border-box; }
+      body { margin: 0; font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f5f6f8; color: #222; }
+      header { background: #9c1c14; color: #fff; padding: 14px 22px; font-size: 17px; font-weight: 600; }
+      .wrap { max-width: 960px; margin: 22px auto; padding: 0 16px; }
+      .card { background: #fff; border-radius: 12px; padding: 18px 20px; box-shadow: 0 2px 10px rgba(0,0,0,.06); margin-bottom: 18px; }
+      .card h2 { margin: 0 0 14px; font-size: 16px; color: #9c1c14; }
+      input, select, textarea, button { font-family: inherit; font-size: 14px; }
+      input, select, textarea { width: 100%; border: 1px solid #d9d9d9; border-radius: 8px; padding: 8px 10px; margin: 4px 0 10px; }
+      button { cursor: pointer; border: none; border-radius: 8px; padding: 8px 16px; }
+      .btn-primary { background: #9c1c14; color: #fff; }
+      .btn-ghost { background: #eee; color: #555; }
+      .btn-sm { padding: 4px 10px; font-size: 13px; }
+      .btn-ok { background: #2e7d32; color: #fff; }
+      .btn-warn { background: #ef6c00; color: #fff; }
+      .btn-danger { background: #c62828; color: #fff; }
+      table { width: 100%; border-collapse: collapse; font-size: 13px; }
+      th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid #eee; vertical-align: top; }
+      th { color: #666; font-weight: 600; background: #fafafa; }
+      .tag { display: inline-block; padding: 1px 8px; border-radius: 10px; font-size: 12px; }
+      .tag-active { background: #e6f4ea; color: #2e7d32; }
+      .tag-pending { background: #fef3e0; color: #ef6c00; }
+      .tag-resolved { background: #e6f4ea; color: #2e7d32; }
+      .tag-rejected { background: #fdecea; color: #c62828; }
+      .muted { color: #999; font-size: 12px; }
+      .tabs { display: flex; gap: 8px; margin-bottom: 14px; }
+      .tab { padding: 8px 16px; border-radius: 8px; background: #eee; color: #555; cursor: pointer; }
+      .tab.active { background: #9c1c14; color: #fff; }
+      .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end; }
+      .row > div { flex: 1; min-width: 160px; }
+      #loginBox { max-width: 380px; margin: 80px auto; }
+      .hidden { display: none !important; }
+      .login-err { color: #c62828; font-size: 13px; margin-top: 6px; }
