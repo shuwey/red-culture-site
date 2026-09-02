@@ -2,7 +2,7 @@
    红色文化传播网 · 纠错管理（/api/admin/corrections）
    - GET  /api/admin/corrections   列表（按 status 过滤，需 ADMIN_TOKEN）
    ============================================================ */
-import { ok, fail, jsonResponse, preflight, CODES } from "../_shared/envelope.js";
+import { ok, fail, jsonResponse, preflight, CODES } from "../../_shared/envelope.js";
 
 function checkToken(request, env) {
   const expected = env.ADMIN_TOKEN;

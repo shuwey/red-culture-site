@@ -5,9 +5,9 @@
    - 唯一性检查（首占者拥有昵称）
    - 创建用户 + 颁发会话 cookie
    ============================================================ */
-import { ok, fail, jsonResponse, preflight, readJson, CODES } from "../_shared/envelope.js";
-import { nanoid, validateNickname, buildSetCookie, verifyTurnstile } from "../_shared/auth.js";
-import { scanSensitive } from "../_shared/sensitive.js";
+import { ok, fail, jsonResponse, preflight, readJson, CODES } from "../../_shared/envelope.js";
+import { nanoid, validateNickname, buildSetCookie, verifyTurnstile } from "../../_shared/auth.js";
+import { scanSensitive } from "../../_shared/sensitive.js";
 
 export async function onRequestPost(context) {
   const { request, env } = context;

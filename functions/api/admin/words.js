@@ -7,8 +7,8 @@
    - POST   /api/admin/words/delete   删除
    全部需 ADMIN_TOKEN
    ============================================================ */
-import { ok, fail, jsonResponse, preflight, readJson, CODES } from "../_shared/envelope.js";
-import { nanoid } from "../_shared/auth.js";
+import { ok, fail, jsonResponse, preflight, readJson, CODES } from "../../_shared/envelope.js";
+import { nanoid } from "../../_shared/auth.js";
 
 function checkToken(request, env) {
   const expected = env.ADMIN_TOKEN;

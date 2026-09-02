@@ -18,7 +18,7 @@ compatibility_flags = ["nodejs_compat"]
 [[d1_databases]]
 binding = "DB"
 database_name = "red-culture"
-database_id = "REPLACE_AFTER_WRANGLER_D1_CREATE"
+database_id = "582ab4c1-47b0-49d3-9b1e-b757f5f755b3"
 
 # 非敏感配置
 [vars]

@@ -3,8 +3,8 @@
    - 读取当前会话，返回 { uid, nick } 或未登录 { uid: null }
    - 供前端轮询/恢复登录态
    ============================================================ */
-import { ok, fail, jsonResponse, preflight, CODES } from "../_shared/envelope.js";
-import { getCurrentUser } from "../_shared/auth.js";
+import { ok, fail, jsonResponse, preflight, CODES } from "../../_shared/envelope.js";
+import { getCurrentUser } from "../../_shared/auth.js";
 
 export async function onRequestGet(context) {
   const { request, env } = context;

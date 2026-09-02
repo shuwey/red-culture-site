@@ -5,8 +5,8 @@
    - 只回传 nickname/score/total/durationSec/createdAt，隐私字段剥离
    - 昵称脱敏（联系方式/敏感词置空 → 显示"匿名用户"）
    ============================================================ */
-import { ok, fail, jsonResponse, preflight, CODES } from "../_shared/envelope.js";
-import { scanSensitive } from "../_shared/sensitive.js";
+import { ok, fail, jsonResponse, preflight, CODES } from "../../_shared/envelope.js";
+import { scanSensitive } from "../../_shared/sensitive.js";
 
 const NICK_BAD_WORDS = [
   "反动", "颠覆国家", "分裂国家", "台独", "港独", "藏独", "疆独",

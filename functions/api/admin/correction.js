@@ -3,8 +3,8 @@
    - 用户纠错提交（无需登录，匿名亦可）
    - Body: { contentType, quote, description, contact }
    ============================================================ */
-import { ok, fail, jsonResponse, preflight, readJson, CODES } from "../_shared/envelope.js";
-import { nanoid } from "../_shared/auth.js";
+import { ok, fail, jsonResponse, preflight, readJson, CODES } from "../../_shared/envelope.js";
+import { nanoid } from "../../_shared/auth.js";
 
 export async function onRequestPost(context) {
   const { request, env } = context;

@@ -4,8 +4,8 @@
    - 校验 Turnstile
    - 昵称存在则登录；不存在返回 NICK_NOT_FOUND（引导去注册）
    ============================================================ */
-import { ok, fail, jsonResponse, preflight, readJson, CODES } from "../_shared/envelope.js";
-import { buildSetCookie, verifyTurnstile } from "../_shared/auth.js";
+import { ok, fail, jsonResponse, preflight, readJson, CODES } from "../../_shared/envelope.js";
+import { buildSetCookie, verifyTurnstile } from "../../_shared/auth.js";
 
 export async function onRequestPost(context) {
   const { request, env } = context;

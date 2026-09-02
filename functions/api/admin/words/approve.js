@@ -3,7 +3,7 @@
    - 需 ADMIN_TOKEN
    - Body: { id }
    ============================================================ */
-import { ok, fail, jsonResponse, preflight, readJson, CODES } from "../_shared/envelope.js";
+import { ok, fail, jsonResponse, preflight, readJson, CODES } from "../../../_shared/envelope.js";
 
 function checkToken(request, env) {
   const expected = env.ADMIN_TOKEN;

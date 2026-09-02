@@ -3,7 +3,7 @@
    - POST  { id, status, handleNote }   需 ADMIN_TOKEN
    - status: pending / resolved / rejected
    ============================================================ */
-import { ok, fail, jsonResponse, preflight, readJson, CODES } from "../../_shared/envelope.js";
+import { ok, fail, jsonResponse, preflight, readJson, CODES } from "../../../_shared/envelope.js";
 
 function checkToken(request, env) {
   const expected = env.ADMIN_TOKEN;

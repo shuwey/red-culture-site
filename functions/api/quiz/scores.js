@@ -3,8 +3,8 @@
    - 需登录
    - 返回最近 20 条 + 最佳成绩
    ============================================================ */
-import { ok, fail, jsonResponse, preflight, CODES } from "../_shared/envelope.js";
-import { requireAuth } from "../_shared/auth.js";
+import { ok, fail, jsonResponse, preflight, CODES } from "../../_shared/envelope.js";
+import { requireAuth } from "../../_shared/auth.js";
 
 export async function onRequestGet(context) {
   const { request, env } = context;

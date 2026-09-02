@@ -5,9 +5,9 @@
    - 写入 quiz_scores
    - 昵称脱敏（手机号/邮箱/敏感词置空，与 CloudBase 时期一致）
    ============================================================ */
-import { ok, fail, jsonResponse, preflight, readJson, CODES } from "../_shared/envelope.js";
-import { requireAuth, nanoid } from "../_shared/auth.js";
-import { scanSensitive } from "../_shared/sensitive.js";
+import { ok, fail, jsonResponse, preflight, readJson, CODES } from "../../_shared/envelope.js";
+import { requireAuth, nanoid } from "../../_shared/auth.js";
+import { scanSensitive } from "../../_shared/sensitive.js";
 
 const NICK_BAD_WORDS = [
   "反动", "颠覆国家", "分裂国家", "煽动分裂", "台独", "港独", "藏独", "疆独",
