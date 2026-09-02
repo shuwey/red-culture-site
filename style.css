@@ -1456,7 +1456,7 @@ button.stat:focus-visible { outline: 2px solid rgba(255,255,255,.6); outline-off
 /* AI 氛围图视觉弱化（仅白名单 AI 图加 class="ai-img"）：与真实历史照在视觉上区分，
    明确「艺术再现」定位。纯 CSS 实现，失败安全，不依赖 JS 加载。 */
 .ai-img {
-  filter: grayscale(.45) saturate(.9) contrast(.96);
+  filter: grayscale(.55) saturate(.88) contrast(.95);
 }
 .ai-badge {
   position: absolute;
