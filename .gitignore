@@ -36,3 +36,7 @@ docs/
 # 本地密钥文件（绝不入库；含部署用的真实 secret，仅本机可读）
 .secrets.local
 .env.local
+
+# 构建/部署产物（非源码；部署时统一构建到仓库外临时目录，避免误删源码）
+dist/
+.wrangler/
