@@ -5,7 +5,7 @@
 #       connect-src 必须放开 CloudBase API 域名，否则 SDK 调云函数/数据库被拦。
 
 /*
-  Content-Security-Policy: default-src 'self'; img-src 'self' https://upload.wikimedia.org https://commons.wikimedia.org data:; font-src 'self' data:; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self' https://tcb-api.tencentcloudapi.com https://*.tencentcloudapi.com; frame-src 'self'
+  Content-Security-Policy: default-src 'self'; img-src 'self' https://upload.wikimedia.org https://commons.wikimedia.org data:; font-src 'self' data:; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self' https://tcb-api.tencentcloudapi.com https://*.tencentcloudapi.com https://*.tcloudbasegateway.com; frame-src 'self'
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: geolocation=(), microphone=(), camera=()
