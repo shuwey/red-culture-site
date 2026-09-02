@@ -1,0 +1,6 @@
+# Cloudflare Pages 部署配置（备选：wrangler direct upload 方式）
+# 推荐用 Git 集成（连 GitHub 仓库自动部署），本文件仅用于 `npx wrangler pages deploy` 手动部署。
+name = "red-culture-site"
+pages_build_output_dir = "."
+# 纯静态站点，无需 build command；compatibility_date 取较新稳定值
+compatibility_date = "2024-09-23"
