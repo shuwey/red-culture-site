@@ -21,15 +21,25 @@
     .cz-chip{flex:1 1 120px;border:1px solid #ece2da;border-radius:12px;padding:12px 14px;background:#fbf7f4;}
     .cz-chip .k{display:block;font-size:12px;color:#a99e96;letter-spacing:.04em;margin-bottom:3px;}
     .cz-chip .v{display:block;font-size:15px;font-weight:600;color:#1a1410;line-height:1.35;}
-    .cz-map-wrap{display:flex;justify-content:center;margin:28px 0 4px;}
     .cz-map{width:100%;max-width:440px;height:auto;}
-    .cz-note{text-align:center;font-size:12.5px;color:#a99e96;margin-top:14px;line-height:1.6;}
+    .cz-route-body{display:flex;flex-wrap:wrap;gap:48px;justify-content:center;align-items:flex-start;margin:28px 0 4px;}
+    .cz-map-wrap{flex:0 0 auto;width:100%;max-width:440px;margin:0;}
+    .cz-index{flex:1 1 300px;max-width:380px;min-width:260px;}
+    .cz-index-h{font-size:15px;font-weight:600;color:#1a1410;letter-spacing:.02em;margin:6px 0 14px;padding-bottom:10px;border-bottom:1px solid #ece2da;}
+    .cz-index-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;}
+    .cz-idx{display:grid;grid-template-columns:26px 1fr auto;column-gap:12px;row-gap:2px;align-items:center;padding:10px 12px;border-radius:10px;text-decoration:none;transition:background .16s ease;}
+    .cz-idx:hover,.cz-idx.active{background:#fbf3f1;}
+    .cz-idx-n{grid-row:1/3;width:26px;height:26px;border-radius:50%;background:#C8102E;color:#fff;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;}
+    .cz-idx-name{grid-column:2;font-size:15px;font-weight:600;color:#1a1410;}
+    .cz-idx-date{grid-column:3;font-size:12px;color:#a99e96;font-weight:600;letter-spacing:.02em;white-space:nowrap;}
+    .cz-idx-desc{grid-column:2/4;font-size:12.5px;color:#5a5048;line-height:1.5;}
+    .cz-note{text-align:center;font-size:12.5px;color:#a99e96;margin-top:18px;line-height:1.6;}
     /* SVG 路线交互 */
     .wp .tip{opacity:0;transition:opacity .16s ease;pointer-events:none;}
     .wp:hover .tip{opacity:1;}
     .wp-link{cursor:pointer;}
     .wp-link .ring{fill:none;stroke:#C8102E;stroke-width:2;opacity:.35;transition:opacity .16s ease;}
-    .wp-link:hover .ring{opacity:.75;}
+    .wp-link:hover .ring,.wp-link.active .ring{opacity:.75;}
     /* 敌军封锁线标记 */
     .blk .tip{opacity:0;transition:opacity .16s ease;pointer-events:none;}
     .blk:hover .tip{opacity:1;}
@@ -132,7 +142,8 @@
         <div class="cz-chip"><span class="k">途经</span><span class="v">十一省</span></div>
       </div>
 
-      <div class="cz-map-wrap reveal">
+      <div class="cz-route-body reveal">
+        <div class="cz-map-wrap">
         <svg class="cz-map" viewBox="0 0 460 720" role="img" aria-label="长征路线图：瑞金经湘江、遵义、赤水、金沙江、大渡河、泸定桥、夹金山、草地、腊子口至吴起镇、会宁；红点为关键节点，红叉为敌军封锁线（红军突破处）">
           <defs>
             <marker id="cz-arrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
@@ -144,7 +155,7 @@
           <polyline points="405,665 305,645 215,560 170,515 90,605 88,470 75,432 92,402 105,250 140,200 255,80 150,140" fill="none" stroke="#C8102E" stroke-width="4.5" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#cz-arrow)"/>
 
           <!-- ① 瑞金 -->
-          <a class="wp-link" href="place-rujin.html">
+          <a class="wp-link" href="place-rujin.html" data-id="ruijin">
             <g class="wp">
               <circle class="ring" cx="405" cy="665" r="16"/>
               <circle cx="405" cy="665" r="11" fill="#C8102E" stroke="#fff" stroke-width="2.5"/>
@@ -159,7 +170,7 @@
           </a>
 
           <!-- ② 湘江 -->
-          <a class="wp-link" href="place-xiangjiang.html"><g class="wp">
+          <a class="wp-link" href="place-xiangjiang.html" data-id="xiangjiang"><g class="wp">
             <circle cx="305" cy="645" r="11" fill="#C8102E" stroke="#fff" stroke-width="2.5"/>
             <text x="305" y="645" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="700">2</text>
             <g class="tip">
@@ -171,7 +182,7 @@
           </g></a>
 
           <!-- ③ 遵义 -->
-          <a class="wp-link" href="place-zunyi.html">
+          <a class="wp-link" href="place-zunyi.html" data-id="zunyi">
             <g class="wp">
               <circle class="ring" cx="215" cy="560" r="16"/>
               <circle cx="215" cy="560" r="11" fill="#C8102E" stroke="#fff" stroke-width="2.5"/>
@@ -186,7 +197,7 @@
           </a>
 
           <!-- ④ 赤水河 -->
-          <a class="wp-link" href="place-chishui.html"><g class="wp">
+          <a class="wp-link" href="place-chishui.html" data-id="chishui"><g class="wp">
             <circle cx="170" cy="515" r="11" fill="#C8102E" stroke="#fff" stroke-width="2.5"/>
             <text x="170" y="515" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="700">4</text>
             <g class="tip">
@@ -198,7 +209,7 @@
           </g></a>
 
           <!-- ⑤ 金沙江 -->
-          <a class="wp-link" href="place-jinsha.html"><g class="wp">
+          <a class="wp-link" href="place-jinsha.html" data-id="jinsha"><g class="wp">
             <circle cx="90" cy="605" r="11" fill="#C8102E" stroke="#fff" stroke-width="2.5"/>
             <text x="90" y="605" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="700">5</text>
             <g class="tip">
@@ -210,7 +221,7 @@
           </g></a>
 
           <!-- ⑥ 大渡河 -->
-          <a class="wp-link" href="place-daduhe.html"><g class="wp">
+          <a class="wp-link" href="place-daduhe.html" data-id="daduhe"><g class="wp">
             <circle cx="88" cy="470" r="11" fill="#C8102E" stroke="#fff" stroke-width="2.5"/>
             <text x="88" y="470" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="700">6</text>
             <g class="tip">
@@ -222,7 +233,7 @@
           </g></a>
 
           <!-- ⑦ 泸定桥 -->
-          <a class="wp-link" href="place-luding.html">
+          <a class="wp-link" href="place-luding.html" data-id="luding">
             <g class="wp">
               <circle class="ring" cx="75" cy="432" r="16"/>
               <circle cx="75" cy="432" r="11" fill="#C8102E" stroke="#fff" stroke-width="2.5"/>
@@ -237,7 +248,7 @@
           </a>
 
           <!-- ⑧ 夹金山 -->
-          <a class="wp-link" href="place-jiajin.html"><g class="wp">
+          <a class="wp-link" href="place-jiajin.html" data-id="jiajin"><g class="wp">
             <circle cx="92" cy="402" r="11" fill="#C8102E" stroke="#fff" stroke-width="2.5"/>
             <text x="92" y="402" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="700">8</text>
             <g class="tip">
@@ -249,7 +260,7 @@
           </g></a>
 
           <!-- ⑨ 松潘草地 -->
-          <a class="wp-link" href="place-songpan.html"><g class="wp">
+          <a class="wp-link" href="place-songpan.html" data-id="songpan"><g class="wp">
             <circle cx="105" cy="250" r="11" fill="#C8102E" stroke="#fff" stroke-width="2.5"/>
             <text x="105" y="250" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="700">9</text>
             <g class="tip">
@@ -261,7 +272,7 @@
           </g></a>
 
           <!-- ⑩ 吴起镇 -->
-          <a class="wp-link" href="place-wuqi.html"><g class="wp">
+          <a class="wp-link" href="place-wuqi.html" data-id="wuqi"><g class="wp">
             <circle cx="255" cy="80" r="11" fill="#C8102E" stroke="#fff" stroke-width="2.5"/>
             <text x="255" y="80" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="700">10</text>
             <g class="tip">
@@ -273,7 +284,7 @@
           </g></a>
 
           <!-- ⑪ 会宁 -->
-          <a class="wp-link" href="place-huining.html"><g class="wp">
+          <a class="wp-link" href="place-huining.html" data-id="huining"><g class="wp">
             <circle cx="150" cy="140" r="11" fill="#C8102E" stroke="#fff" stroke-width="2.5"/>
             <text x="150" y="140" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="700">11</text>
             <g class="tip">
@@ -285,7 +296,7 @@
           </g></a>
         
           <!-- ⑫ 腊子口（新增节点） -->
-          <a class="wp-link" href="place-lazikou.html"><g class="wp">
+          <a class="wp-link" href="place-lazikou.html" data-id="lazikou"><g class="wp">
             <circle cx="140" cy="200" r="11" fill="#C8102E" stroke="#fff" stroke-width="2.5"/>
             <text x="140" y="200" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="700">12</text>
             <g class="tip">
@@ -345,8 +356,26 @@
             <text x="184" y="696" fill="#5a5048" font-size="12">敌军封锁线（红军突破处）</text>
           </g>
 </svg>
+        </div>
+        <div class="cz-index">
+          <h3 class="cz-index-h">关键节点</h3>
+          <ol class="cz-index-list">
+            <li><a class="cz-idx" data-id="ruijin" href="place-rujin.html"><span class="cz-idx-n">1</span><span class="cz-idx-name">瑞金</span><span class="cz-idx-date">1934.10</span><span class="cz-idx-desc">战略转移起点</span></a></li>
+            <li><a class="cz-idx" data-id="xiangjiang" href="place-xiangjiang.html"><span class="cz-idx-n">2</span><span class="cz-idx-name">湘江</span><span class="cz-idx-date">1934.11</span><span class="cz-idx-desc">血战湘江 · 突破封锁线</span></a></li>
+            <li><a class="cz-idx" data-id="zunyi" href="place-zunyi.html"><span class="cz-idx-n">3</span><span class="cz-idx-name">遵义</span><span class="cz-idx-date">1935.01</span><span class="cz-idx-desc">遵义会议 · 伟大转折</span></a></li>
+            <li><a class="cz-idx" data-id="chishui" href="place-chishui.html"><span class="cz-idx-n">4</span><span class="cz-idx-name">赤水河</span><span class="cz-idx-date">1935</span><span class="cz-idx-desc">四渡赤水 · 声东击西</span></a></li>
+            <li><a class="cz-idx" data-id="jinsha" href="place-jinsha.html"><span class="cz-idx-n">5</span><span class="cz-idx-name">金沙江</span><span class="cz-idx-date">1935.05</span><span class="cz-idx-desc">巧渡金沙江 · 跳出重围</span></a></li>
+            <li><a class="cz-idx" data-id="daduhe" href="place-daduhe.html"><span class="cz-idx-n">6</span><span class="cz-idx-name">大渡河</span><span class="cz-idx-date">1935.05</span><span class="cz-idx-desc">强渡大渡河 · 安顺场</span></a></li>
+            <li><a class="cz-idx" data-id="luding" href="place-luding.html"><span class="cz-idx-n">7</span><span class="cz-idx-name">泸定桥</span><span class="cz-idx-date">1935.05</span><span class="cz-idx-desc">飞夺泸定桥 · 铁索夺关</span></a></li>
+            <li><a class="cz-idx" data-id="jiajin" href="place-jiajin.html"><span class="cz-idx-n">8</span><span class="cz-idx-name">夹金山</span><span class="cz-idx-date">1935.06</span><span class="cz-idx-desc">翻越雪山 · 海拔四千米</span></a></li>
+            <li><a class="cz-idx" data-id="songpan" href="place-songpan.html"><span class="cz-idx-n">9</span><span class="cz-idx-name">松潘草地</span><span class="cz-idx-date">1935.08</span><span class="cz-idx-desc">穿越草地 · 茫茫沼泽</span></a></li>
+            <li><a class="cz-idx" data-id="wuqi" href="place-wuqi.html"><span class="cz-idx-n">10</span><span class="cz-idx-name">吴起镇</span><span class="cz-idx-date">1935.10</span><span class="cz-idx-desc">陕北会师 · 落脚点</span></a></li>
+            <li><a class="cz-idx" data-id="huining" href="place-huining.html"><span class="cz-idx-n">11</span><span class="cz-idx-name">会宁</span><span class="cz-idx-date">1936.10</span><span class="cz-idx-desc">三大主力会师 · 胜利结束</span></a></li>
+            <li><a class="cz-idx" data-id="lazikou" href="place-lazikou.html"><span class="cz-idx-n">12</span><span class="cz-idx-name">腊子口</span><span class="cz-idx-date">1935.09</span><span class="cz-idx-desc">突破天险 · 打开门户</span></a></li>
+          </ol>
+        </div>
       </div>
-      <p class="cz-note">红点（●）为长征关键节点，鼠标悬停看说明；带光环的红点可点开对应地点。红叉（✕）为敌军封锁线，是红军被拦截、最终突破的险关。<br>路线为示意走向，非精确地理坐标。</p>
+      <p class="cz-note">红点为长征关键节点：桌面端悬停看说明、点击可打开对应地点；右侧列表为全部节点总览，移动端可直接点选。红叉（✕）为敌军封锁线，是红军被拦截、最终突破的险关。<br>路线为示意走向，非精确地理坐标。
     </section>
 
     <!-- 七事件时间线（借鉴手抄报） -->
@@ -499,5 +528,6 @@
   <script src="auth-service.js?v=20260829aa"></script>
   <script src="account-ui.js?v=20260829ac"></script>
   <script src="ai-assistant.js?v=20260829x"></script>
+  <script src="assets/js/event-changzheng-route.js?v=20260902c" defer></script>
 </body>
 </html>
