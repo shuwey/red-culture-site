@@ -149,8 +149,20 @@
             <marker id="cz-arrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
               <path d="M0,0 L10,5 L0,10 z" fill="#C8102E"/>
             </marker>
+          
+            <pattern id="cz-contour" width="150" height="150" patternUnits="userSpaceOnUse" patternTransform="rotate(7)">
+              <g fill="none" stroke="#e6d7c7" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" opacity="0.55">
+                <path d="M28,42 C43,25 71,29 75,48 C79,67 58,80 43,73 C29,67 18,53 28,42 Z"/>
+                <path d="M37,48 C48,37 65,41 67,52 C69,62 55,69 46,64 C38,60 32,54 37,48 Z"/>
+                <path d="M103,106 C118,91 143,97 139,116 C135,133 116,137 106,128 C97,121 91,114 103,106 Z"/>
+                <path d="M111,112 C122,103 134,107 132,116 C130,125 117,127 111,122 C106,118 103,115 111,112 Z"/>
+                <path d="M112,28 C125,18 144,24 140,39 C136,52 119,55 110,46 C103,39 101,35 112,28 Z"/>
+                <path d="M6,118 C16,108 33,112 30,126 C27,138 12,140 5,131 C0,124 -2,123 6,118 Z"/>
+              </g>
+            </pattern>
           </defs>
           <rect x="8" y="8" width="444" height="704" rx="18" fill="#fffdfb" stroke="#f0e6df" stroke-width="2"/>
+          <rect x="8" y="8" width="444" height="704" rx="18" fill="url(#cz-contour)"/>
           <polyline points="405,665 305,645 215,560 170,515 90,605 88,470 75,432 92,402 105,250 140,200 255,80 150,140" fill="none" stroke="#f3e2dd" stroke-width="9" stroke-linejoin="round" stroke-linecap="round"/>
           <polyline points="405,665 305,645 215,560 170,515 90,605 88,470 75,432 92,402 105,250 140,200 255,80 150,140" fill="none" stroke="#C8102E" stroke-width="4.5" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#cz-arrow)"/>
 
