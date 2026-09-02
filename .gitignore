@@ -28,3 +28,7 @@ rebuttal-to-engineer-*.md
 
 # 非本站内容：其他项目素材（骑楼文化海报）
 骑楼海报*.png
+
+# 内部运营/开发文档（非站点运行时资产，避免 Cloudflare 公网泄露 ADMIN_TOKEN 机制/敏感词库策略等）
+docs/
+*.md
