@@ -13,6 +13,10 @@
   RCS.config = RCS.config || {};
   RCS.config.authMode = "nickname"; // 取代旧的 "phone"
   RCS.config.apiBase = ""; // 同源 Pages Functions；如需改域可在此覆盖
+  // Turnstile Site Key（公开）。当前为测试 key，永远通过，便于本地联调；
+  // 上线前必须替换为 Cloudflare 控制台 Turnstile widget 的真实 Site Key，
+  // 且需与 TURNSTILE_SECRET（后端 secret）配对，否则人机验证不生效。
+  RCS.config.turnstileSiteKey = "1x00000000000000000000AA";
 
   var listeners = [];
   var lastState = null;
