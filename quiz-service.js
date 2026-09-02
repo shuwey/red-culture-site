@@ -1,101 +1,65 @@
 /* ============================================================
-   红色文化传播网 · 成绩云端保存（CloudBase NoSQL 集合 quiz_scores）
-   全局命名：window.RCSQuiz
-   监听 rcs:quiz-finished：未登录唤起登录；已登录写库、查最近 20 + 最佳。
+   红色文化传播网 · 成绩云端保存（2026-09-02 Cloudflare 全迁版）
+   监听 rcs:quiz-finished：未登录唤起登录；已登录 POST /api/quiz/save
+   读我的成绩：GET /api/quiz/scores
    ============================================================ */
 (function () {
   "use strict";
 
-  // 昵称轻量敏感词预检（与云函数 scanSensitive 同源 BASE 关键词，命中则回退匿名）
-  var NICK_BAD_WORDS = [
-    "反动", "颠覆国家", "分裂国家", "煽动分裂", "台独", "港独", "藏独", "疆独",
-    "法轮", "邪教", "暴乱", "历史虚无主义", "抹黑党史", "歪曲历史", "诋毁英雄",
-    "污蔑烈士", "色情", "裸聊", "卖淫", "淫秽", "赌博", "毒品", "冰毒", "摇头丸", "大麻",
-    "代办文凭", "代开发票", "招嫖", "办证", "出售个人信息", "代考",
-    "怎么骂", "去死", "自杀", "自残", "杀人", "报复社会"
-  ];
-  function isNickBad(nick) {
-    if (!nick) return false;
-    var t = String(nick).toLowerCase();
-    for (var i = 0; i < NICK_BAD_WORDS.length; i++) {
-      if (t.indexOf(NICK_BAD_WORDS[i].toLowerCase()) !== -1) return true;
-    }
-    return false;
-  }
-
-  var COLLECTION = "quiz_scores";
   var pending = null;
 
+  async function getAuthState() {
+    var app = (window.RCS && RCS.getApp) ? RCS.getApp() : null;
+    if (!app || !app.auth) return null;
+    return await app.auth.getLoginState();
+  }
+
+  /** 保存成绩（公开 API） */
   async function save(opts) {
     opts = opts || {};
     var score = Number(opts.score) || 0;
     var total = Number(opts.total) || 0;
     var durationSec = Number(opts.durationSec) || 0;
     var book = String(opts.book || "").trim();
-    var state = await RCSAuth.getState();
+
+    var state = await getAuthState();
     if (!state || !state.uid) {
-      pending = { score: score, total: total, durationSec: durationSec, book: book };
+      pending = { score, total, durationSec, book };
       return { success: false, error: { code: "NO_AUTH" } };
     }
-    var nick = state.nick || "";
-    // 手机号/邮箱不应作为昵称公开展示：检测为联系方式则置空（榜单回退「匿名用户」），
-    // 与 quiz-rank 云函数展示侧脱敏保持一致，双重防泄露。
-    if (/^1[3-9]\d{9}$/.test(nick) || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(nick)) {
-      nick = "";
-      toast("未设置昵称，排行榜将显示为匿名");
-    } else if (isNickBad(nick)) {
-      nick = "";
-      toast("昵称含不合规内容，将显示为匿名");
+
+    var app = (window.RCS && RCS.getApp) ? RCS.getApp() : null;
+    if (!app || !app.callFunction) {
+      return { success: false, error: { code: "SDK_NOT_READY", message: "客户端未就绪" } };
     }
-    var doc = {
-      userId: state.uid,
-      nickname: nick,
-      score: score,
-      total: total,
-      durationSec: durationSec,
-      book: book,
-      createdAt: new Date().toISOString(),
-    };
     try {
-      await RCS.getApp().database().collection(COLLECTION).add(doc);
-      return { success: true };
+      var r = await app.callFunction({
+        name: "quiz.save",
+        data: { score, total, durationSec, book },
+      });
+      if (r && r.result && r.result.success) return { success: true };
+      return { success: false, error: (r && r.result && r.result.error) || { code: "SAVE_ERROR", message: "保存失败" } };
     } catch (e) {
-      return {
-        success: false,
-        error: { code: "SAVE_ERROR", message: String((e && e.message) || e) },
-      };
+      return { success: false, error: { code: "SAVE_ERROR", message: String((e && e.message) || e) } };
     }
   }
 
-  // 集合 quiz_scores 的安全规则为 read: doc._openid == auth.uid，
-  // 因此查询必须按 _openid 过滤（与规则条件构成子集），否则报 Permission denied。
-  // 不能用 userId 过滤——字段存在，但规则不认，子集校验失败。
-  // _openid 由 Web SDK 在 .add() 时自动写入创建者 uid，正好等于 state.uid。
+  /** 读我的成绩 + 最佳 */
   async function getScores() {
-    var state = await RCSAuth.getState();
-    if (!state || !state.uid)
+    var state = await getAuthState();
+    if (!state || !state.uid) {
       return { success: false, error: { code: "NO_AUTH" } };
+    }
+    var app = (window.RCS && RCS.getApp) ? RCS.getApp() : null;
+    if (!app || !app.callFunction) {
+      return { success: false, error: { code: "SDK_NOT_READY", message: "客户端未就绪" } };
+    }
     try {
-      var db = RCS.getApp().database().collection(COLLECTION);
-      var recentRes = await db
-        .where({ _openid: state.uid })
-        .orderBy("createdAt", "desc")
-        .limit(20)
-        .get();
-      var bestRes = await db
-        .where({ _openid: state.uid })
-        .orderBy("score", "desc")
-        .limit(1)
-        .get();
-      var list = (recentRes && recentRes.data) || [];
-      var best =
-        bestRes && bestRes.data && bestRes.data[0] ? bestRes.data[0] : null;
-      return { success: true, data: { list: list, best: best } };
+      var r = await app.callFunction({ name: "quiz.scores" });
+      if (r && r.result && r.result.success) return { success: true, data: r.result.data };
+      return { success: false, error: (r && r.result && r.result.error) || { code: "QUERY_ERROR", message: "查询失败" } };
     } catch (e) {
-      return {
-        success: false,
-        error: { code: "QUERY_ERROR", message: String((e && e.message) || e) },
-      };
+      return { success: false, error: { code: "QUERY_ERROR", message: String((e && e.message) || e) } };
     }
   }
 
@@ -110,25 +74,28 @@
       var total = Number(detail.total) || 0;
       var durationSec = Number(detail.durationSec) || 0;
       var book = String(detail.book || "").trim();
-      var state = await RCSAuth.getState();
+      var state = await getAuthState();
       if (!state || !state.uid) {
-        pending = { score: score, total: total, durationSec: durationSec, book: book };
+        pending = { score, total, durationSec, book };
         toast("登录后即可保存你的成绩");
         if (window.RCSAccount && RCSAccount.openLogin) RCSAccount.openLogin();
         return;
       }
-      var r = await save({ score: score, total: total, durationSec: durationSec, book: book });
+      var r = await save({ score, total, durationSec, book });
       if (r.success) toast("成绩已保存");
     });
 
-    RCSAuth.onAuthChange(async function (state) {
-      if (state && state.uid && pending) {
-        var p = pending;
-        pending = null;
-        var r = await save(p);
-        if (r.success) toast("成绩已保存");
-      }
-    });
+    // 登录成功回调：补存未登录时堆积的成绩
+    if (window.RCS && RCS.getApp) {
+      RCS.getApp().auth.onAuthChange(async function (state) {
+        if (state && state.uid && pending) {
+          var p = pending;
+          pending = null;
+          var r = await save(p);
+          if (r.success) toast("成绩已保存");
+        }
+      });
+    }
   }
 
   window.RCSQuiz = { save: save, getScores: getScores, init: init };

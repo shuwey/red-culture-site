@@ -1,6 +1,37 @@
-# Cloudflare Pages 部署配置（备选：wrangler direct upload 方式）
-# 推荐用 Git 集成（连 GitHub 仓库自动部署），本文件仅用于 `npx wrangler pages deploy` 手动部署。
+# Cloudflare Pages 配置（红色文化传播网 · 2026-09-02 全迁版 · 方案4 昵称+Turnstile）
+# 部署流程：
+#   1. `wrangler d1 create red-culture` → 拿到 database_id → 填到下方 [[d1_databases]]
+#   2. `wrangler d1 execute red-culture --file=schema/001_initial.sql --remote`
+#   3. `wrangler pages secret put SESSION_SECRET`（随机 64+ 字节）
+#   4. `wrangler pages secret put TURNSTILE_SECRET`（Cloudflare 控制台 Turnstile widget 的 secret key）
+#   5. `wrangler pages secret put DEEPSEEK_API_KEY`
+#   6. `wrangler pages secret put ADMIN_TOKEN`
+#   7. `wrangler pages deploy . --project-name red-culture-site --branch main`
+#   8. 改 api-client.js 里的 RCS.config.turnstileSiteKey 为 Cloudflare 控制台拿到的 site key（公开）
+
 name = "red-culture-site"
 pages_build_output_dir = "."
-# 纯静态站点，无需 build command；compatibility_date 取较新稳定值
 compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+
+# D1 数据库（创建后填入 database_id）
+[[d1_databases]]
+binding = "DB"
+database_name = "red-culture"
+database_id = "REPLACE_AFTER_WRANGLER_D1_CREATE"
+
+# 非敏感配置
+[vars]
+SITE_NAME = "红色文化传播网"
+SITE_VERSION = "20260902c"
+# Turnstile（公开 site key 在前端 api-client.js 改；这里是后端用得到的 site key 给日志参考）
+# TURNSTILE_SITE_KEY = "0x4AAAAAAA..."   # 不需要在这里，api-client.js 写死即可
+# DeepSeek 配置（密钥用 secret，不入仓）
+DEEPSEEK_BASE_URL = "https://api.deepseek.com"
+DEEPSEEK_MODEL = "deepseek-chat"
+
+# 备注：以下必须用 `wrangler pages secret put` 设置（不入仓）
+# - SESSION_SECRET：会话签名密钥（任意 64+ 字节随机串）
+# - TURNSTILE_SECRET：Cloudflare Turnstile secret key（控制台 widget 配置里）
+# - DEEPSEEK_API_KEY：DeepSeek API 密钥
+# - ADMIN_TOKEN：运营管理 token（word.* / correction.list / correction.handle 用）

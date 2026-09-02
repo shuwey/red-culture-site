@@ -1,14 +1,17 @@
 
-      var ENV = "cloud1-d0g0aq0bl2cfbcbdf";
+      /* 红色文化传播网 · 管理后台（Cloudflare 全迁版）
+         通过 window.RCS.getApp().callFunction 调 /api/admin/* 端点；
+         ADMIN_TOKEN 写入 window.RCS_ADMIN_TOKEN，由 api-client.js 作为
+         x-admin-token 请求头携带（后端 checkToken 只读 header）。 */
       var TOKEN = sessionStorage.getItem("rcs_admin_token") || "";
+      if (TOKEN) window.RCS_ADMIN_TOKEN = TOKEN;
 
-      function app() {
-        return window.cloudbase.init({ env: ENV });
-      }
-      async function callAdmin(action, extra) {
-        var data = Object.assign({ action: action, adminToken: TOKEN }, extra || {});
-        var res = await app().callFunction({ name: "admin", data: data });
-        return res.result;
+      function app() { return window.RCS.getApp(); }
+
+      async function callAdmin(name, extra) {
+        var data = Object.assign({}, extra || {});
+        var res = await app().callFunction({ name: name, data: data });
+        return res && res.result;
       }
 
       function show(elId, show) {
@@ -16,13 +19,14 @@
         if (e) e.classList.toggle("hidden", !show);
       }
 
-      /* 登录 */
+      /* 登录（ping 用 words.list 校验令牌有效性） */
       async function doLogin() {
         var v = document.getElementById("tokenInput").value.trim();
         if (!v) return;
         TOKEN = v;
+        window.RCS_ADMIN_TOKEN = TOKEN;
         sessionStorage.setItem("rcs_admin_token", TOKEN);
-        var r = await callAdmin("ping");
+        var r = await callAdmin("admin.words.list");
         if (r && r.success) {
           show("loginBox", false);
           show("mainBox", true);
@@ -33,6 +37,7 @@
           err.textContent = "令牌无效或未配置，请检查。";
           err.classList.remove("hidden");
           TOKEN = "";
+          window.RCS_ADMIN_TOKEN = "";
           sessionStorage.removeItem("rcs_admin_token");
         }
       }
@@ -40,7 +45,7 @@
 
       /* 敏感词 */
       async function loadWords() {
-        var r = await callAdmin("word.list");
+        var r = await callAdmin("admin.words.list");
         var tbody = document.querySelector("#wordTable tbody");
         tbody.innerHTML = "";
         if (!r || !r.success) return;
@@ -54,16 +59,16 @@
           if (it.status === "pending") {
             ops +=
               '<button class="btn-sm btn-ok" data-act="approve" data-id="' +
-              it._id +
+              it.id +
               '">通过</button> ';
           }
           ops +=
             '<button class="btn-sm btn-warn" data-act="reject" data-id="' +
-            it._id +
+            it.id +
             '">拒绝</button> ';
           ops +=
             '<button class="btn-sm btn-danger" data-act="delete" data-id="' +
-            it._id +
+            it.id +
             '">删除</button>';
           tr.innerHTML =
             "<td>" + esc(it.word) + "</td><td>" + esc(it.category || "") + "</td><td>" +
@@ -75,26 +80,26 @@
         var w = document.getElementById("newWord").value.trim();
         var c = document.getElementById("newWordCat").value.trim();
         if (!w) return;
-        await callAdmin("word.add", { word: w, category: c });
+        await callAdmin("admin.words.add", { word: w, category: c });
         document.getElementById("newWord").value = "";
         loadWords();
       }
       document.getElementById("addWordBtn").onclick = addWord;
       window.approveWord = async function (id) {
-        await callAdmin("word.approve", { id: id });
+        await callAdmin("admin.words.approve", { id: id });
         loadWords();
       };
       window.rejectWord = async function (id) {
-        await callAdmin("word.reject", { id: id });
+        await callAdmin("admin.words.reject", { id: id });
         loadWords();
       };
       window.deleteWord = async function (id) {
         if (!confirm("确认删除该敏感词？")) return;
-        await callAdmin("word.delete", { id: id });
+        await callAdmin("admin.words.delete", { id: id });
         loadWords();
       };
 
-      /* 事件委托：敏感词操作按钮（tbody 持久，重渲染不丢监听，免内联 onclick） */
+      /* 事件委托：敏感词操作按钮 */
       document.querySelector("#wordTable tbody").addEventListener("click", function (e) {
         var btn = e.target.closest("button[data-act]");
         if (!btn) return;
@@ -108,7 +113,7 @@
       /* 纠错 */
       async function loadCorrections() {
         var f = document.getElementById("corrFilter").value;
-        var r = await callAdmin("correction.list", f ? { status: f } : {});
+        var r = await callAdmin("admin.corrections.list", f ? { status: f } : {});
         var tbody = document.querySelector("#corrTable tbody");
         tbody.innerHTML = "";
         if (!r || !r.success) return;
@@ -122,10 +127,10 @@
               : '<span class="tag tag-pending">待处理</span>';
           var ops =
             '<button class="btn-sm btn-ok" data-act="handle" data-status="resolved" data-id="' +
-            it._id +
+            it.id +
             '">已处理</button> ' +
             '<button class="btn-sm btn-danger" data-act="handle" data-status="rejected" data-id="' +
-            it._id +
+            it.id +
             '">驳回</button>';
           tr.innerHTML =
             "<td>" + esc(it.contentType || "") + "</td><td>" + esc(it.quote || "") +
@@ -136,7 +141,7 @@
       }
       window.handleCorr = async function (id, status) {
         var note = prompt("处理意见（选填）：", "");
-        await callAdmin("correction.handle", { id: id, status: status, handleNote: note || "" });
+        await callAdmin("admin.corrections.handle", { id: id, status: status, handleNote: note || "" });
         loadCorrections();
       };
 
@@ -170,7 +175,7 @@
 
       /* 已登录则直接进入 */
       if (TOKEN) {
-        callAdmin("ping").then(function (r) {
+        callAdmin("admin.words.list").then(function (r) {
           if (r && r.success) {
             show("loginBox", false);
             show("mainBox", true);
@@ -179,4 +184,3 @@
           }
         });
       }
-    

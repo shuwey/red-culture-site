@@ -1,16 +1,13 @@
 /*
- * cloud-lazy.js — 云能力脚本延迟加载器
- * 作用：首屏不加载 CloudBase SDK（~786KB）等云脚本，避免其同步执行阻塞主线程
- *       导致"页面一直转圈、内容/图片加载不出来"。改在浏览器空闲后按依赖顺序注入。
- * 依赖：每个页面在引入本文件前需设置 window.RCS_CLOUD_SCRIPTS（要加载的脚本清单）。
- *       若未设置，回退为通用 5 件套。
+ * cloud-lazy.js — 后端脚本延迟加载器（Cloudflare 全迁版）
+ * 作用：首屏不阻塞，浏览器空闲后按依赖顺序注入后端脚本（api-client + account-ui + ai-assistant）。
+ * 依赖：每个页面在引入本文件前可设置 window.RCS_CLOUD_SCRIPTS（要加载的脚本清单）。
+ *       若未设置，回退为默认 3 件套（api-client.js 取代 cloudbase-loader + cloudbase-config）。
  */
 (function () {
-  var VER = "20260901a";
+  var VER = "20260902c";
   var DEFAULT = [
-    "cloudbase.bundle.js",
-    "cloudbase-config.js",
-    "auth-service.js",
+    "api-client.js",
     "account-ui.js",
     "ai-assistant.js"
   ];

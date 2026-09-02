@@ -1,11 +1,13 @@
-# Cloudflare Pages 响应头配置
-# 说明：部署到 Cloudflare Pages 后自动生效。所有路径应用以下安全头。
-# 注意：本站有大量内联 <style>，故 style-src 保留 'unsafe-inline'；
-#       脚本已全部外置，script-src 限 'self' 即可。
-#       connect-src 必须放开 CloudBase API 域名，否则 SDK 调云函数/数据库被拦。
+/* ============================================================
+   红色文化传播网 · _headers（Cloudflare Pages 响应头）
+   2026-09-02 全迁 Cloudflare 版
+   - 加放 Turnstile 域名（人机验证）
+   - 不再需要 tcloudbasegateway（已无 CloudBase 依赖）
+   - 全部 Pages Functions 同源 /api/...
+   ============================================================ */
 
 /*
-  Content-Security-Policy: default-src 'self'; img-src 'self' https://upload.wikimedia.org https://commons.wikimedia.org data:; font-src 'self' data:; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self' https://tcb-api.tencentcloudapi.com https://*.tencentcloudapi.com https://*.tcloudbasegateway.com; frame-src 'self'
+  Content-Security-Policy: default-src 'self'; img-src 'self' https://upload.wikimedia.org https://commons.wikimedia.org data:; font-src 'self' data:; script-src 'self' https://challenges.cloudflare.com 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src 'self' https://challenges.cloudflare.com; frame-src 'self' https://challenges.cloudflare.com
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: geolocation=(), microphone=(), camera=()

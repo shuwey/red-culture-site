@@ -1,17 +1,18 @@
 /* ============================================================
-   红色文化传播网 · AI 问答助手（悬浮球 + 聊天面板）
-   全局命名：window.RCAI
-   依赖：RCS.getApp().callFunction('ai-chat', ...)（CloudBase 云函数）、data/corpus-index.json + data/corpus-text.json（2.2 分片本地检索）
+   红色文化传播网 · AI 问答助手（2026-09-02 Cloudflare 全迁版）
+   - 不再依赖 window.cloudbase SDK
+   - 直接调 RCS.getApp().callFunction({name: 'ai-chat', data})
+   - 登录态用 RCS.getApp().auth().getLoginState()（无匿名登录）
+   - 纠错改用 callFunction({name: 'admin.correction', data})
    ============================================================ */
 (function () {
   "use strict";
 
-  // 2.2 corpus 分片：匹配数据(index) + 上下文(textMap) 分离，首开带宽低于全量
   var CORPUS_INDEX_URL = "data/corpus-index.json?v=20260901b";
   var CORPUS_TEXT_URL = "data/corpus-text.json?v=20260901b";
   var corpusCache = null;
   var corpusLoading = null;
-  var history = []; // 最近 4 轮（8 条消息）
+  var history = [];
   var firstOpen = true;
 
   var CHIPS = [
@@ -20,8 +21,16 @@
     "杨靖宇是在哪里牺牲的？",
   ];
 
-  function el(id) {
-    return document.getElementById(id);
+  function el(id) { return document.getElementById(id); }
+
+  function getApp() {
+    return (window.RCS && RCS.getApp) ? RCS.getApp() : null;
+  }
+
+  async function getState() {
+    var app = getApp();
+    if (!app || !app.auth) return null;
+    return await app.auth.getLoginState();
   }
 
   function injectRoot() {
@@ -51,22 +60,14 @@
     el("rcs-ai-send").onclick = function () {
       var t = el("rcs-ai-text");
       var v = t.value.trim();
-      if (v) {
-        t.value = "";
-        t.style.height = "auto";
-        ask(v);
-      }
+      if (v) { t.value = ""; t.style.height = "auto"; ask(v); }
     };
     var ta = el("rcs-ai-text");
     ta.addEventListener("keydown", function (e) {
       if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
         var v = ta.value.trim();
-        if (v) {
-          ta.value = "";
-          ta.style.height = "auto";
-          ask(v);
-        }
+        if (v) { ta.value = ""; ta.style.height = "auto"; ask(v); }
       }
     });
     ta.addEventListener("input", function () {
@@ -80,9 +81,7 @@
       b.type = "button";
       b.className = "rcs-chip";
       b.textContent = c;
-      b.onclick = function () {
-        ask(c);
-      };
+      b.onclick = function () { ask(c); };
       chipsWrap.appendChild(b);
     });
   }
@@ -94,15 +93,9 @@
     el("rcs-ai-fab").classList.add("active");
     if (firstOpen) {
       firstOpen = false;
-      addAssistantBubble(
-        "你好！我是红色历史问答助手，可以依据本站史料回答英雄、地点、事件相关问题。试试下面的提问 👇",
-        []
-      );
+      addAssistantBubble("你好！我是红色历史问答助手，可以依据本站史料回答英雄、地点、事件相关问题。试试下面的提问 👇", []);
     }
-    setTimeout(function () {
-      var t = el("rcs-ai-text");
-      if (t) t.focus();
-    }, 60);
+    setTimeout(function () { var t = el("rcs-ai-text"); if (t) t.focus(); }, 60);
   }
 
   function closePanel() {
@@ -130,7 +123,6 @@
     msg.className = "rcs-msg rcs-msg-assistant";
     var bubble = document.createElement("div");
     bubble.className = "rcs-bubble";
-    // 去掉模型可能附带的兜底式「查看：… ›」行，统一由下方来源链接呈现
     var clean = String(text || "").replace(/\n?查看：[^\n]*›\s*$/, "").trim();
     bubble.textContent = clean;
     msg.appendChild(bubble);
@@ -146,7 +138,6 @@
       });
       msg.appendChild(srcWrap);
     }
-    // 纠错入口：每条回答可反馈史料错误（提交至 corrections 集合，待运营审核）
     var fixBtn = document.createElement("button");
     fixBtn.type = "button";
     fixBtn.className = "rcs-fix-btn";
@@ -159,7 +150,7 @@
     body.scrollTop = body.scrollHeight;
   }
 
-  /* ---------- 用户纠错入口（P2） ---------- */
+  /* ---------- 用户纠错入口 ---------- */
   var _fixStyleInjected = false;
   function injectFixStyle() {
     if (_fixStyleInjected) return;
@@ -190,7 +181,7 @@
 
   function openCorrectionModal(quote) {
     injectFixStyle();
-    if (el("rcs-fix-mask")) return; // 防重复
+    if (el("rcs-fix-mask")) return;
     var mask = document.createElement("div");
     mask.id = "rcs-fix-mask";
     mask.className = "rcs-fix-mask";
@@ -216,9 +207,7 @@
       '<div class="rcs-fix-tip" id="rcs-fix-tip"></div>' +
       "</div>";
     document.body.appendChild(mask);
-    mask.onclick = function (e) {
-      if (e.target === mask) closeCorrectionModal();
-    };
+    mask.onclick = function (e) { if (e.target === mask) closeCorrectionModal(); };
     el("rcs-fix-cancel").onclick = closeCorrectionModal;
     el("rcs-fix-submit").onclick = submitCorrection;
   }
@@ -228,49 +217,21 @@
     if (m && m.parentNode) m.parentNode.removeChild(m);
   }
 
-  /* 确保有登录态（匿名亦可），返回 uid 用于留痕；失败则返回空串（不阻断提交） */
-  async function ensureUid() {
-    return await ensureAnyUid();
-  }
-
-  /* 未登录引导气泡：附「去登录」按钮，点击直接唤起登录面板 */
-  function addLoginPrompt(text) {
-    var body = el("rcs-ai-body");
-    var msg = document.createElement("div");
-    msg.className = "rcs-msg rcs-msg-assistant";
-    var bubble = document.createElement("div");
-    bubble.className = "rcs-bubble";
-    bubble.textContent = text;
-    msg.appendChild(bubble);
-    var btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "rcs-login-cta";
-    btn.textContent = "去登录";
-    btn.onclick = function () {
-      if (window.RCSAccount && typeof RCSAccount.openLogin === "function") {
-        RCSAccount.openLogin();
-      }
-    };
-    msg.appendChild(btn);
-    body.appendChild(msg);
-    body.scrollTop = body.scrollHeight;
-  }
-
   async function submitCorrection() {
     var desc = (el("rcs-fix-desc").value || "").trim();
     var tip = el("rcs-fix-tip");
-    if (!desc) {
-      tip.className = "rcs-fix-tip err";
-      tip.textContent = "请填写问题描述";
+    if (!desc) { tip.className = "rcs-fix-tip err"; tip.textContent = "请填写问题描述"; return; }
+    var state = await getState();
+    var uid = state ? state.uid : "";
+    var app = getApp();
+    if (!app || !app.callFunction) {
+      tip.className = "rcs-fix-tip err"; tip.textContent = "客户端未就绪，请刷新重试";
       return;
     }
-    var uid = await ensureUid();
     try {
-      var app = RCS.getApp();
-      var res = await app.callFunction({
-        name: "admin",
+      var r = await app.callFunction({
+        name: "admin.correction",
         data: {
-          action: "correction.submit",
           contentType: el("rcs-fix-type").value,
           quote: (el("rcs-fix-quote").value || "").trim(),
           description: desc,
@@ -278,7 +239,7 @@
           uid: uid || "",
         },
       });
-      var result = res.result;
+      var result = r && r.result;
       if (result && result.success) {
         tip.className = "rcs-fix-tip ok";
         tip.textContent = "已提交，感谢您的反馈！我们会尽快核实。";
@@ -288,8 +249,7 @@
         tip.textContent = "提交失败：" + ((result && result.error && result.error.message) || "未知错误");
       }
     } catch (e) {
-      tip.className = "rcs-fix-tip err";
-      tip.textContent = "提交失败，请稍后再试。";
+      tip.className = "rcs-fix-tip err"; tip.textContent = "提交失败，请稍后再试。";
     }
   }
 
@@ -314,32 +274,21 @@
       .then(function (res) {
         var index = res[0] && res[0].items ? res[0].items : [];
         var textMap = res[1] || {};
-        // 还原完整条目：name/aliases/keywords/url/type/book 取自 index，text 取自 textMap
         var items = index.map(function (it) {
           return {
-            id: it.id,
-            type: it.type,
-            book: it.book,
-            name: it.name,
-            aliases: it.aliases || [],
-            keywords: it.keywords || [],
-            url: it.url,
-            text: textMap[it.id] != null ? textMap[it.id] : "",
+            id: it.id, type: it.type, book: it.book, name: it.name,
+            aliases: it.aliases || [], keywords: it.keywords || [],
+            url: it.url, text: textMap[it.id] != null ? textMap[it.id] : "",
           };
         });
         corpusCache = { items: items };
         return corpusCache;
       })
-      .catch(function () {
-        corpusCache = { items: [] };
-        return corpusCache;
-      });
+      .catch(function () { corpusCache = { items: [] }; return corpusCache; });
     return corpusLoading;
   }
 
-  function norm(s) {
-    return String(s || "").toLowerCase();
-  }
+  function norm(s) { return String(s || "").toLowerCase(); }
   function bigrams(s) {
     s = norm(s).replace(/[^一-龥a-z0-9]/g, "");
     var out = [];
@@ -347,7 +296,6 @@
     return out;
   }
 
-  /** 检索打分：name×5 + aliases×4 + keywords×3 + text bigram 共现×1，取 top3 */
   function retrieve(question, items) {
     var q = norm(question);
     var qbg = bigrams(question);
@@ -358,60 +306,34 @@
         var keywords = (it.keywords || []).map(norm);
         var score = 0;
         if (name && q.indexOf(name) !== -1) score += 5;
-        aliases.forEach(function (a) {
-          if (a && q.indexOf(a) !== -1) score += 4;
-        });
-        keywords.forEach(function (k) {
-          if (k && q.indexOf(k) !== -1) score += 3;
-        });
+        aliases.forEach(function (a) { if (a && q.indexOf(a) !== -1) score += 4; });
+        keywords.forEach(function (k) { if (k && q.indexOf(k) !== -1) score += 3; });
         var tbg = bigrams(it.text || "").concat(bigrams(it.name || ""));
         var hit = 0;
-        qbg.forEach(function (b) {
-          if (b && tbg.indexOf(b) !== -1) hit++;
-        });
+        qbg.forEach(function (b) { if (b && tbg.indexOf(b) !== -1) hit++; });
         score += hit;
         return { it: it, score: score };
       })
-      .filter(function (x) {
-        return x.score > 0;
-      });
-    scored.sort(function (a, b) {
-      return b.score - a.score;
-    });
-    // P1：检索候选从 top3 提升到 top6，让模型看到更宽的史料面
+      .filter(function (x) { return x.score > 0; });
+    scored.sort(function (a, b) { return b.score - a.score; });
     return scored.slice(0, 6).map(function (x) {
       return {
-        id: x.it.id,
-        title: x.it.name,
-        url: x.it.url,
+        id: x.it.id, title: x.it.name, url: x.it.url,
         text: x.it.text || x.it.summary || "",
-        // 出处信息透传给云函数：模型据此点明作品名（如《红岩》），来源标签也带书名
-        book: x.it.book || "",
-        type: x.it.type || "",
+        book: x.it.book || "", type: x.it.type || "",
       };
     });
   }
 
-  /* 确定性补全出处：检索上下文带 book（文学作品名）而回答未点明时，
-     在开头补「（出自《红岩》）」。前端兜底，确保涉及文学人物/事件/地点的
-     回答始终标注出处，不依赖云函数是否部署最新版（甫志高类问题根因修复）。 */
   function ensureBookMentioned(answer, contexts) {
     if (!contexts || !contexts.length) return answer;
-    var books = contexts
-      .map(function (c) {
-        return c.book;
-      })
-      .filter(function (b) {
-        return b && typeof b === "string" && b.trim();
-      });
+    var books = contexts.map(function (c) { return c.book; }).filter(function (b) { return b && typeof b === "string" && b.trim(); });
     if (!books.length) return answer;
     var book = books[0].trim();
-    if (answer.indexOf(book) !== -1) return answer; // 已点明则不重复
+    if (answer.indexOf(book) !== -1) return answer;
     return "（出自" + book + "）" + answer;
   }
 
-  /* 来源链接兜底：云函数未返回 sources（旧版/空）时，用最相关上下文的 url 生成，
-     标题带书名（如「《红岩》· …」），保证成功回答始终有可核查来源。 */
   function buildSources(answer, sources, contexts) {
     if (sources && sources.length) return sources;
     if (!contexts || !contexts.length) return [];
@@ -432,116 +354,37 @@
     });
   }
 
-  /* ------------------------------------------------------------
-     错误提示：按类型区分，避免「一刀切」掩盖真实原因
-     背景：此前所有失败（未登录/超时/网络/SDK未就绪/上游错误）都显示
-          同一句「助手开小差了」，导致真实故障（未登录被鉴权拒绝）长期无法定位。
-     ------------------------------------------------------------ */
   var ERR_MSG = {
-    UNAUTHENTICATED: "AI 助手需要登录后才能使用，登录后即可继续提问。",
-    SDK_NOT_READY: "云能力尚未加载完成，请稍候几秒后重试。",
+    NO_AUTH: "AI 助手需要登录后才能使用，登录后即可继续提问。",
+    SDK_NOT_READY: "客户端尚未加载完成，请稍候几秒后重试。",
     TIMEOUT: "模型响应超时，请稍后再试。",
     UPSTREAM: "AI 服务暂时不可用，请稍后再试。",
     UNKNOWN: "助手开小差了，请稍后再试。",
   };
 
-  /* 等待云 SDK 就绪
-     原因：cloudbase-loader 动态插入的 <script> 是异步加载的，
-           其派发的 cloudbase-ready 事件可能早于 SDK 真正挂载（实测确认）。
-           这里改为轮询 window.cloudbase，不再依赖该事件。 */
-  function waitCloudReady(maxMs) {
-    return new Promise(function (resolve, reject) {
-      if (typeof window.cloudbase !== "undefined") return resolve();
-      var waited = 0,
-        step = 200;
-      var t = setInterval(function () {
-        waited += step;
-        if (typeof window.cloudbase !== "undefined") {
-          clearInterval(t);
-          resolve();
-        } else if (waited >= maxMs) {
-          clearInterval(t);
-          reject(new Error("SDK_NOT_READY"));
-        }
-      }, step);
-    });
-  }
-
-  function uidOf(st) {
-    if (!st) return "";
-    return st.uid || (st.user && st.user.uid) || "";
-  }
-
-  /* 建立登录态（含匿名兜底），返回 uid；失败返回空串，不阻断调用方。
-     用途：纠错留痕等非阻断场景。 */
-  async function ensureAnyUid() {
-    try {
-      await waitCloudReady(8000);
-      var auth = RCS.getApp().auth();
-      var uid = uidOf(await auth.getLoginState());
-      if (uid) return uid;
-      await auth.signInAnonymously();
-      return uidOf(await auth.getLoginState());
-    } catch (e) {
-      return "";
-    }
-  }
-
-  /* 是否已登录。
-     注意：云函数安全规则为 auth != null && auth.loginType != 'ANONYMOUS'，
-     匿名身份调用会被 EXCEED_AUTHORITY 拒绝，因此这里不再尝试匿名登录——
-     未登录直接引导用户登录，避免一次注定失败的请求。 */
-  async function isLoggedIn() {
-    try {
-      await waitCloudReady(8000);
-      return !!uidOf(await RCS.getApp().auth().getLoginState());
-    } catch (e) {
-      return false;
-    }
-  }
-
-  /* 错误归一化：把 SDK 抛出的各种形态统一成可识别类型 */
-  function classifyError(e) {
-    var msg = (e && e.message) || "";
-    if (e && e.rcsCode) return e.rcsCode;
-    var raw = msg;
-    try {
-      raw = JSON.stringify(e) || msg;
-    } catch (_) {
-      /* 循环引用等，回退用 message */
-    }
-    // EXCEED_AUTHORITY：安全规则拒绝了匿名身份，等同「未登录」
-    if (
-      raw.indexOf("unauthenticated") !== -1 ||
-      raw.indexOf("credentials not found") !== -1 ||
-      raw.indexOf("EXCEED_AUTHORITY") !== -1
-    )
-      return "UNAUTHENTICATED";
-    if (msg.indexOf("SDK_NOT_READY") !== -1) return "SDK_NOT_READY";
-    if (msg.indexOf("TIMEOUT") !== -1) return "TIMEOUT";
+  function classifyError(code) {
+    if (code === "NO_AUTH" || code === "TURNSTILE_FAIL") return "NO_AUTH";
+    if (code === "TIMEOUT") return "TIMEOUT";
+    if (code === "UPSTREAM_ERROR" || code === "NO_KEY") return "UPSTREAM";
     return "UNKNOWN";
   }
 
-  /* 单次云函数调用 */
   async function callAIOnce(question, contexts) {
-    var app = RCS.getApp();
+    var app = getApp();
     var res = await app.callFunction({
       name: "ai-chat",
-      data: {
-        question: question,
-        history: history.slice(-8),
-        contexts: contexts,
-      },
+      data: { question: question, history: history.slice(-8), contexts: contexts },
     });
-    return res.result; // {success, data:{answer,sources}, error:{code,message}}
+    return res.result;
   }
 
   async function callAI(question, contexts, typing) {
     try {
-      // ① 关键修复：云函数安全规则禁止匿名调用，未登录直接引导登录，不发注定失败的请求
-      if (!(await isLoggedIn())) {
+      // 未登录直接引导登录（云函数安全规则禁止匿名）
+      var state = await getState();
+      if (!state || !state.uid) {
         if (typing && typing.parentNode) typing.parentNode.removeChild(typing);
-        addLoginPrompt(ERR_MSG.UNAUTHENTICATED);
+        addLoginPrompt(ERR_MSG.NO_AUTH);
         return;
       }
 
@@ -549,16 +392,9 @@
       try {
         result = await callAIOnce(question, contexts);
       } catch (e1) {
-        var k1 = classifyError(e1);
-        // ② 瞬时错误重试一次（审计日志显示：上游抖动重试即成功）
-        if (k1 === "TIMEOUT" || k1 === "UNKNOWN") {
-          await new Promise(function (r) {
-            setTimeout(r, 600);
-          });
-          result = await callAIOnce(question, contexts);
-        } else {
-          throw e1;
-        }
+        // 瞬时错误重试一次
+        await new Promise(function (r) { setTimeout(r, 600); });
+        result = await callAIOnce(question, contexts);
       }
 
       if (typing && typing.parentNode) typing.parentNode.removeChild(typing);
@@ -573,24 +409,40 @@
         return;
       }
 
-      // ③ 业务层错误码分类提示
       var code = result && result.error && result.error.code;
       if (code === "SENSITIVE" || code === "NO_CONTEXT" || code === "NO_GROUNDED" || code === "INVALID_PARAM") {
         addAssistantBubble(result.error.message, []);
-      } else if (code === "TIMEOUT") {
-        addAssistantBubble(ERR_MSG.TIMEOUT, []);
-      } else if (code === "UPSTREAM_ERROR") {
-        addAssistantBubble(ERR_MSG.UPSTREAM, []);
       } else {
-        addAssistantBubble(ERR_MSG.UNKNOWN, []);
+        var kind = classifyError(code);
+        addAssistantBubble(ERR_MSG[kind] || ERR_MSG.UNKNOWN, []);
       }
     } catch (e) {
-      var kind = classifyError(e);
       if (typing && typing.parentNode) typing.parentNode.removeChild(typing);
-      addAssistantBubble(ERR_MSG[kind] || ERR_MSG.UNKNOWN, []);
-      // 保留真实错误，便于后续排查（此前被静默吞掉）
-      if (window.console && console.error) console.error("[RCS-AI] 调用失败:", kind, e);
+      addAssistantBubble(ERR_MSG.UNKNOWN, []);
+      if (window.console && console.error) console.error("[RCS-AI] 调用失败:", e);
     }
+  }
+
+  function addLoginPrompt(text) {
+    var body = el("rcs-ai-body");
+    var msg = document.createElement("div");
+    msg.className = "rcs-msg rcs-msg-assistant";
+    var bubble = document.createElement("div");
+    bubble.className = "rcs-bubble";
+    bubble.textContent = text;
+    msg.appendChild(bubble);
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "rcs-login-cta";
+    btn.textContent = "去登录";
+    btn.onclick = function () {
+      if (window.RCSAccount && typeof RCSAccount.openLogin === "function") {
+        RCSAccount.openLogin();
+      }
+    };
+    msg.appendChild(btn);
+    body.appendChild(msg);
+    body.scrollTop = body.scrollHeight;
   }
 
   window.RCAI = {
