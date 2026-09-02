@@ -1453,6 +1453,11 @@ button.stat:focus-visible { outline: 2px solid rgba(255,255,255,.6); outline-off
 /* ---------- AI 生成图角标（红文学图片合规 P1） ----------
    由 script.js 的 markAiImages() 注入到图片父容器；
    父容器的 position:relative 也由 JS 兜底设置。 */
+/* AI 氛围图视觉弱化（仅白名单 AI 图加 class="ai-img"）：与真实历史照在视觉上区分，
+   明确「艺术再现」定位。纯 CSS 实现，失败安全，不依赖 JS 加载。 */
+.ai-img {
+  filter: grayscale(.45) saturate(.9) contrast(.96);
+}
 .ai-badge {
   position: absolute;
   left: 12px;
