@@ -21,9 +21,9 @@
     .cz-chip{flex:1 1 120px;border:1px solid #ece2da;border-radius:12px;padding:12px 14px;background:#fbf7f4;}
     .cz-chip .k{display:block;font-size:12px;color:#a99e96;letter-spacing:.04em;margin-bottom:3px;}
     .cz-chip .v{display:block;font-size:15px;font-weight:600;color:#1a1410;line-height:1.35;}
-    .cz-map{width:100%;max-width:440px;height:auto;}
+    .cz-map{width:100%;max-width:600px;height:auto;}
     .cz-route-body{display:flex;flex-wrap:wrap;gap:48px;justify-content:center;align-items:flex-start;margin:28px 0 4px;}
-    .cz-map-wrap{flex:0 0 auto;width:100%;max-width:440px;margin:0;}
+    .cz-map-wrap{flex:0 0 auto;width:100%;max-width:600px;margin:0;}
     .cz-index{flex:1 1 300px;max-width:380px;min-width:260px;}
     .cz-index-h{font-size:15px;font-weight:600;color:#1a1410;letter-spacing:.02em;margin:6px 0 14px;padding-bottom:10px;border-bottom:1px solid #ece2da;}
     .cz-index-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;}
@@ -144,230 +144,61 @@
 
       <div class="cz-route-body reveal">
         <div class="cz-map-wrap">
-        <svg class="cz-map" viewBox="0 0 460 720" role="img" aria-label="长征路线图：瑞金经湘江、遵义、赤水、金沙江、大渡河、泸定桥、夹金山、草地、腊子口至吴起镇、会宁；红点为关键节点，红叉为敌军封锁线（红军突破处）">
-          <defs>
-            <marker id="cz-arrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-              <path d="M0,0 L10,5 L0,10 z" fill="#C8102E"/>
-            </marker>
-          
-            <pattern id="cz-contour" width="150" height="150" patternUnits="userSpaceOnUse" patternTransform="rotate(7)">
-              <g fill="none" stroke="#e6d7c7" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" opacity="0.55">
-                <path d="M28,42 C43,25 71,29 75,48 C79,67 58,80 43,73 C29,67 18,53 28,42 Z"/>
-                <path d="M37,48 C48,37 65,41 67,52 C69,62 55,69 46,64 C38,60 32,54 37,48 Z"/>
-                <path d="M103,106 C118,91 143,97 139,116 C135,133 116,137 106,128 C97,121 91,114 103,106 Z"/>
-                <path d="M111,112 C122,103 134,107 132,116 C130,125 117,127 111,122 C106,118 103,115 111,112 Z"/>
-                <path d="M112,28 C125,18 144,24 140,39 C136,52 119,55 110,46 C103,39 101,35 112,28 Z"/>
-                <path d="M6,118 C16,108 33,112 30,126 C27,138 12,140 5,131 C0,124 -2,123 6,118 Z"/>
-              </g>
-            </pattern>
-          </defs>
-          <rect x="8" y="8" width="444" height="704" rx="18" fill="#fffdfb" stroke="#f0e6df" stroke-width="2"/>
-          <rect x="8" y="8" width="444" height="704" rx="18" fill="url(#cz-contour)"/>
-          <polyline points="405,665 305,645 215,560 170,515 90,605 88,470 75,432 92,402 105,250 140,200 255,80 150,140" fill="none" stroke="#f3e2dd" stroke-width="9" stroke-linejoin="round" stroke-linecap="round"/>
-          <polyline points="405,665 305,645 215,560 170,515 90,605 88,470 75,432 92,402 105,250 140,200 255,80 150,140" fill="none" stroke="#C8102E" stroke-width="4.5" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#cz-arrow)"/>
-
-          <!-- ① 瑞金 -->
-          <a class="wp-link" href="place-rujin.html" data-id="ruijin">
-            <g class="wp">
-              <circle class="ring" cx="405" cy="665" r="16"/>
-              <circle cx="405" cy="665" r="11" fill="#C8102E" stroke="#fff" stroke-width="2.5"/>
-              <text x="405" y="665" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="700">1</text>
-              <g class="tip">
-                <rect x="300" y="593" width="158" height="58" rx="9" fill="#1a1410" opacity=".94"/>
-                <text x="312" y="615" fill="#fff" font-size="14" font-weight="700">瑞金</text>
-                <text x="312" y="631" fill="#ffd2c9" font-size="11">1934.10 · 战略转移起点</text>
-                <text x="312" y="647" fill="#e9ded7" font-size="11">中央红军由此出发</text>
-              </g>
-            </g>
-          </a>
-
-          <!-- ② 湘江 -->
-          <a class="wp-link" href="place-xiangjiang.html" data-id="xiangjiang"><g class="wp">
-            <circle cx="305" cy="645" r="11" fill="#C8102E" stroke="#fff" stroke-width="2.5"/>
-            <text x="305" y="645" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="700">2</text>
-            <g class="tip">
-              <rect x="222" y="571" width="158" height="58" rx="9" fill="#1a1410" opacity=".94"/>
-              <text x="234" y="593" fill="#fff" font-size="14" font-weight="700">湘江</text>
-              <text x="234" y="609" fill="#ffd2c9" font-size="11">1934.11 · 血战湘江</text>
-              <text x="234" y="625" fill="#e9ded7" font-size="11">突破第四道封锁线</text>
-            </g>
-          </g></a>
-
-          <!-- ③ 遵义 -->
-          <a class="wp-link" href="place-zunyi.html" data-id="zunyi">
-            <g class="wp">
-              <circle class="ring" cx="215" cy="560" r="16"/>
-              <circle cx="215" cy="560" r="11" fill="#C8102E" stroke="#fff" stroke-width="2.5"/>
-              <text x="215" y="560" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="700">3</text>
-              <g class="tip">
-                <rect x="136" y="488" width="158" height="58" rx="9" fill="#1a1410" opacity=".94"/>
-                <text x="148" y="510" fill="#fff" font-size="14" font-weight="700">遵义</text>
-                <text x="148" y="526" fill="#ffd2c9" font-size="11">1935.1 · 遵义会议</text>
-                <text x="148" y="542" fill="#e9ded7" font-size="11">确立正确军事路线</text>
-              </g>
-            </g>
-          </a>
-
-          <!-- ④ 赤水河 -->
-          <a class="wp-link" href="place-chishui.html" data-id="chishui"><g class="wp">
-            <circle cx="170" cy="515" r="11" fill="#C8102E" stroke="#fff" stroke-width="2.5"/>
-            <text x="170" y="515" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="700">4</text>
-            <g class="tip">
-              <rect x="86" y="443" width="158" height="58" rx="9" fill="#1a1410" opacity=".94"/>
-              <text x="98" y="465" fill="#fff" font-size="14" font-weight="700">赤水河</text>
-              <text x="98" y="481" fill="#ffd2c9" font-size="11">1935 · 四渡赤水</text>
-              <text x="98" y="497" fill="#e9ded7" font-size="11">声东击西摆脱追兵</text>
-            </g>
-          </g></a>
-
-          <!-- ⑤ 金沙江 -->
-          <a class="wp-link" href="place-jinsha.html" data-id="jinsha"><g class="wp">
-            <circle cx="90" cy="605" r="11" fill="#C8102E" stroke="#fff" stroke-width="2.5"/>
-            <text x="90" y="605" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="700">5</text>
-            <g class="tip">
-              <rect x="80" y="533" width="158" height="58" rx="9" fill="#1a1410" opacity=".94"/>
-              <text x="92" y="555" fill="#fff" font-size="14" font-weight="700">金沙江</text>
-              <text x="92" y="571" fill="#ffd2c9" font-size="11">1935.5 · 巧渡金沙江</text>
-              <text x="92" y="587" fill="#e9ded7" font-size="11">跳出数十万重围</text>
-            </g>
-          </g></a>
-
-          <!-- ⑥ 大渡河 -->
-          <a class="wp-link" href="place-daduhe.html" data-id="daduhe"><g class="wp">
-            <circle cx="88" cy="470" r="11" fill="#C8102E" stroke="#fff" stroke-width="2.5"/>
-            <text x="88" y="470" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="700">6</text>
-            <g class="tip">
-              <rect x="78" y="398" width="158" height="58" rx="9" fill="#1a1410" opacity=".94"/>
-              <text x="90" y="420" fill="#fff" font-size="14" font-weight="700">大渡河</text>
-              <text x="90" y="436" fill="#ffd2c9" font-size="11">1935.5 · 强渡大渡河</text>
-              <text x="90" y="452" fill="#e9ded7" font-size="11">安顺场抢渡天险</text>
-            </g>
-          </g></a>
-
-          <!-- ⑦ 泸定桥 -->
-          <a class="wp-link" href="place-luding.html" data-id="luding">
-            <g class="wp">
-              <circle class="ring" cx="75" cy="432" r="16"/>
-              <circle cx="75" cy="432" r="11" fill="#C8102E" stroke="#fff" stroke-width="2.5"/>
-              <text x="75" y="432" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="700">7</text>
-              <g class="tip">
-                <rect x="66" y="360" width="158" height="58" rx="9" fill="#1a1410" opacity=".94"/>
-                <text x="78" y="382" fill="#fff" font-size="14" font-weight="700">泸定桥</text>
-                <text x="78" y="398" fill="#ffd2c9" font-size="11">1935.5 · 飞夺泸定桥</text>
-                <text x="78" y="414" fill="#e9ded7" font-size="11">铁索链上夺通道</text>
-              </g>
-            </g>
-          </a>
-
-          <!-- ⑧ 夹金山 -->
-          <a class="wp-link" href="place-jiajin.html" data-id="jiajin"><g class="wp">
-            <circle cx="92" cy="402" r="11" fill="#C8102E" stroke="#fff" stroke-width="2.5"/>
-            <text x="92" y="402" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="700">8</text>
-            <g class="tip">
-              <rect x="82" y="330" width="158" height="58" rx="9" fill="#1a1410" opacity=".94"/>
-              <text x="94" y="352" fill="#fff" font-size="14" font-weight="700">夹金山</text>
-              <text x="94" y="368" fill="#ffd2c9" font-size="11">1935.6 · 翻越雪山</text>
-              <text x="94" y="384" fill="#e9ded7" font-size="11">海拔四千米严寒</text>
-            </g>
-          </g></a>
-
-          <!-- ⑨ 松潘草地 -->
-          <a class="wp-link" href="place-songpan.html" data-id="songpan"><g class="wp">
-            <circle cx="105" cy="250" r="11" fill="#C8102E" stroke="#fff" stroke-width="2.5"/>
-            <text x="105" y="250" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="700">9</text>
-            <g class="tip">
-              <rect x="26" y="178" width="158" height="58" rx="9" fill="#1a1410" opacity=".94"/>
-              <text x="38" y="200" fill="#fff" font-size="14" font-weight="700">松潘草地</text>
-              <text x="38" y="216" fill="#ffd2c9" font-size="11">1935.8 · 穿越草地</text>
-              <text x="38" y="232" fill="#e9ded7" font-size="11">茫茫沼泽险阻</text>
-            </g>
-          </g></a>
-
-          <!-- ⑩ 吴起镇 -->
-          <a class="wp-link" href="place-wuqi.html" data-id="wuqi"><g class="wp">
-            <circle cx="255" cy="80" r="11" fill="#C8102E" stroke="#fff" stroke-width="2.5"/>
-            <text x="255" y="80" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="700">10</text>
-            <g class="tip">
-              <rect x="176" y="98" width="158" height="58" rx="9" fill="#1a1410" opacity=".94"/>
-              <text x="188" y="120" fill="#fff" font-size="14" font-weight="700">吴起镇</text>
-              <text x="188" y="136" fill="#ffd2c9" font-size="11">1935.10 · 陕北会师</text>
-              <text x="188" y="152" fill="#e9ded7" font-size="11">红一方面军落脚点</text>
-            </g>
-          </g></a>
-
-          <!-- ⑪ 会宁 -->
-          <a class="wp-link" href="place-huining.html" data-id="huining"><g class="wp">
-            <circle cx="150" cy="140" r="11" fill="#C8102E" stroke="#fff" stroke-width="2.5"/>
-            <text x="150" y="140" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="700">11</text>
-            <g class="tip">
-              <rect x="69" y="158" width="158" height="58" rx="9" fill="#1a1410" opacity=".94"/>
-              <text x="81" y="180" fill="#fff" font-size="14" font-weight="700">会宁</text>
-              <text x="81" y="196" fill="#ffd2c9" font-size="11">1936.10 · 三大主力会师</text>
-              <text x="81" y="212" fill="#e9ded7" font-size="11">长征胜利结束</text>
-            </g>
-          </g></a>
-        
-          <!-- ⑫ 腊子口（新增节点） -->
-          <a class="wp-link" href="place-lazikou.html" data-id="lazikou"><g class="wp">
-            <circle cx="140" cy="200" r="11" fill="#C8102E" stroke="#fff" stroke-width="2.5"/>
-            <text x="140" y="200" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="700">12</text>
-            <g class="tip">
-              <rect x="61" y="128" width="158" height="58" rx="9" fill="#1a1410" opacity=".94"/>
-              <text x="73" y="150" fill="#fff" font-size="14" font-weight="700">腊子口</text>
-              <text x="73" y="166" fill="#ffd2c9" font-size="11">1935.9 · 突破天险</text>
-              <text x="73" y="182" fill="#e9ded7" font-size="11">打开北上陕甘门户</text>
-            </g>
-          </g></a>
-
-          <!-- 敌军封锁线标记（被拦截处，红军突破） -->
-          <g class="blk">
-            <line x1="305" y1="645" x2="250" y2="678" stroke="#C8102E" stroke-width="1.5" stroke-dasharray="4 3" opacity=".7"/>
-            <circle cx="248" cy="680" r="8" fill="#fff" stroke="#C8102E" stroke-width="2"/>
-            <path d="M244,676 L252,684 M244,684 L252,676" stroke="#C8102E" stroke-width="2" stroke-linecap="round"/>
-            <text x="260" y="684" fill="#C8102E" font-size="11" font-weight="700">封锁线</text>
-            <g class="tip">
-              <rect x="248" y="596" width="176" height="58" rx="9" fill="#1a1410" opacity=".94"/>
-              <text x="260" y="618" fill="#fff" font-size="14" font-weight="700">敌·第四道封锁线</text>
-              <text x="260" y="634" fill="#ffd2c9" font-size="11">1934.11 · 湘江</text>
-              <text x="260" y="650" fill="#e9ded7" font-size="11">红军血战突破，伤亡惨重</text>
-            </g>
-          </g>
-
-          <g class="blk">
-            <line x1="88" y1="470" x2="40" y2="505" stroke="#C8102E" stroke-width="1.5" stroke-dasharray="4 3" opacity=".7"/>
-            <circle cx="38" cy="507" r="8" fill="#fff" stroke="#C8102E" stroke-width="2"/>
-            <path d="M34,503 L42,511 M34,511 L42,503" stroke="#C8102E" stroke-width="2" stroke-linecap="round"/>
-            <text x="50" y="511" fill="#C8102E" font-size="11" font-weight="700">封锁线</text>
-            <g class="tip">
-              <rect x="40" y="416" width="176" height="58" rx="9" fill="#1a1410" opacity=".94"/>
-              <text x="52" y="438" fill="#fff" font-size="14" font-weight="700">敌·毁桥阻渡</text>
-              <text x="52" y="454" fill="#ffd2c9" font-size="11">1935.5 · 大渡河</text>
-              <text x="52" y="470" fill="#e9ded7" font-size="11">守敌拆桥板，飞夺泸定突破</text>
-            </g>
-          </g>
-
-          <g class="blk">
-            <line x1="140" y1="200" x2="205" y2="216" stroke="#C8102E" stroke-width="1.5" stroke-dasharray="4 3" opacity=".7"/>
-            <circle cx="207" cy="218" r="8" fill="#fff" stroke="#C8102E" stroke-width="2"/>
-            <path d="M203,214 L211,222 M203,222 L211,214" stroke="#C8102E" stroke-width="2" stroke-linecap="round"/>
-            <text x="219" y="222" fill="#C8102E" font-size="11" font-weight="700">封锁线</text>
-            <g class="tip">
-              <rect x="219" y="116" width="176" height="58" rx="9" fill="#1a1410" opacity=".94"/>
-              <text x="231" y="138" fill="#fff" font-size="14" font-weight="700">敌·天险封锁线</text>
-              <text x="231" y="154" fill="#ffd2c9" font-size="11">1935.9 · 腊子口</text>
-              <text x="231" y="170" fill="#e9ded7" font-size="11">峡谷险关，红军奇袭突破</text>
-            </g>
-          </g>
-
-          <!-- 图例 -->
-          <g class="cz-legend">
-            <circle cx="30" cy="692" r="6" fill="#C8102E"/>
-            <text x="42" y="696" fill="#5a5048" font-size="12">关键节点</text>
-            <circle cx="170" cy="692" r="7" fill="#fff" stroke="#C8102E" stroke-width="2"/>
-            <path d="M166,688 L174,696 M166,696 L174,688" stroke="#C8102E" stroke-width="2"/>
-            <text x="184" y="696" fill="#5a5048" font-size="12">敌军封锁线（红军突破处）</text>
-          </g>
+        <svg class="cz-map" viewBox="0 0 1000 730" role="img" aria-label="长征行程图：依实际地理坐标绘制，以传统舆图笔法表现山川河流；自江西瑞金经湘江、遵义、赤水、金沙江、大渡河、泸定、夹金山、草地、腊子口至吴起镇、会宁，朱红路线为红军行进方向，红点为关键节点，红叉为敌军封锁线。">
+<defs><marker id="cz-arrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#C8102E"/></marker><style>.cz-mt{font-family:"Kaiti SC","STKaiti","KaiTi","Songti SC",serif;fill:#6b5640;font-size:13px;}.cz-rv{font-family:"Kaiti SC","STKaiti","KaiTi","Songti SC",serif;fill:#4f7480;font-size:12.5px;}.cz-title{font-family:"Kaiti SC","STKaiti","KaiTi","Songti SC",serif;fill:#1a1410;font-size:22px;font-weight:700;letter-spacing:3px;}.cz-sub{font-family:"Kaiti SC","STKaiti","KaiTi","Songti SC",serif;fill:#8a6f53;font-size:11px;letter-spacing:1px;}.cz-leg{font-family:"Kaiti SC","STKaiti","KaiTi","Songti SC",serif;fill:#5a5048;font-size:12.5px;}</style></defs>
+<rect x="0" y="0" width="1000" height="730" fill="#f1e6d0"/>
+<g><line x1="158" y1="48" x2="158" y2="692" stroke="#d8c6a8" stroke-width="0.6" opacity="0.35"/><line x1="218" y1="48" x2="218" y2="692" stroke="#d8c6a8" stroke-width="0.6" opacity="0.35"/><line x1="278" y1="48" x2="278" y2="692" stroke="#d8c6a8" stroke-width="0.6" opacity="0.35"/><line x1="338" y1="48" x2="338" y2="692" stroke="#d8c6a8" stroke-width="0.6" opacity="0.35"/><line x1="398" y1="48" x2="398" y2="692" stroke="#d8c6a8" stroke-width="0.6" opacity="0.35"/><line x1="458" y1="48" x2="458" y2="692" stroke="#d8c6a8" stroke-width="0.6" opacity="0.35"/><line x1="518" y1="48" x2="518" y2="692" stroke="#d8c6a8" stroke-width="0.6" opacity="0.35"/><line x1="578" y1="48" x2="578" y2="692" stroke="#d8c6a8" stroke-width="0.6" opacity="0.35"/><line x1="638" y1="48" x2="638" y2="692" stroke="#d8c6a8" stroke-width="0.6" opacity="0.35"/><line x1="698" y1="48" x2="698" y2="692" stroke="#d8c6a8" stroke-width="0.6" opacity="0.35"/><line x1="758" y1="48" x2="758" y2="692" stroke="#d8c6a8" stroke-width="0.6" opacity="0.35"/><line x1="818" y1="48" x2="818" y2="692" stroke="#d8c6a8" stroke-width="0.6" opacity="0.35"/><line x1="158" y1="48" x2="862" y2="48" stroke="#d8c6a8" stroke-width="0.6" opacity="0.35"/><line x1="158" y1="108" x2="862" y2="108" stroke="#d8c6a8" stroke-width="0.6" opacity="0.35"/><line x1="158" y1="168" x2="862" y2="168" stroke="#d8c6a8" stroke-width="0.6" opacity="0.35"/><line x1="158" y1="228" x2="862" y2="228" stroke="#d8c6a8" stroke-width="0.6" opacity="0.35"/><line x1="158" y1="288" x2="862" y2="288" stroke="#d8c6a8" stroke-width="0.6" opacity="0.35"/><line x1="158" y1="348" x2="862" y2="348" stroke="#d8c6a8" stroke-width="0.6" opacity="0.35"/><line x1="158" y1="408" x2="862" y2="408" stroke="#d8c6a8" stroke-width="0.6" opacity="0.35"/><line x1="158" y1="468" x2="862" y2="468" stroke="#d8c6a8" stroke-width="0.6" opacity="0.35"/><line x1="158" y1="528" x2="862" y2="528" stroke="#d8c6a8" stroke-width="0.6" opacity="0.35"/><line x1="158" y1="588" x2="862" y2="588" stroke="#d8c6a8" stroke-width="0.6" opacity="0.35"/><line x1="158" y1="648" x2="862" y2="648" stroke="#d8c6a8" stroke-width="0.6" opacity="0.35"/></g>
+<rect x="150" y="40" width="720" height="660" fill="none" stroke="#7c6248" stroke-width="2"/>
+<rect x="158" y="48" width="704" height="644" fill="none" stroke="#7c6248" stroke-width="1" opacity="0.6"/>
+<text class="cz-title" x="852" y="74" text-anchor="end">长征行程图</text>
+<text class="cz-sub" x="852" y="90" text-anchor="end">一九三四 — 一九三六</text>
+<g transform="translate(835,648)"><circle r="15" fill="none" stroke="#7c6248" stroke-width="1.2"/><line x1="0" y1="-15" x2="0" y2="15" stroke="#7c6248" stroke-width="0.8"/><line x1="-15" y1="0" x2="15" y2="0" stroke="#7c6248" stroke-width="0.8"/><path d="M0,-13 L4,0 L0,13 L-4,0 Z" fill="#C8102E" opacity="0.85"/><text class="cz-sub" x="0" y="-19" text-anchor="middle" font-size="10">北</text></g>
+<path d="M 633.9,710.5 L 634.5,704.7 L 632.4,700.0 L 627.7,696.5 L 623.2,692.8 L 621.5,687.9 L 622.3,682.0 L 622.6,676.3 L 620.0,671.9 L 615.1,668.4 L 610.7,664.9 L 609.2,660.0 L 609.7,654.0 L 609.3,648.4 L 605.9,644.4 L 600.7,641.3 L 596.6,637.6 L 595.5,632.4 L 596.1,626.4 L 595.3,621.0 L 591.5,617.2 L 586.8,613.5 L 584.0,609.0 L 584.5,603.6 L 586.4,597.8 L 586.4,592.5 L 583.2,588.0 L 578.8,583.9 L 576.5,579.2 L 577.3,573.7 L 579.1,567.9 L 578.7,562.7" fill="none" stroke="#cfe0e2" stroke-width="4.5" opacity="0.55" stroke-linecap="round"/>
+<path d="M 633.9,710.5 L 634.5,704.7 L 632.4,700.0 L 627.7,696.5 L 623.2,692.8 L 621.5,687.9 L 622.3,682.0 L 622.6,676.3 L 620.0,671.9 L 615.1,668.4 L 610.7,664.9 L 609.2,660.0 L 609.7,654.0 L 609.3,648.4 L 605.9,644.4 L 600.7,641.3 L 596.6,637.6 L 595.5,632.4 L 596.1,626.4 L 595.3,621.0 L 591.5,617.2 L 586.8,613.5 L 584.0,609.0 L 584.5,603.6 L 586.4,597.8 L 586.4,592.5 L 583.2,588.0 L 578.8,583.9 L 576.5,579.2 L 577.3,573.7 L 579.1,567.9 L 578.7,562.7" fill="none" stroke="#5b8593" stroke-width="1.6" opacity="0.8" stroke-linecap="round"/>
+<text class="cz-rv" x="603.7" y="633.6" text-anchor="middle">湘江</text>
+<path d="M 387.5,484.7 L 392.0,488.4 L 396.9,489.2 L 402.3,487.3 L 407.8,485.5 L 412.7,486.4 L 417.2,490.0 L 421.6,493.6 L 426.6,494.4 L 432.0,492.5 L 437.4,490.7 L 442.3,491.6 L 446.8,495.3 L 451.3,498.8 L 456.2,499.6 L 461.7,497.6 L 467.1,495.8 L 472.0,496.9 L 476.4,500.6 L 482.3,501.3 L 486.7,498.9 L 490.0,494.2 L 493.4,489.7 L 498.1,487.8 L 503.9,488.3 L 509.5,488.5 L 513.9,486.1 L 517.3,481.4 L 520.7,476.9 L 525.4,475.0 L 531.1,475.5 L 536.8,475.8 L 541.2,473.3 L 544.5,468.5 L 547.9,464.1 L 552.6,462.3 L 558.4,462.8 L 564.0,463.0 L 567.8,460.9 L 572.3,457.1 L 576.8,453.7 L 581.8,453.3 L 587.2,455.4 L 592.6,457.0 L 597.5,455.6 L 601.9,451.8 L 606.4,448.5 L 611.4,448.1 L 616.9,450.2 L 622.3,451.8 L 627.1,450.4 L 631.5,446.6 L 636.0,443.3 L 641.1,442.9 L 646.5,445.1 L 651.9,446.6 L 656.7,445.1" fill="none" stroke="#cfe0e2" stroke-width="4.5" opacity="0.55" stroke-linecap="round"/>
+<path d="M 387.5,484.7 L 392.0,488.4 L 396.9,489.2 L 402.3,487.3 L 407.8,485.5 L 412.7,486.4 L 417.2,490.0 L 421.6,493.6 L 426.6,494.4 L 432.0,492.5 L 437.4,490.7 L 442.3,491.6 L 446.8,495.3 L 451.3,498.8 L 456.2,499.6 L 461.7,497.6 L 467.1,495.8 L 472.0,496.9 L 476.4,500.6 L 482.3,501.3 L 486.7,498.9 L 490.0,494.2 L 493.4,489.7 L 498.1,487.8 L 503.9,488.3 L 509.5,488.5 L 513.9,486.1 L 517.3,481.4 L 520.7,476.9 L 525.4,475.0 L 531.1,475.5 L 536.8,475.8 L 541.2,473.3 L 544.5,468.5 L 547.9,464.1 L 552.6,462.3 L 558.4,462.8 L 564.0,463.0 L 567.8,460.9 L 572.3,457.1 L 576.8,453.7 L 581.8,453.3 L 587.2,455.4 L 592.6,457.0 L 597.5,455.6 L 601.9,451.8 L 606.4,448.5 L 611.4,448.1 L 616.9,450.2 L 622.3,451.8 L 627.1,450.4 L 631.5,446.6 L 636.0,443.3 L 641.1,442.9 L 646.5,445.1 L 651.9,446.6 L 656.7,445.1" fill="none" stroke="#5b8593" stroke-width="1.6" opacity="0.8" stroke-linecap="round"/>
+<text class="cz-rv" x="521.9" y="465.6" text-anchor="middle">长江</text>
+<path d="M 333.8,516.2 L 333.5,522.3 L 336.1,526.9 L 341.3,530.3 L 345.8,534.0 L 347.3,539.2 L 346.6,545.4 L 347.2,551.1 L 350.6,555.0 L 355.5,559.0 L 358.4,563.7 L 358.0,569.4 L 356.5,575.5 L 357.4,580.7 L 361.5,585.0 L 366.0,589.1 L 367.8,594.2" fill="none" stroke="#cfe0e2" stroke-width="4.5" opacity="0.55" stroke-linecap="round"/>
+<path d="M 333.8,516.2 L 333.5,522.3 L 336.1,526.9 L 341.3,530.3 L 345.8,534.0 L 347.3,539.2 L 346.6,545.4 L 347.2,551.1 L 350.6,555.0 L 355.5,559.0 L 358.4,563.7 L 358.0,569.4 L 356.5,575.5 L 357.4,580.7 L 361.5,585.0 L 366.0,589.1 L 367.8,594.2" fill="none" stroke="#5b8593" stroke-width="1.6" opacity="0.8" stroke-linecap="round"/>
+<text class="cz-rv" x="350.2" y="548.8" text-anchor="middle">赤水河</text>
+<path d="M 199.4,605.5 L 198.8,611.2 L 200.8,615.9 L 205.4,619.4 L 209.9,623.0 L 211.7,627.7 L 211.1,633.4 L 210.6,639.1 L 212.8,643.7 L 217.4,647.2 L 221.8,650.8 L 223.5,655.5 L 222.8,661.3 L 222.4,667.0 L 226.5,671.8 L 232.4,672.3 L 238.0,673.1 L 241.8,676.4 L 244.2,681.8 L 246.9,686.7" fill="none" stroke="#cfe0e2" stroke-width="4.5" opacity="0.55" stroke-linecap="round"/>
+<path d="M 199.4,605.5 L 198.8,611.2 L 200.8,615.9 L 205.4,619.4 L 209.9,623.0 L 211.7,627.7 L 211.1,633.4 L 210.6,639.1 L 212.8,643.7 L 217.4,647.2 L 221.8,650.8 L 223.5,655.5 L 222.8,661.3 L 222.4,667.0 L 226.5,671.8 L 232.4,672.3 L 238.0,673.1 L 241.8,676.4 L 244.2,681.8 L 246.9,686.7" fill="none" stroke="#5b8593" stroke-width="1.6" opacity="0.8" stroke-linecap="round"/>
+<text class="cz-rv" x="224.7" y="646.8" text-anchor="middle">金沙江</text>
+<path d="M 185.9,448.0 L 184.6,453.7 L 186.1,458.6 L 190.3,462.7 L 194.3,466.9 L 195.4,471.9 L 193.9,477.6 L 192.8,483.3 L 194.8,488.0 L 199.2,492.1 L 202.8,496.5 L 203.2,501.7 L 201.4,507.4 L 200.4,512.9 L 202.7,517.6 L 207.0,521.8 L 210.2,526.3 L 210.2,531.5" fill="none" stroke="#cfe0e2" stroke-width="4.5" opacity="0.55" stroke-linecap="round"/>
+<path d="M 185.9,448.0 L 184.6,453.7 L 186.1,458.6 L 190.3,462.7 L 194.3,466.9 L 195.4,471.9 L 193.9,477.6 L 192.8,483.3 L 194.8,488.0 L 199.2,492.1 L 202.8,496.5 L 203.2,501.7 L 201.4,507.4 L 200.4,512.9 L 202.7,517.6 L 207.0,521.8 L 210.2,526.3 L 210.2,531.5" fill="none" stroke="#5b8593" stroke-width="1.6" opacity="0.8" stroke-linecap="round"/>
+<text class="cz-rv" x="197.9" y="485.7" text-anchor="middle">大渡河</text>
+<path d="M 477.1,91.0 L 481.0,95.4 L 486.0,97.0 L 491.8,95.9 L 497.6,95.2 L 502.3,97.5 L 506.1,102.2 L 510.2,106.2 L 515.3,107.1 L 521.3,105.8 L 526.9,105.6 L 531.3,108.5 L 536.2,113.1 L 541.6,112.0 L 545.3,108.1 L 548.1,102.6 L 551.8,98.7 L 557.2,97.7 L 563.3,97.9 L 568.4,96.3 L 571.8,91.8 L 574.6,86.4 L 578.6,83.1 L 584.3,82.6 L 590.4,82.6" fill="none" stroke="#cfe0e2" stroke-width="4.5" opacity="0.55" stroke-linecap="round"/>
+<path d="M 477.1,91.0 L 481.0,95.4 L 486.0,97.0 L 491.8,95.9 L 497.6,95.2 L 502.3,97.5 L 506.1,102.2 L 510.2,106.2 L 515.3,107.1 L 521.3,105.8 L 526.9,105.6 L 531.3,108.5 L 536.2,113.1 L 541.6,112.0 L 545.3,108.1 L 548.1,102.6 L 551.8,98.7 L 557.2,97.7 L 563.3,97.9 L 568.4,96.3 L 571.8,91.8 L 574.6,86.4 L 578.6,83.1 L 584.3,82.6 L 590.4,82.6" fill="none" stroke="#5b8593" stroke-width="1.6" opacity="0.8" stroke-linecap="round"/>
+<text class="cz-rv" x="533.9" y="88.5" text-anchor="middle">黄河</text>
+<g opacity="0.9"><path d="M637.6,684.2 L647.0,660.0 L656.3,684.2 Z" fill="#ddcaa8" stroke="#7c6248" stroke-width="1.2" stroke-linejoin="round"/><path d="M647.0,684.2 L656.3,652.4 L665.7,684.2 Z" fill="#ddcaa8" stroke="#7c6248" stroke-width="1.2" stroke-linejoin="round"/><path d="M656.3,684.2 L665.7,660.0 L675.0,684.2 Z" fill="#ddcaa8" stroke="#7c6248" stroke-width="1.2" stroke-linejoin="round"/><text class="cz-mt" x="656.3" y="654.2" text-anchor="middle">南岭</text></g>
+<g opacity="0.9"><path d="M548.0,574.0 L557.4,549.8 L566.7,574.0 Z" fill="#ddcaa8" stroke="#7c6248" stroke-width="1.2" stroke-linejoin="round"/><path d="M557.4,574.0 L566.7,542.1 L576.1,574.0 Z" fill="#ddcaa8" stroke="#7c6248" stroke-width="1.2" stroke-linejoin="round"/><path d="M566.7,574.0 L576.1,549.8 L585.4,574.0 Z" fill="#ddcaa8" stroke="#7c6248" stroke-width="1.2" stroke-linejoin="round"/><text class="cz-mt" x="566.7" y="544.0" text-anchor="middle">雪峰山</text></g>
+<g opacity="0.9"><path d="M382.3,558.2 L391.6,534.0 L401.0,558.2 Z" fill="#ddcaa8" stroke="#7c6248" stroke-width="1.2" stroke-linejoin="round"/><path d="M391.6,558.2 L401.0,526.3 L410.3,558.2 Z" fill="#ddcaa8" stroke="#7c6248" stroke-width="1.2" stroke-linejoin="round"/><path d="M401.0,558.2 L410.3,534.0 L419.7,558.2 Z" fill="#ddcaa8" stroke="#7c6248" stroke-width="1.2" stroke-linejoin="round"/><text class="cz-mt" x="401.0" y="528.2" text-anchor="middle">大娄山</text></g>
+<g opacity="0.9"><path d="M270.3,621.2 L279.6,597.0 L289.0,621.2 Z" fill="#ddcaa8" stroke="#7c6248" stroke-width="1.2" stroke-linejoin="round"/><path d="M279.6,621.2 L289.0,589.4 L298.3,621.2 Z" fill="#ddcaa8" stroke="#7c6248" stroke-width="1.2" stroke-linejoin="round"/><path d="M289.0,621.2 L298.3,597.0 L307.7,621.2 Z" fill="#ddcaa8" stroke="#7c6248" stroke-width="1.2" stroke-linejoin="round"/><text class="cz-mt" x="289.0" y="591.2" text-anchor="middle">乌蒙山</text></g>
+<g opacity="0.9"><path d="M194.1,421.7 L203.5,397.5 L212.8,421.7 Z" fill="#ddcaa8" stroke="#7c6248" stroke-width="1.2" stroke-linejoin="round"/><path d="M203.5,421.7 L212.8,389.8 L222.2,421.7 Z" fill="#ddcaa8" stroke="#7c6248" stroke-width="1.2" stroke-linejoin="round"/><path d="M212.8,421.7 L222.2,397.5 L231.5,421.7 Z" fill="#ddcaa8" stroke="#7c6248" stroke-width="1.2" stroke-linejoin="round"/><text class="cz-mt" x="212.8" y="391.7" text-anchor="middle">大雪山</text></g>
+<g opacity="0.9"><path d="M238.9,322.0 L248.3,297.8 L257.6,322.0 Z" fill="#ddcaa8" stroke="#7c6248" stroke-width="1.2" stroke-linejoin="round"/><path d="M248.3,322.0 L257.6,290.1 L267.0,322.0 Z" fill="#ddcaa8" stroke="#7c6248" stroke-width="1.2" stroke-linejoin="round"/><path d="M257.6,322.0 L267.0,297.8 L276.3,322.0 Z" fill="#ddcaa8" stroke="#7c6248" stroke-width="1.2" stroke-linejoin="round"/><text class="cz-mt" x="257.6" y="292.0" text-anchor="middle">岷山</text></g>
+<g opacity="0.9"><path d="M346.4,175.0 L355.8,150.8 L365.1,175.0 Z" fill="#ddcaa8" stroke="#7c6248" stroke-width="1.2" stroke-linejoin="round"/><path d="M355.8,175.0 L365.1,143.1 L374.5,175.0 Z" fill="#ddcaa8" stroke="#7c6248" stroke-width="1.2" stroke-linejoin="round"/><path d="M365.1,175.0 L374.5,150.8 L383.8,175.0 Z" fill="#ddcaa8" stroke="#7c6248" stroke-width="1.2" stroke-linejoin="round"/><text class="cz-mt" x="365.1" y="145.0" text-anchor="middle">六盘山</text></g>
+<g opacity="0.9"><path d="M462.9,248.5 L472.2,224.3 L481.6,248.5 Z" fill="#ddcaa8" stroke="#7c6248" stroke-width="1.2" stroke-linejoin="round"/><path d="M472.2,248.5 L481.6,216.6 L490.9,248.5 Z" fill="#ddcaa8" stroke="#7c6248" stroke-width="1.2" stroke-linejoin="round"/><path d="M481.6,248.5 L490.9,224.3 L500.3,248.5 Z" fill="#ddcaa8" stroke="#7c6248" stroke-width="1.2" stroke-linejoin="round"/><text class="cz-mt" x="481.6" y="218.5" text-anchor="middle">秦岭</text></g>
+<polyline points="814.0,674.8 616.0,673.8 406.8,577.7 351.7,533.6 226.2,668.5 208.3,498.9 196.2,462.7 226.2,427.0 257.6,319.4 275.5,253.8 462.3,94.7 320.3,173.9" fill="none" stroke="#f3ddd8" stroke-width="9" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="814.0,674.8 616.0,673.8 406.8,577.7 351.7,533.6 226.2,668.5 208.3,498.9 196.2,462.7 226.2,427.0 257.6,319.4 275.5,253.8 462.3,94.7 320.3,173.9" fill="none" stroke="#C8102E" stroke-width="3.6" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#cz-arrow)"/>
+<a class="wp-link" href="place-ruijin.html" data-id="ruijin"><g class="wp"><circle class="ring" cx="814.0" cy="674.8" r="15"/><rect x="803.0" y="663.8" width="22" height="22" rx="4" fill="#fbf3ef" stroke="#C8102E" stroke-width="2.5"/><text x="814.0" y="674.8" text-anchor="middle" dominant-baseline="central" fill="#C8102E" font-size="12" font-weight="700">1</text><g class="tip"><rect x="616.0" y="630.0" width="178" height="60" rx="9" fill="#1a1410" opacity="0.94"/><text x="628.0" y="652.0" fill="#fff" font-size="14" font-weight="700">瑞金</text><text x="628.0" y="668.0" fill="#ffd2c9" font-size="11">1934.10</text><text x="628.0" y="683.0" fill="#e9ded7" font-size="11">战略转移起点</text></g></g></a>
+<a class="wp-link" href="place-xiangjiang.html" data-id="xiangjiang"><g class="wp"><circle class="ring" cx="616.0" cy="673.8" r="15"/><rect x="605.0" y="662.8" width="22" height="22" rx="4" fill="#fbf3ef" stroke="#C8102E" stroke-width="2.5"/><text x="616.0" y="673.8" text-anchor="middle" dominant-baseline="central" fill="#C8102E" font-size="12" font-weight="700">2</text><g class="tip"><rect x="418.0" y="630.0" width="178" height="60" rx="9" fill="#1a1410" opacity="0.94"/><text x="430.0" y="652.0" fill="#fff" font-size="14" font-weight="700">湘江</text><text x="430.0" y="668.0" fill="#ffd2c9" font-size="11">1934.11</text><text x="430.0" y="683.0" fill="#e9ded7" font-size="11">血战湘江·突破封锁线</text></g></g></a>
+<a class="wp-link" href="place-zunyi.html" data-id="zunyi"><g class="wp"><circle class="ring" cx="406.8" cy="577.7" r="15"/><rect x="395.8" y="566.7" width="22" height="22" rx="4" fill="#fbf3ef" stroke="#C8102E" stroke-width="2.5"/><text x="406.8" y="577.7" text-anchor="middle" dominant-baseline="central" fill="#C8102E" font-size="12" font-weight="700">3</text><g class="tip"><rect x="426.8" y="547.7" width="178" height="60" rx="9" fill="#1a1410" opacity="0.94"/><text x="438.8" y="569.7" fill="#fff" font-size="14" font-weight="700">遵义</text><text x="438.8" y="585.7" fill="#ffd2c9" font-size="11">1935.01</text><text x="438.8" y="600.7" fill="#e9ded7" font-size="11">遵义会议·伟大转折</text></g></g></a>
+<a class="wp-link" href="place-chishui.html" data-id="chishui"><g class="wp"><circle class="ring" cx="351.7" cy="533.6" r="15"/><rect x="340.7" y="522.6" width="22" height="22" rx="4" fill="#fbf3ef" stroke="#C8102E" stroke-width="2.5"/><text x="351.7" y="533.6" text-anchor="middle" dominant-baseline="central" fill="#C8102E" font-size="12" font-weight="700">4</text><g class="tip"><rect x="371.7" y="503.6" width="178" height="60" rx="9" fill="#1a1410" opacity="0.94"/><text x="383.7" y="525.6" fill="#fff" font-size="14" font-weight="700">赤水河</text><text x="383.7" y="541.6" fill="#ffd2c9" font-size="11">1935</text><text x="383.7" y="556.6" fill="#e9ded7" font-size="11">四渡赤水·声东击西</text></g></g></a>
+<a class="wp-link" href="place-jinsha.html" data-id="jinsha"><g class="wp"><circle class="ring" cx="226.2" cy="668.5" r="15"/><rect x="215.2" y="657.5" width="22" height="22" rx="4" fill="#fbf3ef" stroke="#C8102E" stroke-width="2.5"/><text x="226.2" y="668.5" text-anchor="middle" dominant-baseline="central" fill="#C8102E" font-size="12" font-weight="700">5</text><g class="tip"><rect x="246.2" y="630.0" width="178" height="60" rx="9" fill="#1a1410" opacity="0.94"/><text x="258.2" y="652.0" fill="#fff" font-size="14" font-weight="700">金沙江</text><text x="258.2" y="668.0" fill="#ffd2c9" font-size="11">1935.05</text><text x="258.2" y="683.0" fill="#e9ded7" font-size="11">巧渡金沙江·跳出重围</text></g></g></a>
+<a class="wp-link" href="place-daduhe.html" data-id="daduhe"><g class="wp"><circle class="ring" cx="208.3" cy="498.9" r="15"/><rect x="197.3" y="487.9" width="22" height="22" rx="4" fill="#fbf3ef" stroke="#C8102E" stroke-width="2.5"/><text x="208.3" y="498.9" text-anchor="middle" dominant-baseline="central" fill="#C8102E" font-size="12" font-weight="700">6</text><g class="tip"><rect x="228.3" y="468.9" width="178" height="60" rx="9" fill="#1a1410" opacity="0.94"/><text x="240.3" y="490.9" fill="#fff" font-size="14" font-weight="700">大渡河</text><text x="240.3" y="506.9" fill="#ffd2c9" font-size="11">1935.05</text><text x="240.3" y="521.9" fill="#e9ded7" font-size="11">强渡大渡河·安顺场</text></g></g></a>
+<a class="wp-link" href="place-luding.html" data-id="luding"><g class="wp"><circle class="ring" cx="196.2" cy="462.7" r="15"/><rect x="185.2" y="451.7" width="22" height="22" rx="4" fill="#fbf3ef" stroke="#C8102E" stroke-width="2.5"/><text x="196.2" y="462.7" text-anchor="middle" dominant-baseline="central" fill="#C8102E" font-size="12" font-weight="700">7</text><g class="tip"><rect x="216.2" y="432.7" width="178" height="60" rx="9" fill="#1a1410" opacity="0.94"/><text x="228.2" y="454.7" fill="#fff" font-size="14" font-weight="700">泸定桥</text><text x="228.2" y="470.7" fill="#ffd2c9" font-size="11">1935.05</text><text x="228.2" y="485.7" fill="#e9ded7" font-size="11">飞夺泸定桥·铁索夺关</text></g></g></a>
+<a class="wp-link" href="place-jiajin.html" data-id="jiajin"><g class="wp"><circle class="ring" cx="226.2" cy="427.0" r="15"/><rect x="215.2" y="416.0" width="22" height="22" rx="4" fill="#fbf3ef" stroke="#C8102E" stroke-width="2.5"/><text x="226.2" y="427.0" text-anchor="middle" dominant-baseline="central" fill="#C8102E" font-size="12" font-weight="700">8</text><g class="tip"><rect x="246.2" y="397.0" width="178" height="60" rx="9" fill="#1a1410" opacity="0.94"/><text x="258.2" y="419.0" fill="#fff" font-size="14" font-weight="700">夹金山</text><text x="258.2" y="435.0" fill="#ffd2c9" font-size="11">1935.06</text><text x="258.2" y="450.0" fill="#e9ded7" font-size="11">翻越雪山·海拔四千米</text></g></g></a>
+<a class="wp-link" href="place-songpan.html" data-id="songpan"><g class="wp"><circle class="ring" cx="257.6" cy="319.4" r="15"/><rect x="246.6" y="308.4" width="22" height="22" rx="4" fill="#fbf3ef" stroke="#C8102E" stroke-width="2.5"/><text x="257.6" y="319.4" text-anchor="middle" dominant-baseline="central" fill="#C8102E" font-size="12" font-weight="700">9</text><g class="tip"><rect x="277.6" y="289.4" width="178" height="60" rx="9" fill="#1a1410" opacity="0.94"/><text x="289.6" y="311.4" fill="#fff" font-size="14" font-weight="700">松潘草地</text><text x="289.6" y="327.4" fill="#ffd2c9" font-size="11">1935.08</text><text x="289.6" y="342.4" fill="#e9ded7" font-size="11">穿越草地·茫茫沼泽</text></g></g></a>
+<a class="wp-link" href="place-wuqi.html" data-id="wuqi"><g class="wp"><circle class="ring" cx="462.3" cy="94.7" r="15"/><rect x="451.3" y="83.7" width="22" height="22" rx="4" fill="#fbf3ef" stroke="#C8102E" stroke-width="2.5"/><text x="462.3" y="94.7" text-anchor="middle" dominant-baseline="central" fill="#C8102E" font-size="12" font-weight="700">10</text><g class="tip"><rect x="482.3" y="64.7" width="178" height="60" rx="9" fill="#1a1410" opacity="0.94"/><text x="494.3" y="86.7" fill="#fff" font-size="14" font-weight="700">吴起镇</text><text x="494.3" y="102.7" fill="#ffd2c9" font-size="11">1935.10</text><text x="494.3" y="117.7" fill="#e9ded7" font-size="11">陕北会师·落脚点</text></g></g></a>
+<a class="wp-link" href="place-huining.html" data-id="huining"><g class="wp"><circle class="ring" cx="320.3" cy="173.9" r="15"/><rect x="309.3" y="162.9" width="22" height="22" rx="4" fill="#fbf3ef" stroke="#C8102E" stroke-width="2.5"/><text x="320.3" y="173.9" text-anchor="middle" dominant-baseline="central" fill="#C8102E" font-size="12" font-weight="700">11</text><g class="tip"><rect x="340.3" y="143.9" width="178" height="60" rx="9" fill="#1a1410" opacity="0.94"/><text x="352.3" y="165.9" fill="#fff" font-size="14" font-weight="700">会宁</text><text x="352.3" y="181.9" fill="#ffd2c9" font-size="11">1936.10</text><text x="352.3" y="196.9" fill="#e9ded7" font-size="11">三大主力会师·胜利结束</text></g></g></a>
+<a class="wp-link" href="place-lazikou.html" data-id="lazikou"><g class="wp"><circle class="ring" cx="275.5" cy="253.8" r="15"/><rect x="264.5" y="242.8" width="22" height="22" rx="4" fill="#fbf3ef" stroke="#C8102E" stroke-width="2.5"/><text x="275.5" y="253.8" text-anchor="middle" dominant-baseline="central" fill="#C8102E" font-size="12" font-weight="700">12</text><g class="tip"><rect x="295.5" y="223.8" width="178" height="60" rx="9" fill="#1a1410" opacity="0.94"/><text x="307.5" y="245.8" fill="#fff" font-size="14" font-weight="700">腊子口</text><text x="307.5" y="261.8" fill="#ffd2c9" font-size="11">1935.09</text><text x="307.5" y="276.8" fill="#e9ded7" font-size="11">突破天险·打开门户</text></g></g></a>
+<g class="blk"><line x1="616.0" y1="673.8" x2="586.0" y2="673.8" stroke="#C8102E" stroke-width="1.4" stroke-dasharray="4 3" opacity="0.7"/><circle cx="586.0" cy="673.8" r="8" fill="#fff" stroke="#C8102E" stroke-width="2"/><path d="M582.0,669.8 L590.0,677.8 M582.0,677.8 L590.0,669.8" stroke="#C8102E" stroke-width="2" stroke-linecap="round"/><text x="598.0" y="677.8" fill="#C8102E" font-size="11" font-weight="700">封锁线</text><g class="tip"><rect x="396.0" y="630.0" width="176" height="58" rx="9" fill="#1a1410" opacity="0.94"/><text x="408.0" y="652.0" fill="#fff" font-size="14" font-weight="700">敌·封锁线</text><text x="408.0" y="668.0" fill="#ffd2c9" font-size="11">红军被拦截、最终突破的险关</text></g></g>
+<g class="blk"><line x1="208.3" y1="498.9" x2="180.3" y2="498.9" stroke="#C8102E" stroke-width="1.4" stroke-dasharray="4 3" opacity="0.7"/><circle cx="180.3" cy="498.9" r="8" fill="#fff" stroke="#C8102E" stroke-width="2"/><path d="M176.3,494.9 L184.3,502.9 M176.3,502.9 L184.3,494.9" stroke="#C8102E" stroke-width="2" stroke-linecap="round"/><text x="192.3" y="502.9" fill="#C8102E" font-size="11" font-weight="700">封锁线</text><g class="tip"><rect x="194.3" y="468.9" width="176" height="58" rx="9" fill="#1a1410" opacity="0.94"/><text x="206.3" y="490.9" fill="#fff" font-size="14" font-weight="700">敌·封锁线</text><text x="206.3" y="506.9" fill="#ffd2c9" font-size="11">红军被拦截、最终突破的险关</text></g></g>
+<g class="blk"><line x1="275.5" y1="253.8" x2="305.5" y2="253.8" stroke="#C8102E" stroke-width="1.4" stroke-dasharray="4 3" opacity="0.7"/><circle cx="305.5" cy="253.8" r="8" fill="#fff" stroke="#C8102E" stroke-width="2"/><path d="M301.5,249.8 L309.5,257.8 M301.5,257.8 L309.5,249.8" stroke="#C8102E" stroke-width="2" stroke-linecap="round"/><text x="317.5" y="257.8" fill="#C8102E" font-size="11" font-weight="700">封锁线</text><g class="tip"><rect x="319.5" y="223.8" width="176" height="58" rx="9" fill="#1a1410" opacity="0.94"/><text x="331.5" y="245.8" fill="#fff" font-size="14" font-weight="700">敌·封锁线</text><text x="331.5" y="261.8" fill="#ffd2c9" font-size="11">红军被拦截、最终突破的险关</text></g></g>
+<g class="cz-legend" transform="translate(170,64)"><rect x="-6" y="-16" width="186" height="40" rx="6" fill="#fbf3ef" stroke="#ece2da" stroke-width="1"/><rect x="0" y="-8" width="13" height="13" rx="3" fill="#fbf3ef" stroke="#C8102E" stroke-width="2.5"/><text class="cz-leg" x="20" y="4">关键节点</text><circle cx="108" cy="-1.5" r="7" fill="#fff" stroke="#C8102E" stroke-width="2"/><path d="M104,-5.5 L112,2.5 M104,2.5 L112,-5.5" stroke="#C8102E" stroke-width="2" stroke-linecap="round"/><text class="cz-leg" x="122" y="4">敌军封锁线</text></g>
 </svg>
+
         </div>
         <div class="cz-index">
           <h3 class="cz-index-h">关键节点</h3>
@@ -387,7 +218,7 @@
           </ol>
         </div>
       </div>
-      <p class="cz-note">红点为长征关键节点：桌面端悬停看说明、点击可打开对应地点；右侧列表为全部节点总览，移动端可直接点选。红叉（✕）为敌军封锁线，是红军被拦截、最终突破的险关。<br>路线为示意走向，非精确地理坐标。
+      <p class="cz-note">本图依实际地理坐标绘制（比例示意，非精确测绘），山川河流以传统舆图笔法表现。桌面端悬停红点看说明、点击可打开对应地点；右侧列表为全部节点总览，移动端可直接点选。✕ 为敌军封锁线（红军突破处）。
     </section>
 
     <!-- 七事件时间线（借鉴手抄报） -->
