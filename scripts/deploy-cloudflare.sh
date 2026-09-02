@@ -24,6 +24,12 @@ DB="red-culture"
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
 
+# 优先从本地密钥文件读取（已被 .gitignore 忽略，绝不会提交）
+if [ -f "$ROOT/.secrets.local" ]; then
+  set -a; . "$ROOT/.secrets.local"; set +a
+  echo "    （已从 .secrets.local 读取密钥）"
+fi
+
 W=$(command -v npx || echo npx)
 
 echo "==> 0. 检查 Cloudflare 登录"
@@ -102,8 +108,13 @@ rsync -a \
   --exclude='audit-report.html' --exclude='chapter-map.csv' --exclude='chapter-map.json' \
   ./ dist/
 
-if grep -q '1x00000000000000000000AA' api-client.js; then
-  echo "    ⚠ 警告：api-client.js 仍是 Turnstile 测试 Site Key，上线前请替换为真实 Site Key"
+if [ -n "${TURNSTILE_SITE_KEY:-}" ] && [ "$TURNSTILE_SITE_KEY" != "1x00000000000000000000AA" ]; then
+  if grep -q '1x00000000000000000000AA' dist/api-client.js; then
+    perl -i -pe "s/1x00000000000000000000AA/\Q$TURNSTILE_SITE_KEY\E/" dist/api-client.js
+    echo "    ✓ 已在 dist 副本将测试 Site Key 替换为真实 Site Key（源文件保持测试 key，不泄露）"
+  fi
+elif grep -q '1x00000000000000000000AA' api-client.js; then
+  echo "    ⚠ 警告：未提供 TURNSTILE_SITE_KEY，dist 仍为测试 Site Key，仅限联调"
 fi
 
 echo "==> 5. 部署到 Cloudflare Pages"

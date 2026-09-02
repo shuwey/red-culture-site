@@ -32,3 +32,7 @@ rebuttal-to-engineer-*.md
 # 内部运营/开发文档（非站点运行时资产，避免 Cloudflare 公网泄露 ADMIN_TOKEN 机制/敏感词库策略等）
 docs/
 *.md
+
+# 本地密钥文件（绝不入库；含部署用的真实 secret，仅本机可读）
+.secrets.local
+.env.local

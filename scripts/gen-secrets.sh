@@ -4,6 +4,8 @@
 #
 # 作用：只在本机【生成 + 打印】，绝不调用 wrangler、绝不联网、
 #       绝不下发任何值到线上或前端。
+# 配合：deploy-cloudflare.sh 会自动读取 .secrets.local（已被 .gitignore 忽略），
+#       本脚本也可用于重生成其中 SESSION_SECRET / ADMIN_TOKEN 两行。
 #   - 两个本地可生成的随机密钥：SESSION_SECRET、ADMIN_TOKEN
 #   - 两个需你到控制台手动拿的：TURNSTILE_SECRET、DEEPSEEK_API_KEY
 #   - 打印「一次性复制粘贴」的 export 块 + 前端 Site Key 替换提示
