@@ -122,16 +122,20 @@
   function scheduleTurnstileTimeout() {
     if (turnstileTimeoutId) clearTimeout(turnstileTimeoutId);
     turnstileTimeoutId = setTimeout(function () {
-      // 8 秒后脚本仍未就绪 → 判定客户端加载失败（广告拦截 / 网络拦截）
-      if (!window.turnstile) {
+      // 12 秒后 widget 仍未成功渲染 → 判定客户端加载/渲染失败（广告拦截 / 网络拦截 / 容器异常）
+      // 注意：只看 window.turnstile 不够；脚本加载成功但 widget 实际没渲染出来（render 抛异常、iframe 被拦等）也会卡住
+      if (turnstileWidgetId === null) {
         turnstileScriptFailed = true;
         var loading = el("rcs-turnstile-loading");
         if (loading) {
           loading.innerHTML = "人机验证组件加载失败。<br>可能被广告拦截插件或网络拦截，请关闭后刷新重试。";
           loading.classList.add("rcs-turnstile-failed");
         }
+        // 同步在容器外层也加 failed 类——避免 widget 容器被样式覆盖导致诊断看不见
+        var box = el("rcs-turnstile");
+        if (box) box.classList.add("rcs-turnstile-failed");
       }
-    }, 8000);
+    }, 12000);
   }
 
   async function ensureTurnstileReady() {
