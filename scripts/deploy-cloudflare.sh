@@ -32,14 +32,16 @@ fi
 
 W=$(command -v npx || echo npx)
 
-echo "==> 0. 检查 Cloudflare 登录"
-if ! $W wrangler@latest whoami >/dev/null 2>&1; then
-  echo "✖ 未登录 Cloudflare。请先执行："
-  echo "    npx wrangler@latest login"
-  echo "  或 export CLOUDFLARE_API_TOKEN=\"<Pages:Edit + D1:Edit>\""
+echo "==> 0. 检查 Cloudflare 凭证"
+if [ -n "$CLOUDFLARE_API_TOKEN" ]; then
+  echo "    ✓ 已检测到 CLOUDFLARE_API_TOKEN，跳过 whoami（代理下 whoami 会卡死/误判）"
+elif ! $W wrangler@latest whoami >/dev/null 2>&1; then
+  echo "✖ 未登录 Cloudflare 且未设置 CLOUDFLARE_API_TOKEN。请先执行："
+  echo "    export CLOUDFLARE_API_TOKEN=\"<Pages:Edit + D1:Edit>\""
+  echo "  或 npx wrangler@latest login"
   exit 1
 fi
-echo "    ✓ 已登录"
+echo "    ✓ 凭证就绪"
 
 echo "==> 1. 准备 D1 数据库 '$DB'"
 # 优先从 d1 list 取已存在的 id（幂等）
