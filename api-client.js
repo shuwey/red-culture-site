@@ -16,7 +16,7 @@
   // Turnstile Site Key（公开）。当前为测试 key，永远通过，便于本地联调；
   // 上线前必须替换为 Cloudflare 控制台 Turnstile widget 的真实 Site Key，
   // 且需与 TURNSTILE_SECRET（后端 secret）配对，否则人机验证不生效。
-  RCS.config.turnstileSiteKey = "1x00000000000000000000AA";
+  RCS.config.turnstileSiteKey = "0x4AAAAAAAElUQ-6nwbEjCDtQ";
 
   var listeners = [];
   var lastState = null;

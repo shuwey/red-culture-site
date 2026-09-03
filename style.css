@@ -1729,4 +1729,9 @@ button.stat:focus-visible { outline: 2px solid rgba(255,255,255,.6); outline-off
 @media (max-width: 860px) {
   .rcs-related { padding: 64px 24px 24px; }
   .rcs-related .h2 { font-size: 26px; }
+
+/* Turnstile 加载占位 / 失败诊断提示 */
+.rcs-turnstile { min-height: 65px; margin: 4px 0 10px; display: flex; align-items: center; }
+.rcs-turnstile-loading { font-size: 13px; color: #8a8a8a; line-height: 1.5; }
+.rcs-turnstile-loading.rcs-turnstile-failed { color: #c0392b; }
 }

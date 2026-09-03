@@ -5,7 +5,7 @@
  *       若未设置，回退为默认 3 件套（api-client.js 取代 cloudbase-loader + cloudbase-config）。
  */
 (function () {
-  var VER = "20260902c";
+  var VER = "20260903a";
   var DEFAULT = [
     "api-client.js",
     "account-ui.js",

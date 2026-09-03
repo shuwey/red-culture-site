@@ -454,3 +454,8 @@ body .footer-col a:hover { color: var(--ink); text-decoration: underline; }
 .ai-foot-note { width: 100%; margin: 0; font-size: .74rem; line-height: 1.5; color: #9a8f84; }
 .icp-beian-note { width: 100%; margin: 0; font-size: .74rem; color: #9a8f84; }
 .icp-beian-note a { color: inherit; text-decoration: underline; }
+
+/* Turnstile 加载占位 / 失败诊断提示 */
+.rcs-turnstile { min-height: 65px; margin: 4px 0 10px; display: flex; align-items: center; }
+.rcs-turnstile-loading { font-size: 13px; color: #8a8a8a; line-height: 1.5; }
+.rcs-turnstile-loading.rcs-turnstile-failed { color: #c0392b; }

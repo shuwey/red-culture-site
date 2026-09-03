@@ -25,7 +25,9 @@
     '        <input type="text" id="rcs-nick" placeholder="如：星星之火" autocomplete="off" maxlength="20">' +
     "      </div>" +
     // Turnstile 容器：api-client.js 加载的脚本会在此渲染 widget
-    '      <div class="rcs-turnstile" id="rcs-turnstile"></div>' +
+    '      <div class="rcs-turnstile" id="rcs-turnstile">' +
+    '        <span class="rcs-turnstile-loading" id="rcs-turnstile-loading">正在加载人机验证…</span>' +
+    '      </div>' +
     '      <p class="rcs-error" id="rcs-auth-error" hidden></p>' +
     '      <button type="submit" class="pill-btn rcs-submit" id="rcs-auth-submit">登录</button>' +
     "    </form>" +
@@ -57,6 +59,8 @@
   var tab = "login";
   var turnstileToken = null;
   var turnstileWidgetId = null;
+  var turnstileScriptFailed = false;
+  var turnstileTimeoutId = null;
   var currentUserEl = null;
   var currentDropdownEl = null;
   var docClickBound = false;
@@ -83,8 +87,8 @@
       s.src = "https://challenges.cloudflare.com/turnstile/v0/api.js";
       s.async = true;
       s.defer = true;
-      s.onload = function () { resolve(); };
-      s.onerror = function () { resolve(); }; // 失败也 resolve，让用户看到错误提示
+      s.onload = function () { turnstileScriptFailed = false; resolve(); };
+      s.onerror = function () { turnstileScriptFailed = true; resolve(); }; // 失败也 resolve，让超时逻辑给出诊断提示
       document.head.appendChild(s);
     });
   }
@@ -113,6 +117,21 @@
     } catch (e) {
       // widget 渲染失败（sitekey 错等）——仍允许提交，让后端 TURNSTILE_FAIL 兜底
     }
+  }
+
+  function scheduleTurnstileTimeout() {
+    if (turnstileTimeoutId) clearTimeout(turnstileTimeoutId);
+    turnstileTimeoutId = setTimeout(function () {
+      // 8 秒后脚本仍未就绪 → 判定客户端加载失败（广告拦截 / 网络拦截）
+      if (!window.turnstile) {
+        turnstileScriptFailed = true;
+        var loading = el("rcs-turnstile-loading");
+        if (loading) {
+          loading.innerHTML = "人机验证组件加载失败。<br>可能被广告拦截插件或网络拦截，请关闭后刷新重试。";
+          loading.classList.add("rcs-turnstile-failed");
+        }
+      }
+    }, 8000);
   }
 
   async function ensureTurnstileReady() {
@@ -225,7 +244,11 @@
       var msg = (res && res.error && res.error.message) || "操作失败，请重试";
       if (code === "NICK_TAKEN") msg = "该昵称已被占用，换一个试试";
       else if (code === "NICK_NOT_FOUND") msg = "昵称不存在，请先注册";
-      else if (code === "TURNSTILE_FAIL") msg = "人机验证未通过，请稍后再试";
+      else if (code === "TURNSTILE_FAIL") {
+        msg = turnstileScriptFailed
+          ? "人机验证组件未能加载（可能被广告拦截插件或网络拦截）。请关闭拦截后刷新重试。"
+          : "人机验证未通过，请稍后再试";
+      }
       showError(msg);
       // Turnstile 失败后重置 widget，避免卡在失败态
       if (code === "TURNSTILE_FAIL" && window.turnstile && turnstileWidgetId !== null) {
@@ -243,8 +266,13 @@
     m.hidden = false;
     document.body.style.overflow = "hidden";
     setTimeout(function () { var n = el("rcs-nick"); if (n) n.focus(); }, 50);
-    // 异步加载并渲染 Turnstile
+    // 重置 Turnstile 占位与加载状态（避免上次打开留下的失败提示）
+    var box = el("rcs-turnstile");
+    if (box) box.innerHTML = '<span class="rcs-turnstile-loading" id="rcs-turnstile-loading">正在加载人机验证…</span>';
+    turnstileScriptFailed = false;
+    // 异步加载并渲染 Turnstile，并启动 8 秒超时诊断
     ensureTurnstileReady();
+    scheduleTurnstileTimeout();
   }
   function closeLogin() {
     var m = el("rcs-auth-modal");
