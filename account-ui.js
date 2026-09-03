@@ -24,6 +24,13 @@
     '        <label for="rcs-nick">昵称</label>' +
     '        <input type="text" id="rcs-nick" placeholder="如：星星之火" autocomplete="off" maxlength="20">' +
     "      </div>" +
+    // Honeypot 蜜罐：隐藏的 email 字段，真人不会填，机器人/爬虫会自动填值。
+    // aria-hidden / tabindex=-1 / autocomplete=off 三重保险，确保真人不可见不可交互。
+    // 服务端发现该字段非空即视为机器人，拒绝提交。
+    '      <div class="rcs-honeypot" aria-hidden="true">' +
+    '        <label for="rcs-hp-email">邮箱（请留空）</label>' +
+    '        <input type="email" id="rcs-hp-email" name="email" tabindex="-1" autocomplete="off" />' +
+    "      </div>" +
     // Turnstile 容器：api-client.js 加载的脚本会在此渲染 widget
     '      <div class="rcs-turnstile" id="rcs-turnstile">' +
     '        <span class="rcs-turnstile-loading" id="rcs-turnstile-loading">正在加载人机验证…</span>' +
@@ -235,9 +242,17 @@
       showError("客户端未就绪，请刷新页面重试");
       return;
     }
+    var honeypotEl = el("rcs-hp-email");
+    var honeypotVal = honeypotEl ? honeypotEl.value : "";
+    // 客户端 honeypot 兜底：CSS 隐藏字段不应被任何真人用户填到。
+    // 若已有值，说明是爬虫/自动化脚本，前端直接拒绝以节省后端请求。
+    if (honeypotVal) {
+      showError("提交被拒绝，请稍后重试");
+      return;
+    }
     var res = tab === "register"
-      ? await app.auth.signUp(nick, turnstileToken)
-      : await app.auth.signIn(nick, turnstileToken);
+      ? await app.auth.signUp(nick, turnstileToken, honeypotVal)
+      : await app.auth.signIn(nick, turnstileToken, honeypotVal);
     submitBtn.disabled = false;
 
     if (res && res.success) {

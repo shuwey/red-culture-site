@@ -16,6 +16,12 @@ export async function onRequestPost(context) {
   if (!r.ok) return jsonResponse(env, 400, fail(CODES.INVALID_PARAM, r.error));
   const nickname = String((r.data && r.data.nickname) || "").trim();
   const turnstile = String((r.data && r.data.turnstile_token) || "");
+  const honeypot = String((r.data && r.data.honeypot_email) || "").trim();
+
+  // 1) Honeypot 蜜罐
+  if (honeypot) {
+    return jsonResponse(env, 400, fail("BOT_DETECTED", "提交被拒绝"));
+  }
 
   const pass = await verifyTurnstile(turnstile, env.TURNSTILE_SECRET, request.headers.get("CF-Connecting-IP"));
   if (!pass) {

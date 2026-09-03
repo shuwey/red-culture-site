@@ -455,6 +455,19 @@ body .footer-col a:hover { color: var(--ink); text-decoration: underline; }
 .icp-beian-note { width: 100%; margin: 0; font-size: .74rem; color: #9a8f84; }
 .icp-beian-note a { color: inherit; text-decoration: underline; }
 
+/* Honeypot 蜜罐：两类页都需覆盖 */
+.rcs-honeypot {
+  position: absolute !important;
+  left: -9999px !important;
+  top: -9999px !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
+
 /* Turnstile 加载占位 / 失败诊断提示 */
 .rcs-turnstile { min-height: 65px; margin: 4px 0 10px; display: flex; align-items: center; }
 .rcs-turnstile-loading { font-size: 13px; color: #8a8a8a; line-height: 1.5; }

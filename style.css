@@ -1734,4 +1734,18 @@ button.stat:focus-visible { outline: 2px solid rgba(255,255,255,.6); outline-off
 .rcs-turnstile { min-height: 65px; margin: 4px 0 10px; display: flex; align-items: center; }
 .rcs-turnstile-loading { font-size: 13px; color: #8a8a8a; line-height: 1.5; }
 .rcs-turnstile-loading.rcs-turnstile-failed { color: #c0392b; }
+
+/* Honeypot 蜜罐：CSS 隐藏的 email 字段，真人不可见不可填，爬虫会自动填。
+   aria-hidden / autocomplete=off / tabindex=-1 多重保险。服务端发现非空即视为机器人。 */
+.rcs-honeypot {
+  position: absolute !important;
+  left: -9999px !important;
+  top: -9999px !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
 }

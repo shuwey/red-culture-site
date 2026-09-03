@@ -84,11 +84,15 @@
   }
 
   var auth = {
-    /** 注册：{ nickname, turnstile_token } —— 方案4 无密码 */
-    signUp: function (nickname, turnstileToken) {
+    /** 注册：{ nickname, turnstile_token, honeypot_email } —— 方案4 无密码 + Honeypot 防机器人 */
+    signUp: function (nickname, turnstileToken, honeypotValue) {
       return apiFetch("/api/auth/register", {
         method: "POST",
-        body: { nickname: nickname, turnstile_token: turnstileToken || "" },
+        body: {
+          nickname: nickname,
+          turnstile_token: turnstileToken || "",
+          honeypot_email: honeypotValue || "",
+        },
       }).then(function (r) {
         if (r.body && r.body.success) {
           var st = shapeUserFromResult(r.body);
@@ -98,11 +102,15 @@
         return { success: false, error: (r.body && r.body.error) || { code: "UNKNOWN", message: "注册失败" } };
       });
     },
-    /** 登录：{ nickname, turnstile_token } —— 方案4 无密码 */
-    signIn: function (nickname, turnstileToken) {
+    /** 登录：{ nickname, turnstile_token, honeypot_email } —— 方案4 无密码 + Honeypot 防机器人 */
+    signIn: function (nickname, turnstileToken, honeypotValue) {
       return apiFetch("/api/auth/login", {
         method: "POST",
-        body: { nickname: nickname, turnstile_token: turnstileToken || "" },
+        body: {
+          nickname: nickname,
+          turnstile_token: turnstileToken || "",
+          honeypot_email: honeypotValue || "",
+        },
       }).then(function (r) {
         if (r.body && r.body.success) {
           var st = shapeUserFromResult(r.body);
